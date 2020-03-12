@@ -1,0 +1,21 @@
+<!Этот шаблон включает в себя: логику заголовка и простую навигационную панель>
+
+<html>
+    <head>  <!логика заголовка>
+      {% if title %}
+      <title>{{ title }} - Deja_vu_words</title>
+      {% else %}
+      <title>Deja_vu_words</title>
+      {% endif %}
+    </head>
+    <body>  <!навигационная панель>
+        <div>
+            Deja_vu_words:
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('login') }}">Login</a>
+        </div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>
+
