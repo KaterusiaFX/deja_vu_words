@@ -1,6 +1,6 @@
 # В этом файле хранятся классы веб-форм.
 
-from flask_wtf import FlaskForm  # модуль для работы с формами
+from flask_wtf import FlaskForm  # расширение flask для работы с формами
 from wtforms import StringField, PasswordField, BooleanField, SubmitField  # поля, которые будут в форме
 from wtforms.validators import DataRequired  # модуль для работы с валидаторами форм
 

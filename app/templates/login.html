@@ -1,12 +1,12 @@
 <!Шаблон формы входа в систему>
 
-<!наследуется шаблон base.html. При визуализации index.html, он будет встроен в base.html>
+<!наследуется шаблон base.html. При визуализации login.html, он будет встроен в base.html>
 {% extends "base.html" %}
 
 {% block content %}
     <h1>Sign In</h1>
     <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }} <!>
+        {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>  <!отображение формы имя пользователя>
             {{ form.username(size=32) }}
@@ -17,7 +17,7 @@
         </p>
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>  <!отображение формы "запомнить меня">
         <p>{{ form.submit() }}</p>  <!отображение формы "отправить">
-    </>
+    </form>
 {% endblock %}
 
 <!html form - это контейнер для веб формы. Атрибут action сообщает веб браузеру url, который должен использ-ся при отправке информации, введенной польз. в форму>
