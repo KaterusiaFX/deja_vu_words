@@ -5,7 +5,7 @@ db = SQLAlchemy()
 
 class Word(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    word = db.Column(db.String, unique=True, nullable=False)
+    word_itself = db.Column(db.String, unique=True, nullable=False)
     language = db.Column(db.String, nullable=False)
     translation_rus = db.Column(db.String, nullable=False)
     transcription = db.Column(db.String, nullable=True)
