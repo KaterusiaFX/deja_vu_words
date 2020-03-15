@@ -1,59 +1,32 @@
-from datetime import datetime
-from model import db, Word
+from open_text_file import eng_words_to_translate
 
-from googletrans import Translator
-translator = Translator()
+from translate import Translator
+translator= Translator(to_lang="ru") # переводим всегда на русский
 
 
 def eng_dict_generator():
-    english_list = [
-                    'cat',
-                    'kitten',
-                    'dog',
-                    'duck',
-                    'cow',
-                    'puppy',
-                    'goat',
-                    'frog',
-                    'chicken',
-                    'bee',
-                    'whale',
-                    'insect',
-                    'rabbit',
-                    'beaver',
-                    'camel',
-                    'crocodile',
-                    'dolphin',
-                    'fox',
-                    'gorilla',
-                    'hamster'
-    ]
+    english_list = eng_words_to_translate
 
     russian_list = []
 
     english_dict = {}
     for word in english_list:
-        translated = translator.translate(word, dest='ru')
-        english_dict[word] = translated.text.lower()
-        russian_list.append(translated.text.lower())
+        try:
+            translated = translator.translate(word)
+            # далее проверяем, что перевод состоит из слов, а не значков и цифр
+            # например, перевод типа {'is': '-'} будет считаться неверным
+            # переводы типа {'your': 'твой.'} тоже будут считаться неверными из-за значка в конце
+            translated_bool = filter(lambda x: x.isalpha(), translated.split())
+            if any(translated_bool): 
+                english_dict[word] = translated.lower()
+                russian_list.append(translated.lower())
+            else:
+                raise ValueError
+        except ValueError:
+            print(f'Bad translation for the word "{word}" - "{translated}" ')
 
-    save_words_in_db(english_dict)
-
-
-def save_words_in_db(words_dict):
-    for word in words_dict:
-        word_exist = Word.query.filter(Word.word_itself == word).count()
-        print(word_exist)
-        if not word_exist:
-            new_word = Word(
-                word_itself=word, 
-                language='English', 
-                translation_rus=words_dict[word], 
-                imported_time=datetime.now()
-                )
-            db.session.add(new_word)
-            db.session.commit()
-
+    return english_dict
+ 
 
 if __name__ == '__main__':
     print(eng_dict_generator())

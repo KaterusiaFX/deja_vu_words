@@ -5,6 +5,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.db
+en_full.txt
+en_2400.txt
 
 # C extensions
 *.so
