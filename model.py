@@ -17,4 +17,4 @@ class Word(db.Model):
     
 
     def __repr__(self):
-        return f'<Word {self.title} in {self.language}>'
+        return f'<Word "{self.word_itself}", {self.language} language>'
