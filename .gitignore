@@ -7,6 +7,7 @@ __pycache__/
 *.db
 en_full.txt
 en_2400.txt
+text.py
 
 # C extensions
 *.so

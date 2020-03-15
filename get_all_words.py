@@ -23,3 +23,6 @@ words_dict = eng_dict_generator()
 
 with app.app_context():
     save_words_in_db(words_dict)
+#    ниже пример того, как сделать запрос всех или конкретного слова в базе данных
+#    print(Word.query.all())
+#    print(Word.query.filter_by(word_itself='kitten').first())
