@@ -1,14 +1,14 @@
 <!Этот шаблон включает в себя: логику заголовка и простую навигационную панель>
 
 <html>
-    <head>  <!логика заголовка>
+    <head>
       {% if title %}
       <title>{{ title }} - Deja_vu_words</title>
       {% else %}
       <title>Deja_vu_words</title>
       {% endif %}
     </head>
-    <body>  <!навигационная панель>
+    <body>
         <div>
             Deja_vu_words:
             <a href="{{ url_for('index') }}">Home</a>
