@@ -3,5 +3,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Приветствуем вас на сайте Deja vu words</h1>
+    <div class="col-9">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+             <div class="alert alert-info" role="alert">
+                 {% for message in messages %}
+                    {{ message }}<br>
+                  {% endfor %}
+             </div>
+             {% endif %}
+         {% endwith %}
+    </div>
+    <div class="col-12">
+        <h1>Приветствуем вас на сайте Deja vu words</h1>
+    </div>
 {% endblock %}
