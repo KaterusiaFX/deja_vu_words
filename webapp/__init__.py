@@ -2,7 +2,9 @@ from flask import Flask
 from flask import render_template
 from flask import flash, redirect, url_for
 
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, current_user, login_required, login_user, logout_user
+# current_user - фиксирует текущего пользователя (того, который залогинился)
+# login_required - декоратор, позволяет по признаку залогиненного пользователя выдавать страницу, которая доступна только ему
 
 from webapp.model import db, User
 from webapp.forms import LoginForm
@@ -30,6 +32,8 @@ def create_app():
 
     @app.route('/login')
     def login():
+        if current_user.is_authenticated:
+            return redirect(url_for('index'))
         title = 'Авторизация'
         login_form = LoginForm()
         return render_template('login.html', page_title=title, form=login_form)
@@ -52,6 +56,14 @@ def create_app():
         logout_user()
         flash('Вы успешно разлогинились')
         return redirect(url_for('index'))
+
+    @app.route('/admin')  # этот url будет доступен только залогиненному польз-ю и только админу
+    @login_required  # этот декоратор проверяет залогинен или нет
+    def admin_index():
+        if current_user.is_admin:
+            return "Привет админ!"
+        else:
+            return "Ты не админ!"
 
     return app
 

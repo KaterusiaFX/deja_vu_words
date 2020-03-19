@@ -17,5 +17,11 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+# проверку, админ или нет м.б. бы сделать в @app.route('/admin'), но routes лучше не загромождать. Делаем это здесь, внутри класса
+    @property  # Декоратор @property позволяет вызывать метод как атрибут, без скобочек
+    def is_admin(self):
+        return self.role == 'admin'
+
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<User name={} id={}>'.format(self.username, self.id)
+    # удобный вывод в консоль инф-ии о текущем пользователе
