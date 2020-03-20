@@ -32,7 +32,7 @@ def create_app():
     def login():
         if current_user.is_authenticated:
             return redirect(url_for('index'))
-        title = 'Авторизация'
+        title = 'Вход'
         login_form = LoginForm()
         return render_template('login.html', page_title=title, form=login_form)
 
