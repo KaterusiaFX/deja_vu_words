@@ -8,6 +8,7 @@ db = SQLAlchemy()
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
+    email = db.Column(db.String(120), index=True, unique=True)
     password = db.Column(db.String(128))
     role = db.Column(db.String(10), index=True)
 
@@ -17,11 +18,9 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-# проверку, админ или нет м.б. бы сделать в @app.route('/admin'), но routes лучше не загромождать. Делаем это здесь, внутри класса
-    @property  # Декоратор @property позволяет вызывать метод как атрибут, без скобочек
+    @property
     def is_admin(self):
         return self.role == 'admin'
 
     def __repr__(self):
-        return '<User name={} id={}>'.format(self.username, self.id)
-    # удобный вывод в консоль инф-ии о текущем пользователе
+        return '<User {}>'.format(self.username)
