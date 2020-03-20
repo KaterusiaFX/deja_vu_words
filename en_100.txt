@@ -98,3 +98,8 @@ by 191193
 too 190111
 hey 188859
 down 187996
+primate 00
+indice 00
+pizza 00
+pyroxene 00
+quarantine 00

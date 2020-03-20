@@ -1,10 +1,10 @@
 eng_words_to_translate = []
 
 with open('en_100.txt', 'r') as f:
-    for line in f:
-        line = line.split()
-        if len(line) == 2:
-            word, frequency = line[0], int(line[1])
+    for line_with_word in f:
+        line_with_word = line_with_word.split()
+        if len(line_with_word) == 2:
+            word, frequency = line_with_word[0], int(line_with_word[1])
             if word.isalpha():
                 eng_words_to_translate.append(word)
 

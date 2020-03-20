@@ -8,6 +8,7 @@ __pycache__/
 en_full.txt
 en_2400.txt
 text.py
+config.py
 
 # C extensions
 *.so

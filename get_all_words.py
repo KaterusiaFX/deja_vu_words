@@ -16,7 +16,7 @@ def save_words_in_db(words_dict):
                 imported_time=datetime.now()
                 )
             db.session.add(new_word)
-            db.session.commit()
+    db.session.commit()
 
 
 words_dict = eng_dict_generator()
