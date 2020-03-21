@@ -7,7 +7,8 @@ __pycache__/
 *.db
 en_full.txt
 en_2400.txt
-text.py
+test.py
+dictionaries
 config.py
 
 # C extensions

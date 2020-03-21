@@ -1,10 +1,11 @@
 from open_text_file import eng_words_to_translate
-from model import Word
-from app import app
+from webapp.model import Words
+from webapp import create_app
 
 from translate import Translator
 translator= Translator(to_lang="ru") # переводим всегда на русский
 
+app = create_app()
 
 def eng_dict_generator():
     english_list = eng_words_to_translate
@@ -14,7 +15,7 @@ def eng_dict_generator():
     english_dict = {}
     for word in english_list:
         with app.app_context():
-            word_exist = Word.query.filter(Word.word_itself == word).count()
+            word_exist = Words.query.filter(Words.word_itself == word).count()
             try:
                 if word_exist == 0:
                     try:
