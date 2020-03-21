@@ -5,6 +5,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 dictionaries
+config.py
 
 # C extensions
 *.so
