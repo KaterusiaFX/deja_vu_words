@@ -4,7 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -24,3 +23,19 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+
+class Words(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    word_itself = db.Column(db.String, unique=True, nullable=False)
+    language = db.Column(db.String, nullable=False)
+    translation_rus = db.Column(db.String, nullable=False)
+    transcription = db.Column(db.String, nullable=True)
+    feminine_or_masculine = db.Column(db.String, nullable=True)
+    french_verb_group = db.Column(db.String, nullable=True)
+    audio_url = db.Column(db.String, unique=True, nullable=True)
+    picture_url = db.Column(db.String, unique=True, nullable=True)
+    imported_time = db.Column(db.DateTime, nullable=False)
+    
+    def __repr__(self):
+        return f'<Word "{self.word_itself}", {self.language} language>'
