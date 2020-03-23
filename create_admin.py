@@ -5,14 +5,14 @@ import sys
 
 from webapp import create_app
 
-from webapp.model import db, User
+from webapp.model import db, Users
 
 app = create_app()
 
 with app.app_context():
     username = input('Введите имя пользователя')
 
-    if User.query.filter(User.username == username).count():
+    if Users.query.filter(Users.username == username).count():
         print('Такой пользователь уже есть')
         sys.exit(0)
 
@@ -23,7 +23,7 @@ with app.app_context():
         print('Пароли не совпадают')
         sys.exit(0)
 
-    new_user = User(username=username, role='admin')
+    new_user = Users(username=username, role='admin')
     new_user.set_password(password1)
 
     db.session.add(new_user)
