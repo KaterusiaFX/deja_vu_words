@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class Users(db.Model, UserMixin):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
@@ -25,7 +25,7 @@ class Users(db.Model, UserMixin):
         return '<User {}>'.format(self.username)
 
 
-class Words(db.Model):
+class Word(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     word_itself = db.Column(db.String, unique=True, nullable=False)
     language = db.Column(db.String, nullable=False)

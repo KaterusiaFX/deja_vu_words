@@ -1,5 +1,5 @@
 from open_text_file import eng_words_to_translate
-from webapp.model import Words
+from webapp.model import Word
 from webapp import create_app
 
 from translate import Translator
@@ -15,7 +15,7 @@ def eng_dict_generator():
     english_dict = {}
     for word in english_list:
         with app.app_context():
-            word_exist = Words.query.filter(Words.word_itself == word).count()
+            word_exist = Word.query.filter(Word.word_itself == word).count()
             try:
                 if word_exist == 0:
                     try:
