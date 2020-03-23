@@ -10,6 +10,7 @@ en_2400.txt
 test.py
 dictionaries
 config.py
+webapp.db
 
 # C extensions
 *.so

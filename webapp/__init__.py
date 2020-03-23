@@ -4,7 +4,7 @@ from flask import flash, redirect, url_for
 
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 
-from webapp.model import db, Users
+from webapp.model import db, User
 from webapp.forms import LoginForm
 from webapp.config import Config
 
@@ -20,7 +20,7 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        return Users.query.get(user_id)
+        return User.query.get(user_id)
 
     @app.route('/')
     @app.route('/index')
@@ -40,7 +40,7 @@ def create_app():
     def process_login():
         form = LoginForm()
         if form.validate_on_submit():
-            user = Users.query.filter_by(username=form.username.data).first()
+            user = User.query.filter_by(username=form.username.data).first()
             if user and user.check_password(form.password.data):
                 login_user(user)
                 flash('Вы вошли на сайт')
