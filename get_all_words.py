@@ -5,6 +5,7 @@ from webapp.model import db, Word
 
 app = create_app()
 
+
 def save_words_in_db(words_dict):
     for word in words_dict:
         word_exist = Word.query.filter(Word.word_itself == word).count()
