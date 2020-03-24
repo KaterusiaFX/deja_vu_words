@@ -1,3 +1,5 @@
+# файл для отладки
+
 import pdb
-import test
-pdb.run('test.test()')
+import my_english_dict
+pdb.run('my_english_dict')

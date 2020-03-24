@@ -1,18 +1,17 @@
 from webapp import create_app
 from english_dict_generator import eng_dict_generator
 from datetime import datetime
-from webapp.model import db, Word
+from webapp.model import db, EnglishWord
 
 app = create_app()
 
 def save_words_in_db(words_dict):
     for word in words_dict:
-        word_exist = Word.query.filter(Word.word_itself == word).count()
+        word_exist = EnglishWord.query.filter(EnglishWord.word_itself == word).count()
         print(word_exist)
         if not word_exist:
-            new_word = Word(
+            new_word = EnglishWord(
                 word_itself=word, 
-                language='English', 
                 translation_rus=words_dict[word], 
                 imported_time=datetime.now()
                 )
@@ -22,8 +21,9 @@ def save_words_in_db(words_dict):
 
 words_dict = eng_dict_generator()
 
-with app.app_context():
-    save_words_in_db(words_dict)
+if __name__ == "__main__":
+    with app.app_context():
+        save_words_in_db(words_dict)
 #    ниже пример того, как сделать запрос всех или конкретного слова в базе данных
-#    print(Word.query.all())
-#    print(Word.query.filter_by(word_itself='kitten').first())
+#    print(EnglishWord.query.all())
+#    print(EnglishWord.query.filter_by(word_itself='kitten').first())
