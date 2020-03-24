@@ -3,7 +3,7 @@ from webapp.model import Word
 from webapp import create_app
 
 from translate import Translator
-translator= Translator(to_lang="ru")  # переводим всегда на русский
+translator = Translator(to_lang="ru")  # переводим всегда на русский
 
 app = create_app()
 

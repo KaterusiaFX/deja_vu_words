@@ -18,7 +18,7 @@
   <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-info"> <!Навигационная панель>
         <div class="col-10">
-          <a class="navbar-brand" href="{{ url_for('index') }}">Deja vu words</a>
+          <a class="navbar-brand" href="{{ url_for('home.index') }}">Deja vu words</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -26,15 +26,15 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('index') }}">Домой <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{{ url_for('home.index') }}">Домой <span class="sr-only">(current)</span></a>
             </li>
             {% if current_user.is_anonymous %}
               <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('login') }}">Вход</a>
+                <a class="nav-link" href="{{ url_for('user.login') }}">Вход</a>
               </li>
             {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('logout') }}">Выход</a>
+                <a class="nav-link" href="{{ url_for('user.logout') }}">Выход</a>
               </li>
             {% endif %}
           </ul>

@@ -1,7 +1,8 @@
 from webapp import create_app
 from english_dict_generator import eng_dict_generator
 from datetime import datetime
-from webapp.model import db, Word
+from webapp.db import db
+from webapp.dictionary.models import Word
 
 app = create_app()
 
