@@ -8,7 +8,6 @@ app = create_app()
 def save_words_in_db(words_dict):
     for word in words_dict:
         word_exist = EnglishWord.query.filter(EnglishWord.word_itself == word).count()
-        print(word_exist)
         if not word_exist:
             new_word = EnglishWord(
                 word_itself=word, 
