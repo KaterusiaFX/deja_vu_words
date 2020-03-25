@@ -5,14 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-users_englishwords = db.Table('users_englishwords', 
+users_words = db.Table('users_words', 
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('engword_id', db.Integer, db.ForeignKey('English_words.id'))
-    )
-
-
-users_frenchwords = db.Table('users_frenchwords', 
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('engword_id', db.Integer, db.ForeignKey('English_words.id')),
     db.Column('frenchword_id', db.Integer, db.ForeignKey('French_words.id'))
     )
 
@@ -24,8 +19,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), index=True, unique=True)
     password = db.Column(db.String(128))
     role = db.Column(db.String(10), index=True)
-    english_words = db.relationship('EnglishWord', secondary=users_englishwords, backref='english_words')
-    french_words = db.relationship('FrenchWord', secondary=users_frenchwords, backref='french_words')
+    english_words = db.relationship('EnglishWord', secondary=users_words, backref='english_words')
+    french_words = db.relationship('FrenchWord', secondary=users_words, backref='french_words')
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
