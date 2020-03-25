@@ -20,7 +20,7 @@ def login():
 def process_login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(username=form.username.data).first()  # метод first() выдает только один рез-т из БД по username, а не всех юзеров (как делает метод all)
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             flash('Вы вошли на сайт')
