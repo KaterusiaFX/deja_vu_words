@@ -2,7 +2,9 @@ from flask import Blueprint, flash, render_template, redirect, url_for
 from flask_login import current_user, login_user, logout_user
 
 from webapp.user.forms import LoginForm
+from webapp.user.forms import RegistrationForm
 from webapp.user.models import User
+from webapp import db
 
 blueprint = Blueprint('user', __name__, url_prefix='/users')
 
@@ -35,6 +37,22 @@ def logout():
     logout_user()
     flash('Вы успешно разлогинились')
     return redirect(url_for('home.index'))
+
+
+@blueprint.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home.index'))
+    title = 'Регистрация'
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Поздравляем, вы зарегистрировались на сайте!')
+        return redirect(url_for('user.login'))
+    return render_template('user/register.html', page_title=title, form=form)
 
 
 
