@@ -5,13 +5,20 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-users_words = db.Table('users_words', 
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('engword_id', db.Integer, db.ForeignKey('English_words.id')),
-    db.Column('frenchword_id', db.Integer, db.ForeignKey('French_words.id')),
-    db.Column('user_engword_id', db.Integer, db.ForeignKey('English_words_added_by_users.id')),
-    db.Column('user_frenchword_id', db.Integer, db.ForeignKey('French_words_added_by_users.id'))
-    )
+class UsersWords(db.Model, UserMixin):
+    __tabename__ = 'users_words'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    engword_id = db.Column(db.Integer, db.ForeignKey('English_words.id'))
+    frenchword_id = db.Column(db.Integer, db.ForeignKey('French_words.id'))
+    user_engword_id = db.Column(db.Integer, db.ForeignKey('English_words_added_by_users.id'))
+    user_frenchword_id = db.Column(db.Integer, db.ForeignKey('French_words_added_by_users.id'))
+
+    users = db.relationship('User', backref='users')
+    english_words = db.relationship('EnglishWord', backref='english_words')
+    french_words = db.relationship('FrenchWord', backref='french_words')
+    user_english_words = db.relationship('EnglishWordOfUser', backref='user_english_words')
+    user_french_words = db.relationship('FrenchWordOfUser', backref='user_french_words')
 
 
 class User(db.Model, UserMixin):
@@ -21,11 +28,11 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), index=True, unique=True)
     password = db.Column(db.String(128))
     role = db.Column(db.String(10), index=True)
-    english_words = db.relationship('EnglishWord', secondary=users_words, backref='english_words')
-    french_words = db.relationship('FrenchWord', secondary=users_words, backref='french_words')
-    user_english_words = db.relationship('EnglishWordOfUser', secondary=users_words, backref='user_english_words')
-    user_french_words = db.relationship('FrenchWordOfUser', secondary=users_words, backref='user_french_words')
 
+    english_words = db.relationship('EnglishWord', secondary='users_words')
+    french_words = db.relationship('FrenchWord', secondary='users_words')
+    user_english_words = db.relationship('EnglishWordOfUser', secondary='users_words')
+    user_french_words = db.relationship('FrenchWordOfUser', secondary='users_words')
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

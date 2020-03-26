@@ -1,5 +1,5 @@
 from webapp import create_app
-from webapp.model import db, EnglishWord, User, users_words, EnglishWordOfUser
+from webapp.model import db, EnglishWord, EnglishWordOfUser, User
 from datetime import datetime
 
 app = create_app()
