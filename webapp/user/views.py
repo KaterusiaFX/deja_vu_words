@@ -55,12 +55,12 @@ def register():
     return render_template('user/register.html', page_title=title, form=form)
 
 
-@blueprint.route('/user/<username>')
-@login_required
+@blueprint.route('/user/<username>')  # в URL на место <username> будет подставлятся текущее имя пользоваетля
+@login_required  # этот декоратор разрешает доступ к '/user/<username>' только зарегистрированным пользователям
 def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
+    username = User.query.filter_by(username=username).first_or_404()
+    return render_template('user/user_page.html', user=username)
 
-    return render_template('user.html', user=user)
 
 
 
