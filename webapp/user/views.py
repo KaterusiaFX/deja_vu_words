@@ -1,5 +1,5 @@
 from flask import Blueprint, flash, render_template, redirect, url_for
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 
 from webapp.user.forms import LoginForm
 from webapp.user.forms import RegistrationForm
@@ -53,6 +53,14 @@ def register():
         flash('Поздравляем, вы зарегистрировались на сайте!')
         return redirect(url_for('user.login'))
     return render_template('user/register.html', page_title=title, form=form)
+
+
+@blueprint.route('/user/<username>')
+@login_required
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+
+    return render_template('user.html', user=user)
 
 
 
