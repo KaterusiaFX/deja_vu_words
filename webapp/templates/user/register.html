@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+        <div class="row">
+            <div class="col-4">
+                <form action="{{ url_for('user.register') }}" method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.username.label }}
+                        {{ form.username() }}
+                        {% for error in form.username.errors %}
+                        <span style="color: orange;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email.label }}
+                        {{ form.email() }}
+                        {% for error in form.email.errors %}
+                        <span style="color: orange;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password.label }}
+                        {{ form.password() }}
+                        {% for error in form.password.errors %}
+                        <span style="color: orange;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password2.label }}
+                        {{ form.password2() }}
+                        {% for error in form.password2.errors %}
+                        <span style="color: orange;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {{ form.submit() }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
