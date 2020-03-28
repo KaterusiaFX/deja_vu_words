@@ -11,6 +11,7 @@ test.py
 dictionaries
 config.py
 *.db
+webapp.db.sqbpro
 
 # C extensions
 *.so
