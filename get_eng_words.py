@@ -1,9 +1,11 @@
 from webapp import create_app
 from english_dict_generator import eng_dict_generator
 from datetime import datetime
-from webapp.model import db, EnglishWord
+from webapp.db import db
+from webapp.dictionary.models import EnglishWord
 
 app = create_app()
+
 
 def save_words_in_db(words_dict):
     for word in words_dict:

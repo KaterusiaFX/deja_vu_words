@@ -1,11 +1,12 @@
 from open_eng_textfile import eng_words_to_translate
-from webapp.model import EnglishWord
+from webapp.dictionary.models import EnglishWord
 from webapp import create_app
 
 from translate import Translator
-translator= Translator(to_lang="ru") # переводим всегда на русский
+translator = Translator(to_lang="ru")  # переводим всегда на русский
 
 app = create_app()
+
 
 def eng_dict_generator():
     english_list = eng_words_to_translate
@@ -35,7 +36,6 @@ def eng_dict_generator():
                     raise ValueError
             except ValueError:
                 print(f'    The word "{word}" is already in the database.')
-            
 
     return english_dict
  

@@ -9,47 +9,24 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    {% if title %}
-      <title>{{ title }} - Deja_vu_words</title> <!логика заголовка>
+    {% if page_title %}
+      <title>{{ page_title }} - Deja_vu_words</title> <!логика заголовка>
       {% else %}
       <title>Deja_vu_words</title>
       {% endif %}
   </head>
   <body>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-info"> <!Навигационная панель>
-        <div class="col-10">
-          <a class="navbar-brand" href="{{ url_for('index') }}">Deja vu words</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('index') }}">Домой <span class="sr-only">(current)</span></a>
-            </li>
-            {% if current_user.is_anonymous %}
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('login') }}">Вход</a>
-              </li>
-            {% else %}
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('logout') }}">Выход</a>
-              </li>
-            {% endif %}
-          </ul>
-        </div>
-      </nav><br>
-      <div class="col-9">
-        {% with messages = get_flashed_messages() %}  <!шаблон для отображения предупр. сообщений>
-        {% if messages %}
-           <div class="alert alert-info" role="alert">
-             {% for message in messages %}
-             {{ message }}<br>
-             {% endfor %}
-           </div>
-        {% endif %}
-        {% endwith %}
+    {% include 'menu.html' %}
+    <div class="col-9">
+      {% with messages = get_flashed_messages() %}  <!шаблон для отображения предупр. сообщений>
+      {% if messages %}
+         <div class="alert alert-info" role="alert">
+           {% for message in messages %}
+           {{ message }}<br>
+           {% endfor %}
+         </div>
+      {% endif %}
+      {% endwith %}
     </div>
 
       {% block content %}{% endblock %}
