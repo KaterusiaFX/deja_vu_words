@@ -4,6 +4,7 @@ from flask_login import LoginManager
 
 from webapp.db import db
 from webapp.admin.views import blueprint as admin_blueprint
+from webapp.dictionary.views import blueprint as dictionary_blueprint
 from webapp.home.views import blueprint as home_blueprint
 from webapp.user.models import User
 from webapp.user.views import blueprint as user_blueprint
@@ -20,6 +21,7 @@ def create_app():
     login_manager.login_view = 'user.login'
 
     app.register_blueprint(admin_blueprint)
+    app.register_blueprint(dictionary_blueprint)
     app.register_blueprint(home_blueprint)
     app.register_blueprint(user_blueprint)
 
