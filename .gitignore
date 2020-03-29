@@ -10,7 +10,8 @@ en_2400.txt
 test.py
 dictionaries
 config.py
-webapp.db
+*.db
+webapp.db.sqbpro
 
 # C extensions
 *.so
