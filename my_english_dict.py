@@ -12,6 +12,13 @@ translator = Translator(to_lang="ru")
 
 def webapp_engdict_insert(word, user):
     with app.app_context():
+        if not word and not user:
+            return 'Вы не ввели слово и имя пользователя.'
+        if not word:
+            return 'Вы не ввели слово.'
+        if not user:
+            return 'Вы не ввели имя пользователя.'
+
         word_exist_userdict = EnglishWordOfUser.query.filter(EnglishWordOfUser.word_itself == word).all()
 
         # проверка существования пользователя
