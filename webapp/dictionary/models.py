@@ -26,7 +26,7 @@ class EnglishWord(db.Model):
     audio_url = db.Column(db.String, unique=True, nullable=True)
     picture_url = db.Column(db.String, unique=True, nullable=True)
     imported_time = db.Column(db.DateTime, nullable=False)
-    
+
     def __repr__(self):
         return f'<Word "{self.word_itself}" in English language>'
 
@@ -42,7 +42,7 @@ class FrenchWord(db.Model):
     audio_url = db.Column(db.String, unique=True, nullable=True)
     picture_url = db.Column(db.String, unique=True, nullable=True)
     imported_time = db.Column(db.DateTime, nullable=False)
-    
+
     def __repr__(self):
         return f'<Word "{self.word_itself}" in French language>'
 
@@ -57,7 +57,7 @@ class EnglishWordOfUser(db.Model):
     audio_url = db.Column(db.String, unique=True, nullable=True)
     picture_url = db.Column(db.String, unique=True, nullable=True)
     imported_time = db.Column(db.DateTime, nullable=False)
-    
+
     def __repr__(self):
         return f'<Word "{self.word_itself}" added by user {self.user} in English language>'
 
@@ -74,6 +74,6 @@ class FrenchWordOfUser(db.Model):
     audio_url = db.Column(db.String, unique=True, nullable=True)
     picture_url = db.Column(db.String, unique=True, nullable=True)
     imported_time = db.Column(db.DateTime, nullable=False)
-    
+
     def __repr__(self):
         return f'<Word "{self.word_itself}" added by user {self.user} in French language>'
