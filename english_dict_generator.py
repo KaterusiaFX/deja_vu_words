@@ -25,7 +25,7 @@ def eng_dict_generator():
                         # например, перевод типа {'is': '-'} будет считаться неверным
                         # переводы типа {'your': 'твой.'} тоже будут считаться неверными из-за значка в конце
                         translated_bool = filter(lambda x: x.isalpha(), translated.split())
-                        if any(translated_bool): 
+                        if any(translated_bool):
                             english_dict[word] = translated.lower()
                             russian_list.append(translated.lower())
                         else:
@@ -38,7 +38,7 @@ def eng_dict_generator():
                 print(f'    The word "{word}" is already in the database.')
 
     return english_dict
- 
+
 
 if __name__ == '__main__':
     print(eng_dict_generator())
