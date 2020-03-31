@@ -9,6 +9,7 @@ class UsersWords(db.Model):
     frenchword_id = db.Column(db.Integer, db.ForeignKey('French_words.id'))
     user_engword_id = db.Column(db.Integer, db.ForeignKey('English_words_added_by_users.id'))
     user_frenchword_id = db.Column(db.Integer, db.ForeignKey('French_words_added_by_users.id'))
+    status = db.Column(db.String, nullable=False, default='new')
 
     users = db.relationship('User', backref='users')
     english_words = db.relationship('EnglishWord', backref='english_words')

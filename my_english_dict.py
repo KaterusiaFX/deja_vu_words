@@ -1,6 +1,6 @@
 from webapp import create_app
 from webapp.db import db
-from webapp.dictionary.models import EnglishWord, EnglishWordOfUser
+from webapp.dictionary.models import EnglishWord, EnglishWordOfUser, UsersWords
 from webapp.user.models import User
 
 from datetime import datetime
@@ -20,21 +20,31 @@ def webapp_engdict_insert(word, user):
             return 'Вы не ввели имя пользователя.'
 
         word_exist_userdict = EnglishWordOfUser.query.filter(EnglishWordOfUser.word_itself == word).all()
+        word_exist = EnglishWord.query.filter(EnglishWord.word_itself == word).first()
+        user_exist = User.query.filter(User.username == user).first()
 
         # проверка существования пользователя
-        user_exist = User.query.filter(User.username == user).first()
         if not user_exist:
             return f'Пользователь {user} не зарегистрирован на сайте.'
 
+        # проверка, есть ли у этого пользователя слова в его личном словаре
+        user_words = UsersWords.query.filter(UsersWords.user_id == user_exist.id).all()
+
         # слово есть в словаре пользователя
-        if word_exist_userdict:
-            for user_word in word_exist_userdict:
-                if user_word.user == user:
-                    return f'Слово "{word}" уже есть в вашем словаре, перевод: {user_word.translation_rus}.'
+        if user_words:
+            if user_exist.is_admin and word_exist:
+                for user_admin_word in user_words:
+                    if user_admin_word.engword_id == word_exist.id:
+                        return f'Слово "{word}" уже есть в вашем словаре, перевод: {word_exist.translation_rus}.'
+            for user_not_admin_word in user_words:
+                if word_exist and user_not_admin_word.engword_id == word_exist.id:
+                    return f'Слово "{word}" уже есть в вашем словаре, перевод: {word_exist.translation_rus}.'
+                if word_exist_userdict:
+                    for every_word in word_exist_userdict:
+                        if every_word.user == user and every_word.id == user_not_admin_word.user_engword_id:
+                            return f'Слово "{word}" уже есть в вашем словаре, перевод: {every_word.translation_rus}.'
 
         # слова нет в словаре пользователя
-        word_exist = EnglishWord.query.filter(EnglishWord.word_itself == word).first()
-
         # слова нет в общем словаре (словарь, генерируемый админами)
         if not word_exist:
             word_autotranslation = translator.translate(word)
