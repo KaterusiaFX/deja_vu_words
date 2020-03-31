@@ -75,7 +75,7 @@ def admin_or_not(user, word, translation):
     user_exist = User.query.filter(User.username == user).first()
     word_exist = EnglishWord.query.filter(EnglishWord.word_itself == word).first()
 
-    # пользователь - не админ, слово добавляется в спецсловарь (словарь, генерируемый пользователями)
+    # пользователь - не админ, слово добавляется в альтернативный словарь (словарь, генерируемый пользователями)
     if not user_exist.is_admin:
         user_new_word = EnglishWordOfUser(
             word_itself=word,
@@ -88,7 +88,7 @@ def admin_or_not(user, word, translation):
         insertion = user_engdict_own_insert(word, user)
         return f'{insertion} и в словарь на сайте, перевод: {translation}.'
 
-    # слова нет в общем словаре (пользователь-админ), слово добавляется в общий словарь и в спецсловарь тоже
+    # слова нет в общем словаре (пользователь-админ), слово добавляется в общий словарь
     if not word_exist:
         new_word = EnglishWord(
                 word_itself=word,
