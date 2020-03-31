@@ -96,13 +96,6 @@ def admin_or_not(user, word, translation):
                 imported_time=datetime.now()
                 )
         db.session.add(new_word)
-        user_new_word = EnglishWordOfUser(
-                word_itself=word,
-                user=user,
-                translation_rus=translation,
-                imported_time=datetime.now()
-                )
-        db.session.add(user_new_word)
         db.session.commit()
         insertion = user_engdict_insert(word, user)
         return f'{insertion} и в словарь на сайте, перевод: {translation}.'
