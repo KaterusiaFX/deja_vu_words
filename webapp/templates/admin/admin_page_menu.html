@@ -4,37 +4,37 @@
         <li class="nav-item">
           <a class="nav-link text-left text-info" href="">
             <span data-feather="home"></span>
-            Профиль <span class="sr-only">(current)</span>
+            Профили пользователей <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-left text-info" href="">
             <span data-feather="file"></span>
-            Мой словарь
+            Настройка БД
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="">
+          <a class="nav-link text-left text-info" href="{{ url_for('dictionary.dictionary_index') }}">
             <span data-feather="shopping-cart"></span>
-            Мои тренировки
+            Английский словарь
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="">
+         <a class="nav-link text-left text-info" href="">
             <span data-feather="users"></span>
-            Кабинет учителя
+            Французский словарь
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-left text-info" href="">
             <span data-feather="bar-chart-2"></span>
-            Мои ученики
+            Просмотр контента
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="">
+          <a class="nav-link text-left text-info" href="{{ url_for('admin.admin_index') }}">
             <span data-feather="layers"></span>
-            Мой прогресс
+            Мой настройки
           </a>
         </li>
       </ul>

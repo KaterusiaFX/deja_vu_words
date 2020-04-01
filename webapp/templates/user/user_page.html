@@ -1,64 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container-fluid">
-  <div class="row">
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-      <div class="sidebar-sticky">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" href="">
-
-              <span data-feather="home"></span>
-              Профиль <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file"></span>
-              Мой словарь
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="shopping-cart"></span>
-              Мои тренировки
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="users"></span>
-              Кабинет учителя
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="bar-chart-2"></span>
-              Мои ученики
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="layers"></span>
-              Мой прогресс
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Пользователь {{ user.username }}</h1>
-      <div class="btn-toolbar mb-2 mb-md-0">
-      </div>
+  <div class="container-fluid">
+    <div class="row">
+        {% include 'user/user_page_menu.html' %}
+          <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Пользователь {{ user.username }}</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+            </div>
+          </div>
+          </main>
     </div>
-    </main>
   </div>
-</div>
 {% endblock %}
-
-
-
-
-
-

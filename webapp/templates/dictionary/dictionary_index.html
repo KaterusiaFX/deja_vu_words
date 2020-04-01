@@ -1,97 +1,106 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-    <h1>{{ page_title }}</h1>
-        <div class='row'>
-            <div class='col-6'>
-                <form>
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">Английский словарь</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" aria-label="Text input with segmented dropdown button" placeholder="Введите слово на английском">
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-outline-secondary">Поиск</button>
-                                <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Все слова</a>
-                                <div role="separator" class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Слова на изучении</a>
-                                <a class="dropdown-item" href="#">Изученные слова</a>
-                                <a class="dropdown-item" href="#">Слова для напоминания</a>
+    <div class="container-fluid">
+        <div class="row">
+            {% include 'admin/admin_page_menu.html' %}
+               <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <div class="container">
+                        <h1>{{ page_title }}</h1>
+                            <div class='row'>
+                                <div class='col-6'>
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlInput1">Английский словарь</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" aria-label="Text input with segmented dropdown button" placeholder="Введите слово на английском">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-outline-secondary">Поиск</button>
+                                                    <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="#">Все слова</a>
+                                                    <div role="separator" class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#">Слова на изучении</a>
+                                                    <a class="dropdown-item" href="#">Изученные слова</a>
+                                                    <a class="dropdown-item" href="#">Слова для напоминания</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <p>Всего английских слов: {{ english_list_len }}</p>
+                                    <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">id</th>
+                                        <th scope="col">Слово</th>
+                                        <th scope="col">Перевод</th>
+                                        <th scope="col">Дата добавления</th>
+                                        </tr>
+                                    </thead>
+                                    {% for word in english_list %}
+                                    <tbody>
+                                        <tr>
+                                        <th scope="row">{{ word.id }}</th>
+                                        <td>{{ word.word_itself }}</td>
+                                        <td>{{ word.translation_rus }}</td>
+                                        <td>{{ word.imported_time.strftime('%d.%m.%Y') }}</td>
+                                        </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                    </table>
+                                </div>
+                                <div class='col-6'>
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlInput1">Французский словарь</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" aria-label="Text input with segmented dropdown button" placeholder="Введите слово на французском">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-outline-secondary">Поиск</button>
+                                                    <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="#">Все слова</a>
+                                                    <div role="separator" class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#">Слова на изучении</a>
+                                                    <a class="dropdown-item" href="#">Изученные слова</a>
+                                                    <a class="dropdown-item" href="#">Слова для напоминания</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <p>Всего французских слов: {{ french_list_len }}</p>
+                                    <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">id</th>
+                                        <th scope="col">Слово</th>
+                                        <th scope="col">Перевод</th>
+                                        <th scope="col">Дата добавления</th>
+                                        </tr>
+                                    </thead>
+                                    {% for word in french_list %}
+                                    <tbody>
+                                        <tr>
+                                        <th scope="row">{{ word.id }}</th>
+                                        <td>{{ word.word_itself }}</td>
+                                        <td>{{ word.translation_rus }}</td>
+                                        <td>{{ word.imported_time.strftime('%d.%m.%Y') }}</td>
+                                        </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
-                <p>Всего английских слов: {{ english_list_len }}</p>
-                <table class="table table-bordered">
-                <thead>
-                    <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">Слово</th>
-                    <th scope="col">Перевод</th>
-                    <th scope="col">Дата добавления</th>
-                    </tr>
-                </thead>
-                {% for word in english_list %}
-                <tbody>
-                    <tr>
-                    <th scope="row">{{ word.id }}</th>
-                    <td>{{ word.word_itself }}</td>
-                    <td>{{ word.translation_rus }}</td>
-                    <td>{{ word.imported_time.strftime('%d.%m.%Y') }}</td>
-                    </tr>
-                </tbody>
-                {% endfor %}
-                </table>                
-            </div>
-            <div class='col-6'>
-                <form>
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">Французский словарь</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" aria-label="Text input with segmented dropdown button" placeholder="Введите слово на французском">
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-outline-secondary">Поиск</button>
-                                <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Все слова</a>
-                                <div role="separator" class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Слова на изучении</a>
-                                <a class="dropdown-item" href="#">Изученные слова</a>
-                                <a class="dropdown-item" href="#">Слова для напоминания</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <p>Всего французских слов: {{ french_list_len }}</p>
-                <table class="table table-bordered">
-                <thead>
-                    <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">Слово</th>
-                    <th scope="col">Перевод</th>
-                    <th scope="col">Дата добавления</th>
-                    </tr>
-                </thead>
-                {% for word in french_list %}
-                <tbody>
-                    <tr>
-                    <th scope="row">{{ word.id }}</th>
-                    <td>{{ word.word_itself }}</td>
-                    <td>{{ word.translation_rus }}</td>
-                    <td>{{ word.imported_time.strftime('%d.%m.%Y') }}</td>
-                    </tr>
-                </tbody>
-                {% endfor %}
-                </table>
-            </div>
+                     </div>
+                </main>
         </div>
     </div>
 {% endblock %}
