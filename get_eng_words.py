@@ -1,6 +1,7 @@
-from webapp import create_app
+from get_transcription import get_transcription
 from english_dict_generator import eng_dict_generator
 from datetime import datetime
+from webapp import create_app
 from webapp.db import db
 from webapp.dictionary.models import EnglishWord
 
@@ -14,6 +15,7 @@ def save_words_in_db(words_dict):
             new_word = EnglishWord(
                 word_itself=word,
                 translation_rus=words_dict[word],
+                transcription=get_transcription(word),
                 imported_time=datetime.now()
                 )
             db.session.add(new_word)

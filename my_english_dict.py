@@ -1,3 +1,4 @@
+from get_transcription import get_transcription
 from webapp import create_app
 from webapp.db import db
 from webapp.dictionary.models import EnglishWord, EnglishWordOfUser, UsersWords
@@ -81,6 +82,7 @@ def admin_or_not(user, word, translation):
             word_itself=word,
             user=user,
             translation_rus=translation,
+            transcription=get_transcription(word),
             imported_time=datetime.now()
             )
         db.session.add(user_new_word)
@@ -93,6 +95,7 @@ def admin_or_not(user, word, translation):
         new_word = EnglishWord(
                 word_itself=word,
                 translation_rus=translation,
+                transcription=get_transcription(word),
                 imported_time=datetime.now()
                 )
         db.session.add(new_word)
