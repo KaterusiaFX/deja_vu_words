@@ -14,20 +14,20 @@
                         <span style="color: orange;">[{{ error }}]</span>
                         {% endfor %}
                     </div>
-                     <div class="form-group">
+                    <div class="form-group">
                         {{ form.password.label }}
                         {{ form.password() }}
                         {% for error in form.password.errors %}
                         <span style="color: orange;">{{ error }}</span>
                         {% endfor %}
-                     </div>
-                      <div class="form-group form-check">
-                         {{ form.remember_me() }}
-                         {{ form.remember_me.label(class_='form-check-label') }}
-                     </div>
-                     {{ form.submit() }}
-                     <p></p>
-                     <p>Новый пользователь? <a href="{{ url_for('user.register') }}">Нажмите для регистрации!</a></p>
+                    </div>
+                    <div class="form-group form-check">
+                        {{ form.remember_me() }}
+                        {{ form.remember_me.label(class_='form-check-label') }}
+                    </div>
+                    {{ form.submit() }}
+                    <p></p>
+                    <p>Новый пользователь? <a href="{{ url_for('user.register') }}">Нажмите для регистрации!</a></p>
                 </form>
             </div>
             <div class="col-7"></div>
