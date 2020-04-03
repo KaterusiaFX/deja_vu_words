@@ -14,7 +14,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="{{ url_for('dictionary.dictionary_index') }}">
+          <a class="nav-link text-left text-info" href="{{ url_for('dictionary.dictionary_index', username=current_user.username) }}">
             <span data-feather="shopping-cart"></span>
             Английский словарь
           </a>
@@ -32,9 +32,9 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="{{ url_for('admin.admin_index') }}">
+          <a class="nav-link text-left text-info" href="{{ url_for('admin.admin_index', username=current_user.username) }}">
             <span data-feather="layers"></span>
-            Мой настройки
+            Мои настройки
           </a>
         </li>
       </ul>

@@ -46,11 +46,11 @@ def register():
     title = 'Регистрация'
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
+        user = User(username=form.username.data, email=form.email.data, role='user')
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Поздравляем, вы зарегистрировались на сайте!')
+        flash('Вы успешно зарегистрировались!')
         return redirect(url_for('user.login'))
     return render_template('user/register.html', page_title=title, form=form)
 
