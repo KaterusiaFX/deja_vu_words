@@ -15,7 +15,7 @@ class EngDictionarySearchForm(FlaskForm):
 
     def validate_word(self, word):
         word = EnglishWord.query.filter_by(word_itself=word.data).first()
-        if word is None:
+        if not word:
             print('Ошибка! Слова нет в английском словаре!')
             raise ValidationError('No such a word in our English dictionary')
 
@@ -30,6 +30,6 @@ class FrenchDictionarySearchForm(FlaskForm):
 
     def validate_word(self, word):
         word = FrenchWord.query.filter_by(word_itself=word.data).first()
-        if word is None:
+        if not word:
             print('Ошибка! Слова нет во французском словаре!')
             raise ValidationError('No such a word in our French dictionary')
