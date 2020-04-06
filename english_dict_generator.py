@@ -1,10 +1,11 @@
+import re
+from translate import Translator
+
 from open_eng_textfile import eng_words_to_translate
 from webapp.dictionary.models import EnglishWord
 from webapp import create_app
 
-from translate import Translator
 translator = Translator(to_lang="ru")  # переводим всегда на русский
-
 app = create_app()
 
 
@@ -18,16 +19,17 @@ def eng_dict_generator():
         with app.app_context():
             word_exist = EnglishWord.query.filter(EnglishWord.word_itself == word).count()
             try:
-                if word_exist == 0:
+                if not word_exist:
                     try:
                         translated = translator.translate(word)
                         # далее проверяем, что перевод состоит из слов, а не значков и цифр
                         # например, перевод типа {'is': '-'} будет считаться неверным
-                        # переводы типа {'your': 'твой.'} тоже будут считаться неверными из-за значка в конце
-                        translated_bool = filter(lambda x: x.isalpha(), translated.split())
-                        if any(translated_bool): 
-                            english_dict[word] = translated.lower()
-                            russian_list.append(translated.lower())
+                        letters_and_hyphens_in_translated = re.findall('[а-яА-Я-]+', translated)
+                        not_only_hyphens_in_translated = re.findall('[а-яА-Я]+', translated)
+                        if letters_and_hyphens_in_translated and not_only_hyphens_in_translated:
+                            translated_result = ' '.join(letters_and_hyphens_in_translated)
+                            english_dict[word] = translated_result.lower()
+                            russian_list.append(translated_result.lower())
                         else:
                             raise ValueError
                     except ValueError:
@@ -38,7 +40,7 @@ def eng_dict_generator():
                 print(f'    The word "{word}" is already in the database.')
 
     return english_dict
- 
+
 
 if __name__ == '__main__':
     print(eng_dict_generator())

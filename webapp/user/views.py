@@ -1,5 +1,5 @@
 from flask import Blueprint, flash, render_template, redirect, url_for
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 
 from webapp.user.forms import LoginForm
 from webapp.user.forms import RegistrationForm
@@ -22,7 +22,7 @@ def login():
 def process_login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()  # метод first() выдает только один рез-т из БД по username, а не всех юзеров (как делает метод all)
+        user = User.query.filter_by(username=form.username.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             flash('Вы вошли на сайт')
@@ -46,13 +46,17 @@ def register():
     title = 'Регистрация'
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
+        user = User(username=form.username.data, email=form.email.data, role='user')
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Поздравляем, вы зарегистрировались на сайте!')
+        flash('Вы успешно зарегистрировались!')
         return redirect(url_for('user.login'))
     return render_template('user/register.html', page_title=title, form=form)
 
 
-
+@blueprint.route('/user/<username>')  # в URL на место <username> будет подставлятся текущее имя пользоваетля
+@login_required  # этот декоратор разрешает доступ к '/user/<username>' только зарегистрированным пользователям
+def user(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    return render_template('user/user_page.html', user=username)
