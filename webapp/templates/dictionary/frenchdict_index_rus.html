@@ -10,45 +10,45 @@
                         <h1>{{ page_title }}</h1>
                         <div class='row'>
                             <div class='col-12'>
-                                <form action="{{ url_for('dictionary.process_engdict_search', username=current_user.username) }}" method="post">                
+                                <form action="{{ url_for('dictionary.process_frenchdict_search_rus', username=current_user.username) }}" method="post">
+                                {{ form.hidden_tag() }}
                                     <div class="form-group">
                                         <label for="exampleFormControlInput1">{{ form.word.label }}</label>
                                         <div class="input-group">
                                             {{ form.word() }}
-                                            {{ form.csrf_token }}
                                             <div class="input-group-append">
                                                 {{ form.search() }}
                                                 <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="{{ url_for('dictionary.engdict_index', username=current_user.username) }}">Английское слово</a>
-                                                    <a class="dropdown-item" href="{{ url_for('dictionary.engdict_index_rus', username=current_user.username) }}">Русское слово</a>
+                                                    <a class="dropdown-item" href="{{ url_for('dictionary.frenchdict_index', username=current_user.username) }}">Французское слово</a>
+                                                    <a class="dropdown-item" href="{{ url_for('dictionary.frenchdict_index_rus', username=current_user.username) }}">Русское слово</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
-                                <p>Всего английских слов: {{ english_list_len }}</p>
+                                <p>Всего французских слов: {{ french_list_len }}</p>
                                 <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">id</th>
-                                    <th scope="col">Слово</th>
-                                    <th scope="col">Перевод</th>
-                                    <th scope="col">Транскрипция</th>
-                                    <th scope="col">Дата добавления</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                    <th scope="row">{{ english_word.id }}</th>
-                                    <td>{{ english_word.word_itself }}</td>
-                                    <td>{{ english_word.translation_rus }}</td>
-                                    <td>{{ english_word.transcription }}</td>
-                                    <td>{{ english_word.imported_time.strftime('%d.%m.%Y') }}</td>
-                                    </tr>
-                                </tbody>
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">id</th>
+                                        <th scope="col">Слово</th>
+                                        <th scope="col">Перевод</th>
+                                        <th scope="col">Дата добавления</th>
+                                        </tr>
+                                    </thead>
+                                    {% for word in french_list %}
+                                    <tbody>
+                                        <tr>
+                                        <th scope="row">{{ word.id }}</th>
+                                        <td>{{ word.word_itself }}</td>
+                                        <td>{{ word.translation_rus }}</td>
+                                        <td>{{ word.imported_time.strftime('%d.%m.%Y') }}</td>
+                                        </tr>
+                                    </tbody>
+                                {% endfor %}
                                 </table>                
                             </div>
                         </div>
