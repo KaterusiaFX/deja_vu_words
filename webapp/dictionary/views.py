@@ -34,8 +34,8 @@ def process_engdict_search(username):
     english_words = EnglishWord.query.order_by(EnglishWord.word_itself).all()
     english_words_sum = len(EnglishWord.query.order_by(EnglishWord.word_itself).all())
     word = EnglishWord.query.filter_by(word_itself=search_form.word.data).first()
-    if word:
-        if search_form.validate_on_submit():
+    if search_form.validate_on_submit():
+        if word:
             return render_template(
                 'dictionary/engdict_search.html',
                 page_title=title,
@@ -45,15 +45,15 @@ def process_engdict_search(username):
                 user=username
                 )
 
-    flash('Такого слова нет в нашем английском словаре')
-    return render_template(
-        'dictionary/engdict_index.html',
-        page_title=title,
-        english_list=english_words,
-        english_list_len=english_words_sum,
-        form=search_form,
-        user=username
-        )
+        flash('Такого слова нет в нашем английском словаре')
+        return render_template(
+            'dictionary/engdict_index.html',
+            page_title=title,
+            english_list=english_words,
+            english_list_len=english_words_sum,
+            form=search_form,
+            user=username
+            )
 
 
 @blueprint.route('/admin_frenchdict/<username>')
@@ -82,8 +82,8 @@ def process_frenchdict_search(username):
     french_words = FrenchWord.query.order_by(FrenchWord.word_itself).all()
     french_words_sum = len(FrenchWord.query.order_by(FrenchWord.word_itself).all())
     word = FrenchWord.query.filter_by(word_itself=search_form.word.data).first()
-    if word:
-        if search_form.validate_on_submit():
+    if search_form.validate_on_submit():
+        if word:
             return render_template(
                 'dictionary/frenchdict_search.html',
                 page_title=title,
@@ -93,12 +93,12 @@ def process_frenchdict_search(username):
                 user=username
                 )
 
-    flash('Такого слова нет в нашем французском словаре')
-    return render_template(
-        'dictionary/frenchdict_index.html',
-        page_title=title,
-        french_list=french_words,
-        french_list_len=french_words_sum,
-        form=search_form,
-        user=username
-        )
+        flash('Такого слова нет в нашем французском словаре')
+        return render_template(
+            'dictionary/frenchdict_index.html',
+            page_title=title,
+            french_list=french_words,
+            french_list_len=french_words_sum,
+            form=search_form,
+            user=username
+            )
