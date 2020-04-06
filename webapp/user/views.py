@@ -22,7 +22,7 @@ def login():
 def process_login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()  # метод first() выдает только один рез-т из БД по username, а не всех юзеров (как делает метод all)
+        user = User.query.filter_by(username=form.username.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             flash('Вы вошли на сайт')
@@ -60,7 +60,3 @@ def register():
 def user(username):
     username = User.query.filter_by(username=username).first_or_404()
     return render_template('user/user_page.html', user=username)
-
-
-
-

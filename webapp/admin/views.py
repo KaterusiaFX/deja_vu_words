@@ -13,5 +13,3 @@ blueprint = Blueprint('admin', __name__, url_prefix='/admins')
 def admin_index(username):
     username = User.query.filter_by(username=username).first_or_404()
     return render_template('admin/admin_index.html', user=username)
-
-

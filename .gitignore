@@ -7,11 +7,11 @@ __pycache__/
 *.db
 en_full.txt
 en_2400.txt
-test.py
 dictionaries
 config.py
 *.db
 webapp.db.sqbpro
+.vscode
 
 # C extensions
 *.so

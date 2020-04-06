@@ -26,9 +26,9 @@ def create_app():
     app.register_blueprint(home_blueprint)
     app.register_blueprint(user_blueprint)
 
-    @login_manager.user_loader  # ф-я загрузчика пользователя для работы с БД по идентификатору польз-ля
+    # ф-я загрузчика пользователя для работы с БД по идентификатору польз-ля
+    @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(user_id)
 
     return app
-

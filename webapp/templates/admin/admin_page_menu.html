@@ -14,13 +14,13 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="{{ url_for('dictionary.dictionary_index', username=current_user.username) }}">
+          <a class="nav-link text-left text-info" href="{{ url_for('dictionary.engdict_index', username=current_user.username) }}">
             <span data-feather="shopping-cart"></span>
             Английский словарь
           </a>
         </li>
         <li class="nav-item">
-         <a class="nav-link text-left text-info" href="">
+         <a class="nav-link text-left text-info" href="{{ url_for('dictionary.frenchdict_index', username=current_user.username) }}">
             <span data-feather="users"></span>
             Французский словарь
           </a>

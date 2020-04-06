@@ -9,6 +9,7 @@ class UsersWords(db.Model):
     frenchword_id = db.Column(db.Integer, db.ForeignKey('French_words.id'))
     user_engword_id = db.Column(db.Integer, db.ForeignKey('English_words_added_by_users.id'))
     user_frenchword_id = db.Column(db.Integer, db.ForeignKey('French_words_added_by_users.id'))
+    status = db.Column(db.String, nullable=False, default='new')
 
     users = db.relationship('User', backref='users')
     english_words = db.relationship('EnglishWord', backref='english_words')
@@ -26,7 +27,7 @@ class EnglishWord(db.Model):
     audio_url = db.Column(db.String, unique=True, nullable=True)
     picture_url = db.Column(db.String, unique=True, nullable=True)
     imported_time = db.Column(db.DateTime, nullable=False)
-    
+
     def __repr__(self):
         return f'<Word "{self.word_itself}" in English language>'
 
@@ -42,7 +43,7 @@ class FrenchWord(db.Model):
     audio_url = db.Column(db.String, unique=True, nullable=True)
     picture_url = db.Column(db.String, unique=True, nullable=True)
     imported_time = db.Column(db.DateTime, nullable=False)
-    
+
     def __repr__(self):
         return f'<Word "{self.word_itself}" in French language>'
 
@@ -57,7 +58,7 @@ class EnglishWordOfUser(db.Model):
     audio_url = db.Column(db.String, unique=True, nullable=True)
     picture_url = db.Column(db.String, unique=True, nullable=True)
     imported_time = db.Column(db.DateTime, nullable=False)
-    
+
     def __repr__(self):
         return f'<Word "{self.word_itself}" added by user {self.user} in English language>'
 
@@ -74,6 +75,6 @@ class FrenchWordOfUser(db.Model):
     audio_url = db.Column(db.String, unique=True, nullable=True)
     picture_url = db.Column(db.String, unique=True, nullable=True)
     imported_time = db.Column(db.DateTime, nullable=False)
-    
+
     def __repr__(self):
         return f'<Word "{self.word_itself}" added by user {self.user} in French language>'
