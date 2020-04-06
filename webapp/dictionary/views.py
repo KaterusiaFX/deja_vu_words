@@ -33,16 +33,17 @@ def process_engdict_search(username):
     search_form = EngDictionarySearchForm()
     english_words = EnglishWord.query.order_by(EnglishWord.word_itself).all()
     english_words_sum = len(EnglishWord.query.order_by(EnglishWord.word_itself).all())
-    if search_form.validate_on_submit():
-        word = EnglishWord.query.filter_by(word_itself=search_form.word.data).first()
-        return render_template(
-            'dictionary/engdict_search.html',
-            page_title=title,
-            english_word=word,
-            english_list_len=english_words_sum,
-            form=search_form,
-            user=username
-            )
+    word = EnglishWord.query.filter_by(word_itself=search_form.word.data).first()
+    if word:
+        if search_form.validate_on_submit():
+            return render_template(
+                'dictionary/engdict_search.html',
+                page_title=title,
+                english_word=word,
+                english_list_len=english_words_sum,
+                form=search_form,
+                user=username
+                )
 
     flash('Такого слова нет в нашем английском словаре')
     return render_template(
@@ -80,16 +81,17 @@ def process_frenchdict_search(username):
     search_form = FrenchDictionarySearchForm()
     french_words = FrenchWord.query.order_by(FrenchWord.word_itself).all()
     french_words_sum = len(FrenchWord.query.order_by(FrenchWord.word_itself).all())
-    if search_form.validate_on_submit():
-        word = FrenchWord.query.filter_by(word_itself=search_form.word.data).first()
-        return render_template(
-            'dictionary/frenchdict_search.html',
-            page_title=title,
-            french_word=word,
-            french_list_len=french_words_sum,
-            form=search_form,
-            user=username
-            )
+    word = FrenchWord.query.filter_by(word_itself=search_form.word.data).first()
+    if word:
+        if search_form.validate_on_submit():
+            return render_template(
+                'dictionary/frenchdict_search.html',
+                page_title=title,
+                french_word=word,
+                french_list_len=french_words_sum,
+                form=search_form,
+                user=username
+                )
 
     flash('Такого слова нет в нашем французском словаре')
     return render_template(

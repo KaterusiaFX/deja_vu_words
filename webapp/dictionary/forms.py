@@ -1,8 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, ValidationError
-
-from webapp.dictionary.models import EnglishWord, FrenchWord
+from wtforms.validators import DataRequired
 
 
 class EngDictionarySearchForm(FlaskForm):
@@ -13,12 +11,6 @@ class EngDictionarySearchForm(FlaskForm):
         )
     search = SubmitField('Поиск', render_kw={"class": "btn btn-info"})
 
-    def validate_word(self, word):
-        word = EnglishWord.query.filter_by(word_itself=word.data).first()
-        if not word:
-            print('Ошибка! Слова нет в английском словаре!')
-            raise ValidationError('No such a word in our English dictionary')
-
 
 class FrenchDictionarySearchForm(FlaskForm):
     word = StringField(
@@ -27,9 +19,3 @@ class FrenchDictionarySearchForm(FlaskForm):
         render_kw={"class": "form-control"}
         )
     search = SubmitField('Поиск', render_kw={"class": "btn btn-info"})
-
-    def validate_word(self, word):
-        word = FrenchWord.query.filter_by(word_itself=word.data).first()
-        if not word:
-            print('Ошибка! Слова нет во французском словаре!')
-            raise ValidationError('No such a word in our French dictionary')
