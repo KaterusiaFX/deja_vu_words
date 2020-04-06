@@ -33,8 +33,8 @@ def process_engdict_search(username):
     search_form = EngDictionarySearchForm()
     english_words = EnglishWord.query.order_by(EnglishWord.word_itself).all()
     english_words_sum = len(EnglishWord.query.order_by(EnglishWord.word_itself).all())
-    word = EnglishWord.query.filter_by(word_itself=search_form.word.data).first()
     if search_form.validate_on_submit():
+        word = EnglishWord.query.filter_by(word_itself=search_form.word.data).first()
         if word:
             return render_template(
                 'dictionary/engdict_search.html',
@@ -81,8 +81,8 @@ def process_frenchdict_search(username):
     search_form = FrenchDictionarySearchForm()
     french_words = FrenchWord.query.order_by(FrenchWord.word_itself).all()
     french_words_sum = len(FrenchWord.query.order_by(FrenchWord.word_itself).all())
-    word = FrenchWord.query.filter_by(word_itself=search_form.word.data).first()
     if search_form.validate_on_submit():
+        word = FrenchWord.query.filter_by(word_itself=search_form.word.data).first()
         if word:
             return render_template(
                 'dictionary/frenchdict_search.html',
