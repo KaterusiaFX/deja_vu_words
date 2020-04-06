@@ -12,6 +12,7 @@ dictionaries
 config.py
 *.db
 webapp.db.sqbpro
+.vscode
 
 # C extensions
 *.so
