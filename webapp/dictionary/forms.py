@@ -5,16 +5,7 @@ from wtforms.validators import DataRequired
 
 class EngDictionarySearchForm(FlaskForm):
     word = StringField(
-        'Поиск по английскому словарю на английском',
-        validators=[DataRequired()],
-        render_kw={"class": "form-control"}
-        )
-    search = SubmitField('Поиск', render_kw={"class": "btn btn-info"})
-
-
-class EngDictionarySearchFormRus(FlaskForm):
-    word = StringField(
-        'Поиск по английскому словарю на русском',
+        'Поиск по английскому словарю',
         validators=[DataRequired()],
         render_kw={"class": "form-control"}
         )
@@ -23,16 +14,7 @@ class EngDictionarySearchFormRus(FlaskForm):
 
 class FrenchDictionarySearchForm(FlaskForm):
     word = StringField(
-        'Поиск по французскому словарю на французском',
-        validators=[DataRequired()],
-        render_kw={"class": "form-control"}
-        )
-    search = SubmitField('Поиск', render_kw={"class": "btn btn-info"})
-
-
-class FrenchDictionarySearchFormRus(FlaskForm):
-    word = StringField(
-        'Поиск по французскому словарю на русском',
+        'Поиск по французскому словарю',
         validators=[DataRequired()],
         render_kw={"class": "form-control"}
         )
