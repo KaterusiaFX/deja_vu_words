@@ -10,14 +10,14 @@
                         <h1>{{ page_title }}</h1>
                         <div class='row'>
                             <div class='col-12'>
-                                <form action="{{ url_for('dictionary.process_engdict_search', username=current_user.username) }}" method="post">                
+                                <form action="{{ url_for('dictionary.process_engdict_search', username=current_user.username) }}" method="post">
                                     <div class="form-group">
                                         <label for="exampleFormControlInput1">{{ form.word.label }}</label>
                                         <div class="input-group">
                                             {{ form.word() }}
                                             {{ form.csrf_token }}
                                             <div class="input-group-append">
-                                                {{ form.search() }}                                                
+                                                {{ form.search() }}
                                             </div>
                                         </div>
                                     </div>
@@ -42,7 +42,7 @@
                                     <td>{{ english_word.imported_time.strftime('%d.%m.%Y') }}</td>
                                     </tr>
                                 </tbody>
-                                </table>                
+                                </table>
                             </div>
                         </div>
                     </div>

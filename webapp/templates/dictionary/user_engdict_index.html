@@ -17,34 +17,38 @@
                                         <div class="input-group">
                                             {{ form.word() }}
                                             <div class="input-group-append">
-                                                {{ form.search() }}                                                
+                                                {{ form.search() }}
                                             </div>
                                         </div>
                                     </div>
                                 </form>
-                                <p>Всего английских слов: {{ english_list_len }}</p>
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                        <th scope="col">Слово</th>
-                                        <th scope="col">Перевод</th>
-                                        <th scope="col">Транскрипция</th>
-                                        <th scope="col">Статус</th>
-                                        <th scope="col">Дата добавления</th>
-                                        </tr>
-                                    </thead>
-                                    {% for word_tuple in english_list %}
-                                    <tbody>
-                                        <tr>
-                                        <td>{{ word_tuple[0].word_itself }}</td>
-                                        <td>{{ word_tuple[0].translation_rus }}</td>
-                                        <td>{{ word_tuple[0].transcription }}</td>
-                                        <td>{{ word_tuple[1] }}</td>
-                                        <td>{{ word_tuple[2].strftime('%d.%m.%Y') }}</td>
-                                        </tr>
-                                    </tbody>
-                                {% endfor %}
-                                </table>                
+                                {% if english_list_len %}
+                                    <p>Всего английских слов: {{ english_list_len }}</p>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                            <th scope="col">Слово</th>
+                                            <th scope="col">Перевод</th>
+                                            <th scope="col">Транскрипция</th>
+                                            <th scope="col">Статус</th>
+                                            <th scope="col">Дата добавления</th>
+                                            </tr>
+                                        </thead>
+                                        {% for word_tuple in english_list %}
+                                        <tbody>
+                                            <tr>
+                                            <td>{{ word_tuple[0].word_itself }}</td>
+                                            <td>{{ word_tuple[0].translation_rus }}</td>
+                                            <td>{{ word_tuple[0].transcription }}</td>
+                                            <td>{{ word_tuple[1] }}</td>
+                                            <td>{{ word_tuple[2].strftime('%d.%m.%Y') }}</td>
+                                            </tr>
+                                        </tbody>
+                                    {% endfor %}
+                                    </table>
+                                {% else %}
+                                    <p>Ваш словарь пуст</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

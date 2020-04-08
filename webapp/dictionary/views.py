@@ -119,11 +119,14 @@ def user_engdict_index(username):
     for user_word in user_words:
         if user_word.engword_id:
             eng_word = EnglishWord.query.filter_by(id=user_word.engword_id).first()
-        if user_word.user_engword_id:
+        elif user_word.user_engword_id:
             eng_word = EnglishWordOfUser.query.filter_by(id=user_word.user_engword_id).first()
-        english_words.append(eng_word)
-        english_words_status.append(user_word.status)
-        english_words_date.append(user_word.imported_time)
+        else:
+            eng_word = None
+        if eng_word:
+            english_words.append(eng_word)
+            english_words_status.append(user_word.status)
+            english_words_date.append(user_word.imported_time)
     english_list = list(zip(english_words, english_words_status, english_words_date))
     english_words_sum = len(english_list)
 
@@ -198,11 +201,14 @@ def user_frenchdict_index(username):
     for user_word in user_words:
         if user_word.frenchword_id:
             french_word = FrenchWord.query.filter_by(id=user_word.frenchword_id).first()
-        if user_word.user_frenchword_id:
+        elif user_word.user_frenchword_id:
             french_word = FrenchWordOfUser.query.filter_by(id=user_word.user_frenchword_id).first()
-        french_words.append(french_word)
-        french_words_status.append(user_word.status)
-        french_words_date.append(user_word.imported_time)
+        else:
+            french_word = None
+        if french_word:
+            french_words.append(french_word)
+            french_words_status.append(user_word.status)
+            french_words_date.append(user_word.imported_time)
     french_list = list(zip(french_words, french_words_status, french_words_date))
     french_words_sum = len(french_list)
 
