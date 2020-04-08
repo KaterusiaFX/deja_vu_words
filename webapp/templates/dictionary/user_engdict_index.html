@@ -33,14 +33,14 @@
                                         <th scope="col">Дата добавления</th>
                                         </tr>
                                     </thead>
-                                    {% for word in english_list %}
+                                    {% for word_tuple in english_list %}
                                     <tbody>
                                         <tr>
-                                        <td>{{ word[0].word_itself }}</td>
-                                        <td>{{ word[0].translation_rus }}</td>
-                                        <td>{{ word[0].transcription }}</td>
-                                        <td>{{ word[1] }}</td>
-                                        <td>{{ word[2].strftime('%d.%m.%Y') }}</td>
+                                        <td>{{ word_tuple[0].word_itself }}</td>
+                                        <td>{{ word_tuple[0].translation_rus }}</td>
+                                        <td>{{ word_tuple[0].transcription }}</td>
+                                        <td>{{ word_tuple[1] }}</td>
+                                        <td>{{ word_tuple[2].strftime('%d.%m.%Y') }}</td>
                                         </tr>
                                     </tbody>
                                 {% endfor %}
