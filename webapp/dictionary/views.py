@@ -137,7 +137,6 @@ def user_engdict_index(username):
         )
 
 
-# нет русскоязычного поиска
 @blueprint.route('/user-process-engdict-search/<username>', methods=['POST'])
 def user_process_engdict_search(username):
     username = User.query.filter_by(username=username).first_or_404()
@@ -148,9 +147,21 @@ def user_process_engdict_search(username):
 
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
-        word_exist_userdict = EnglishWordOfUser.query.filter_by(word_itself=word_in_form).all()
-        word_exist = EnglishWord.query.filter_by(word_itself=word_in_form).first()
         if re.match("[a-zA-Z]+", word_in_form):
+            word_exist_userdict = EnglishWordOfUser.query.filter_by(word_itself=word_in_form).all()
+            word_exist = EnglishWord.query.filter_by(word_itself=word_in_form).first() 
+            for userword in user_words:
+                if word_exist and userword.engword_id == word_exist.id:
+                    word = word_exist
+                    user_english_word_status, user_english_word_date = userword.status, userword.imported_time
+                elif word_exist_userdict:
+                    for every_word in word_exist_userdict:
+                        if every_word.user == username.username and every_word.id == userword.user_engword_id:
+                            word = every_word
+                            user_english_word_status, user_english_word_date = userword.status, userword.imported_time
+        elif re.match("[а-яА-Я]+", word_in_form):
+            word_exist_userdict = EnglishWordOfUser.query.filter_by(translation_rus=word_in_form).all()
+            word_exist = EnglishWord.query.filter_by(translation_rus=word_in_form).first()
             for userword in user_words:
                 if word_exist and userword.engword_id == word_exist.id:
                     word = word_exist
@@ -171,7 +182,7 @@ def user_process_engdict_search(username):
                 user=username.username
                 )
 
-        flash('Такого слова нет в нашем английском словаре')
+        flash('Такого слова нет в вашем английском словаре')
         return redirect(url_for('.user_engdict_index', username=username.username))
 
 # добавить все то же самое для французского персонального словаря

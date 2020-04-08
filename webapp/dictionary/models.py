@@ -12,7 +12,7 @@ class UsersWords(db.Model):
     user_engword_id = db.Column(db.Integer, db.ForeignKey('English_words_added_by_users.id'))
     user_frenchword_id = db.Column(db.Integer, db.ForeignKey('French_words_added_by_users.id'))
     imported_time = db.Column(db.DateTime, nullable=True, default=datetime.now())
-    status = db.Column(db.String, nullable=False, default='new')
+    status = db.Column(db.String, nullable=True, default='new')
     
     users = db.relationship('User', backref='users')
     english_words = db.relationship('EnglishWord', backref='english_words')
