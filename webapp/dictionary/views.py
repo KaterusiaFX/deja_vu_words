@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
 import re
 
-from webapp.dictionary.dict_functions import user_engdict_search
+from webapp.dictionary.dict_functions import user_engdict_search, user_frenchdict_search
 from webapp.dictionary.forms import EngDictionarySearchForm, FrenchDictionarySearchForm
 from webapp.dictionary.models import EnglishWord, EnglishWordOfUser, FrenchWord, FrenchWordOfUser, UsersWords
 from webapp.user.decorators import admin_required
@@ -115,7 +115,7 @@ def user_engdict_index(username):
     search_form = EngDictionarySearchForm()
     title = "Ваш английский словарь"
     user_words = UsersWords.query.filter_by(user_id=user_id).all()
-
+# поиск слов в персональном словаре лучше тоже убрать в dict_functions, возвращать только кортеж
     english_words, english_words_status, english_words_date = [], [], []
     for user_word in user_words:
         if user_word.engword_id:
@@ -144,7 +144,6 @@ def user_engdict_index(username):
 @blueprint.route('/user-process-engdict-search/<username>', methods=['POST'])
 def user_process_engdict_search(username):
     username = User.query.filter_by(username=username).first_or_404()
-    user_id = username.id
     title = "Ваш английский словарь"
     search_form = EngDictionarySearchForm()
 
@@ -203,37 +202,13 @@ def user_frenchdict_index(username):
 @blueprint.route('/user-process-frenchdict-search/<username>', methods=['POST'])
 def user_process_frenchdict_search(username):
     username = User.query.filter_by(username=username).first_or_404()
-    user_id = username.id
     title = "Ваш французский словарь"
     search_form = FrenchDictionarySearchForm()
-    user_words = UsersWords.query.filter_by(user_id=user_id).all()
-
+# поиск слов в персональном словаре лучше тоже убрать в dict_functions, возвращать только кортеж
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
-        if re.match("[a-zA-Z]+", word_in_form):
-            word_exist_userdict = FrenchWordOfUser.query.filter_by(word_itself=word_in_form).all()
-            word_exist = FrenchWord.query.filter_by(word_itself=word_in_form).first()
-            for userword in user_words:
-                if word_exist and userword.frenchword_id == word_exist.id:
-                    word = word_exist
-                    user_french_word_status, user_french_word_date = userword.status, userword.imported_time
-                elif word_exist_userdict:
-                    for every_word in word_exist_userdict:
-                        if every_word.user == username.username and every_word.id == userword.user_frenchword_id:
-                            word = every_word
-                            user_french_word_status, user_french_word_date = userword.status, userword.imported_time
-        elif re.match("[а-яА-Я]+", word_in_form):
-            word_exist_userdict = FrenchWordOfUser.query.filter_by(translation_rus=word_in_form).all()
-            word_exist = FrenchWord.query.filter_by(translation_rus=word_in_form).first()
-            for userword in user_words:
-                if word_exist and userword.frenchword_id == word_exist.id:
-                    word = word_exist
-                    user_french_word_status, user_french_word_date = userword.status, userword.imported_time
-                elif word_exist_userdict:
-                    for every_word in word_exist_userdict:
-                        if every_word.user == username.username and every_word.id == userword.user_frenchword_id:
-                            word = every_word
-                            user_french_word_status, user_french_word_date = userword.status, userword.imported_time
+        word, user_french_word_status, user_french_word_date = user_frenchdict_search(word_in_form, username)
+
         if word:
             return render_template(
                 'dictionary/user_frenchdict_search.html',
