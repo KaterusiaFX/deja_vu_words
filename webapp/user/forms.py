@@ -31,3 +31,11 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Такой email адрес уже существует')
+
+
+class EditProfileForm(FlaskForm):
+    teacher_choose = BooleanField('Я учитель', default=True, render_kw={"class": "form-check-input"})
+    student_choose = BooleanField('Я ученик', default=True, render_kw={"class": "form-check-input"})
+    submit = SubmitField('Внести', render_kw={"class": "btn btn-info"})
+
+

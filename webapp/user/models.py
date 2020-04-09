@@ -17,6 +17,9 @@ class User(db.Model, UserMixin):
     user_english_words = db.relationship('EnglishWordOfUser', secondary='users_words')
     user_french_words = db.relationship('FrenchWordOfUser', secondary='users_words')
 
+    teacher = db.relationship('Teacher', backref='user', uselist=False)
+    student = db.relationship('Student', backref='user', uselist=False)
+
     def set_password(self, password):
         self.password = generate_password_hash(password)
 
@@ -29,3 +32,29 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+
+class Teacher(db.Model, UserMixin):
+    __tablename__ = 'teachers'
+    teacher_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
+
+    def __repr__(self):
+        return f'<Teacher "{self.teacher_id}" has user id {self.user_id}>'
+
+    def get_id(self):
+        return set(self.teacher_id)
+
+
+class Student(db.Model, UserMixin):
+    __tablename__ = 'students'
+    student_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
+
+    def __repr__(self):
+        return f'<Student "{self.student_id}" has user id {self.user_id}>'
+
+    def get_id(self):
+        return set(self.student_id)
+
+

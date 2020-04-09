@@ -60,3 +60,9 @@ def register():
 def user(username):
     username = User.query.filter_by(username=username).first_or_404()
     return render_template('user/user_page.html', user=username)
+
+
+@blueprint.route('/become-a-teacher/<username>', methods=['POST'])
+def become_a_teacher():
+    username = User.query.filter_by(username=username).first_or_404()
+    return render_template('user/chooze_teacher_or_student.html', user=username)
