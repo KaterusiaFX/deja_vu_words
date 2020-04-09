@@ -1,6 +1,7 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
 import re
 
+from webapp.dictionary.dict_functions import user_engdict_search
 from webapp.dictionary.forms import EngDictionarySearchForm, FrenchDictionarySearchForm
 from webapp.dictionary.models import EnglishWord, EnglishWordOfUser, FrenchWord, FrenchWordOfUser, UsersWords
 from webapp.user.decorators import admin_required
@@ -146,34 +147,11 @@ def user_process_engdict_search(username):
     user_id = username.id
     title = "Ваш английский словарь"
     search_form = EngDictionarySearchForm()
-    user_words = UsersWords.query.filter_by(user_id=user_id).all()
 
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
-        if re.match("[a-zA-Z]+", word_in_form):
-            word_exist_userdict = EnglishWordOfUser.query.filter_by(word_itself=word_in_form).all()
-            word_exist = EnglishWord.query.filter_by(word_itself=word_in_form).first()
-            for userword in user_words:
-                if word_exist and userword.engword_id == word_exist.id:
-                    word = word_exist
-                    user_english_word_status, user_english_word_date = userword.status, userword.imported_time
-                elif word_exist_userdict:
-                    for every_word in word_exist_userdict:
-                        if every_word.user == username.username and every_word.id == userword.user_engword_id:
-                            word = every_word
-                            user_english_word_status, user_english_word_date = userword.status, userword.imported_time
-        elif re.match("[а-яА-Я]+", word_in_form):
-            word_exist_userdict = EnglishWordOfUser.query.filter_by(translation_rus=word_in_form).all()
-            word_exist = EnglishWord.query.filter_by(translation_rus=word_in_form).first()
-            for userword in user_words:
-                if word_exist and userword.engword_id == word_exist.id:
-                    word = word_exist
-                    user_english_word_status, user_english_word_date = userword.status, userword.imported_time
-                elif word_exist_userdict:
-                    for every_word in word_exist_userdict:
-                        if every_word.user == username.username and every_word.id == userword.user_engword_id:
-                            word = every_word
-                            user_english_word_status, user_english_word_date = userword.status, userword.imported_time
+        word, user_english_word_status, user_english_word_date = user_engdict_search(word_in_form, username)
+
         if word:
             return render_template(
                 'dictionary/user_engdict_search.html',
@@ -269,7 +247,3 @@ def user_process_frenchdict_search(username):
 
         flash('Такого слова нет в вашем французском словаре')
         return redirect(url_for('.user_frenchdict_index', username=username.username))
-
-
-if __name__ == "__main__":
-    print('webapp/dictionary/views.py')
