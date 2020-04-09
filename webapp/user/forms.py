@@ -34,8 +34,8 @@ class RegistrationForm(FlaskForm):
 
 
 class EditProfileForm(FlaskForm):
-    teacher_choose = BooleanField('Я учитель', default=True, render_kw={"class": "form-check-input"})
-    student_choose = BooleanField('Я ученик', default=True, render_kw={"class": "form-check-input"})
-    submit = SubmitField('Внести', render_kw={"class": "btn btn-info"})
+    teacher_choose = BooleanField('Я учитель', default=False, render_kw={"class": "form-check-input"})
+    student_choose = BooleanField('Я ученик', default=False, render_kw={"class": "form-check-input"})
+    submit = SubmitField('Сохранить', render_kw={"class": "btn btn-info"})
 
 
