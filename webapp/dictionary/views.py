@@ -269,3 +269,7 @@ def user_process_frenchdict_search(username):
 
         flash('Такого слова нет в вашем французском словаре')
         return redirect(url_for('.user_frenchdict_index', username=username.username))
+
+
+if __name__ == "__main__":
+    print('webapp/dictionary/views.py')
