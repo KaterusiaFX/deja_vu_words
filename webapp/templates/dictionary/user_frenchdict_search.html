@@ -23,24 +23,24 @@
                                     </div>
                                 </form>
                                 <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">Слово</th>
-                                    <th scope="col">Перевод</th>
-                                    <th scope="col">Транскрипция</th>
-                                    <th scope="col">Статус</th>
-                                    <th scope="col">Дата добавления</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                    <td>{{ french_word.word_itself }}</td>
-                                    <td>{{ french_word.translation_rus }}</td>
-                                    <td>{{ french_word.transcription }}</td>
-                                    <td>{{ french_word_status }}</td>
-                                    <td>{{ french_word_date.strftime('%d.%m.%Y') }}</td>
-                                    </tr>
-                                </tbody>
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">Слово</th>
+                                        <th scope="col">Перевод</th>
+                                        <th scope="col">Транскрипция</th>
+                                        <th scope="col">Статус</th>
+                                        <th scope="col">Дата добавления</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        <td>{{ french_word.word_itself }}</td>
+                                        <td>{{ french_word.translation_rus }}</td>
+                                        <td>{{ french_word.transcription }}</td>
+                                        <td>{{ french_word_status }}</td>
+                                        <td>{{ french_word_date.strftime('%d.%m.%Y') }}</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

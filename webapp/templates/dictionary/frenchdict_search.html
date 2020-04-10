@@ -24,22 +24,22 @@
                                 </form>
                                 <p>Всего французских слов: {{ french_list_len }}</p>
                                 <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">id</th>
-                                    <th scope="col">Слово</th>
-                                    <th scope="col">Перевод</th>
-                                    <th scope="col">Дата добавления</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                    <th scope="row">{{ french_word.id }}</th>
-                                    <td>{{ french_word.word_itself }}</td>
-                                    <td>{{ french_word.translation_rus }}</td>
-                                    <td>{{ french_word.imported_time.strftime('%d.%m.%Y') }}</td>
-                                    </tr>
-                                </tbody>
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">id</th>
+                                        <th scope="col">Слово</th>
+                                        <th scope="col">Перевод</th>
+                                        <th scope="col">Дата добавления</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        <th scope="row">{{ french_word.id }}</th>
+                                        <td>{{ french_word.word_itself }}</td>
+                                        <td>{{ french_word.translation_rus }}</td>
+                                        <td>{{ french_word.imported_time.strftime('%d.%m.%Y') }}</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

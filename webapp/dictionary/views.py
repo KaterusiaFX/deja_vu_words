@@ -3,6 +3,7 @@ import re
 
 from webapp.dictionary.dict_functions import process_user_engdict_index, process_user_frenchdict_index
 from webapp.dictionary.dict_functions import user_engdict_search, user_frenchdict_search
+from webapp.dictionary.dict_functions import user_engdict_translate
 from webapp.dictionary.forms import EngDictionarySearchForm, FrenchDictionarySearchForm
 from webapp.dictionary.models import EnglishWord, FrenchWord
 from webapp.user.decorators import admin_required
@@ -40,9 +41,9 @@ def process_engdict_search(username):
     english_words_sum = len(english_words)
     if search_form.validate_on_submit():
         word = search_form.word.data
-        if re.match("[a-zA-Z]+", word):
+        if re.fullmatch("[a-zA-Z]+", word):
             word = EnglishWord.query.filter_by(word_itself=search_form.word.data).first()
-        elif re.match("[а-яА-Я]+", word):
+        elif re.fullmatch("[а-яА-Я]+", word):
             word = EnglishWord.query.filter_by(translation_rus=search_form.word.data).first()
         else:
             word = None
@@ -89,9 +90,9 @@ def process_frenchdict_search(username):
     french_words_sum = len(french_words)
     if search_form.validate_on_submit():
         word = search_form.word.data
-        if re.match("[a-zA-Z]+", word):
+        if re.fullmatch("[a-zA-Z]+", word):
             word = FrenchWord.query.filter_by(word_itself=search_form.word.data).first()
-        elif re.match("[а-яА-Я]+", word):
+        elif re.fullmatch("[а-яА-Я]+", word):
             word = FrenchWord.query.filter_by(translation_rus=search_form.word.data).first()
         else:
             word = None
@@ -147,6 +148,15 @@ def user_process_engdict_search(username):
                 )
 
         flash('Такого слова нет в вашем английском словаре')
+        translation = user_engdict_translate(word_in_form)
+        if translation:
+            return render_template(
+                'dictionary/user_engdict_insert.html',
+                english_word=word_in_form,
+                translation=translation,
+                form=search_form,
+                user=username.username
+                )
         return redirect(url_for('.user_engdict_index', username=username.username))
 
 

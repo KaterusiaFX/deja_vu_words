@@ -24,24 +24,24 @@
                                 </form>
                                 <p>Всего английских слов: {{ english_list_len }}</p>
                                 <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">id</th>
-                                    <th scope="col">Слово</th>
-                                    <th scope="col">Перевод</th>
-                                    <th scope="col">Транскрипция</th>
-                                    <th scope="col">Дата добавления</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                    <th scope="row">{{ english_word.id }}</th>
-                                    <td>{{ english_word.word_itself }}</td>
-                                    <td>{{ english_word.translation_rus }}</td>
-                                    <td>{{ english_word.transcription }}</td>
-                                    <td>{{ english_word.imported_time.strftime('%d.%m.%Y') }}</td>
-                                    </tr>
-                                </tbody>
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">id</th>
+                                        <th scope="col">Слово</th>
+                                        <th scope="col">Перевод</th>
+                                        <th scope="col">Транскрипция</th>
+                                        <th scope="col">Дата добавления</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        <th scope="row">{{ english_word.id }}</th>
+                                        <td>{{ english_word.word_itself }}</td>
+                                        <td>{{ english_word.translation_rus }}</td>
+                                        <td>{{ english_word.transcription }}</td>
+                                        <td>{{ english_word.imported_time.strftime('%d.%m.%Y') }}</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
