@@ -1,9 +1,10 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
 import re
 
+from webapp.dictionary.dict_functions import process_user_engdict_index, process_user_frenchdict_index
 from webapp.dictionary.dict_functions import user_engdict_search, user_frenchdict_search
 from webapp.dictionary.forms import EngDictionarySearchForm, FrenchDictionarySearchForm
-from webapp.dictionary.models import EnglishWord, EnglishWordOfUser, FrenchWord, FrenchWordOfUser, UsersWords
+from webapp.dictionary.models import EnglishWord, FrenchWord
 from webapp.user.decorators import admin_required
 from webapp.user.models import User
 
@@ -111,26 +112,10 @@ def process_frenchdict_search(username):
 @blueprint.route('/user_engdict/<username>')
 def user_engdict_index(username):
     username = User.query.filter_by(username=username).first_or_404()
-    user_id = username.id
     search_form = EngDictionarySearchForm()
     title = "Ваш английский словарь"
-    user_words = UsersWords.query.filter_by(user_id=user_id).all()
-# поиск слов в персональном словаре лучше тоже убрать в dict_functions, возвращать только кортеж
-    english_words, english_words_status, english_words_date = [], [], []
-    for user_word in user_words:
-        if user_word.engword_id:
-            eng_word = EnglishWord.query.filter_by(id=user_word.engword_id).first()
-        elif user_word.user_engword_id:
-            eng_word = EnglishWordOfUser.query.filter_by(id=user_word.user_engword_id).first()
-        else:
-            eng_word = None
-        if eng_word:
-            english_words.append(eng_word)
-            english_words_status.append(user_word.status)
-            english_words_date.append(user_word.imported_time)
-    english_list = list(zip(english_words, english_words_status, english_words_date))
+    english_list = process_user_engdict_index(username)
     english_words_sum = len(english_list)
-
     return render_template(
         'dictionary/user_engdict_index.html',
         page_title=title,
@@ -146,7 +131,6 @@ def user_process_engdict_search(username):
     username = User.query.filter_by(username=username).first_or_404()
     title = "Ваш английский словарь"
     search_form = EngDictionarySearchForm()
-
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
         word, user_english_word_status, user_english_word_date = user_engdict_search(word_in_form, username)
@@ -169,26 +153,10 @@ def user_process_engdict_search(username):
 @blueprint.route('/user_frenchdict/<username>')
 def user_frenchdict_index(username):
     username = User.query.filter_by(username=username).first_or_404()
-    user_id = username.id
     search_form = FrenchDictionarySearchForm()
     title = "Ваш французский словарь"
-    user_words = UsersWords.query.filter_by(user_id=user_id).all()
-
-    french_words, french_words_status, french_words_date = [], [], []
-    for user_word in user_words:
-        if user_word.frenchword_id:
-            french_word = FrenchWord.query.filter_by(id=user_word.frenchword_id).first()
-        elif user_word.user_frenchword_id:
-            french_word = FrenchWordOfUser.query.filter_by(id=user_word.user_frenchword_id).first()
-        else:
-            french_word = None
-        if french_word:
-            french_words.append(french_word)
-            french_words_status.append(user_word.status)
-            french_words_date.append(user_word.imported_time)
-    french_list = list(zip(french_words, french_words_status, french_words_date))
+    french_list = process_user_frenchdict_index(username)
     french_words_sum = len(french_list)
-
     return render_template(
         'dictionary/user_frenchdict_index.html',
         page_title=title,
@@ -204,7 +172,6 @@ def user_process_frenchdict_search(username):
     username = User.query.filter_by(username=username).first_or_404()
     title = "Ваш французский словарь"
     search_form = FrenchDictionarySearchForm()
-# поиск слов в персональном словаре лучше тоже убрать в dict_functions, возвращать только кортеж
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
         word, user_french_word_status, user_french_word_date = user_frenchdict_search(word_in_form, username)
