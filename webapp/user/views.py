@@ -55,14 +55,25 @@ def register():
     return render_template('user/register.html', page_title=title, form=form)
 
 
-@blueprint.route('/user/<username>')  # в URL на место <username> будет подставлятся текущее имя пользоваетля
-@login_required  # этот декоратор разрешает доступ к '/user/<username>' только зарегистрированным пользователям
+@blueprint.route('/user/<username>')
+@login_required
 def user(username):
     username = User.query.filter_by(username=username).first_or_404()
-    return render_template('user/user_page.html', user=username)
+    user_id = current_user.get_id()
+    return render_template('user/user_page.html', user=username, user_id=user_id)
 
 
-@blueprint.route('/become-a-teacher/<username>', methods=['POST'])
-def become_a_teacher():
+@blueprint.route('/edit-profile/<username>')
+@login_required
+def edit_profile(username):
+    page_title = "Настройки профиля"
     username = User.query.filter_by(username=username).first_or_404()
-    return render_template('user/chooze_teacher_or_student.html', user=username)
+    return render_template('user/edit_profile.html', user=username, title=page_title)
+
+
+
+
+
+
+
+

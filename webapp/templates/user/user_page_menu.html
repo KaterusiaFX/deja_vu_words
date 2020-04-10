@@ -2,15 +2,9 @@
     <div class="sidebar-sticky">
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="">
-            <span data-feather="home"></span>
-            Профиль <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="">
+          <a class="nav-link text-left text-info" href="{{ url_for('user.edit_profile', username=current_user.username) }}">
             <span data-feather="file"></span>
-            Мой словарь
+            Настройки
           </a>
         </li>
         <li class="nav-item">
