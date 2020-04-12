@@ -27,4 +27,3 @@ class WordInsertForm(FlaskForm):
         render_kw={"class": "form-control"}
         )
     add = SubmitField('Добавить слово', render_kw={"class": "btn btn-outline-success"})
-    cancel = SubmitField('Отмена', render_kw={"class": "btn btn-outline-danger"})
