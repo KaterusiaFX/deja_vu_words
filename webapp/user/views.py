@@ -3,6 +3,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 
 from webapp.user.forms import LoginForm
 from webapp.user.forms import RegistrationForm
+from webapp.user.forms import SelectTeacherStudentForm
 from webapp.user.models import User
 from webapp import db
 
@@ -63,12 +64,27 @@ def user(username):
     return render_template('user/user_page.html', user=username, user_id=user_id)
 
 
-@blueprint.route('/edit-profile/<username>')
+@blueprint.route('/select-tch-std/<username>', methods=['GET', 'POST'])
 @login_required
-def edit_profile(username):
-    page_title = "Настройки профиля"
+def select_tch_std(username):
+    form = SelectTeacherStudentForm()
     username = User.query.filter_by(username=username).first_or_404()
-    return render_template('user/edit_profile.html', user=username, title=page_title)
+    page_title = "Настройки профиля"
+    if form.validate_on_submit():
+        user_choice = form.select_tch_std.data
+        print(user_choice)
+        if user_choice == 'value':
+            flash('Вы стали учителем')
+            return redirect(url_for('user.user', username=current_user.username))
+        elif user_choice == 'value_two':
+            flash('Вы стали учеником')
+            return redirect(url_for('user.user', username=current_user.username))
+    else:
+        print(form.errors)
+    return render_template('user/edit_profile.html', user=username, title=page_title, form=form)
+
+
+
 
 
 

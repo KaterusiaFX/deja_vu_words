@@ -6,42 +6,28 @@
             {% include 'user/user_page_menu.html' %}
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                         <h1 class="h2">{{ title }}</h1>
+                         <h1 class="h2">{{ title }} {{ user.username }}</h1>
                     </div>
-                        <div class="container">
+                     <div class="container">
                             <div class="row">
                                 <div class="col-9">
-                                    <form>
-                                        <fieldset class="form-group">
-                                            <h4 class="h4">Стать учителем или учеником</h4>
-                                        <div class="row">
-                                          <div class="col-sm-10">
-                                            <div class="form-check">
-                                              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                                              <label class="form-check-label" for="gridRadios1">
-                                                Я ученик
-                                              </label>
-                                            </div>
-                                            <div class="form-check">
-                                              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                                              <label class="form-check-label" for="gridRadios2">
-                                                Я учитель
-                                              </label>
-                                            </div>
-                                          </div>
+                                    <h4 class="h4">Стать учителем или учеником</h4>
+                                    <form action="{{ url_for('user.select_tch_std', username=current_user.username) }}" method="post">
+                                        {{ form.hidden_tag() }}
+                                        {% for subfield in form.select_tch_std %}
+                                        <div>
+                                            <td>{{ subfield }}</td>
+                                            <td>{{ subfield.label }}</td>
                                         </div>
-                                        </fieldset>
-                                        <div class="form-group row">
-                                            <div class="col-sm-10">
-                                              <button type="submit" class="btn btn-info">Сохранить</button>
-                                            </div>
-                                        </div>
+                                        {% endfor %}
+                                        {{ form.submit() }}
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                     </div>
                 </main>
         </div>
     </div>
 {% endblock %}
+
+
