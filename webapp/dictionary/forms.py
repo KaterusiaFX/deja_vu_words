@@ -19,3 +19,12 @@ class FrenchDictionarySearchForm(FlaskForm):
         render_kw={"class": "form-control"}
         )
     search = SubmitField('Поиск', render_kw={"class": "btn btn-info"})
+
+
+class WordInsertForm(FlaskForm):
+    insert = StringField(
+        'Ввести собственный вариант перевода:',
+        render_kw={"class": "form-control"}
+        )
+    add = SubmitField('Добавить слово', render_kw={"class": "btn btn-outline-success"})
+    cancel = SubmitField('Отмена', render_kw={"class": "btn btn-outline-danger"})

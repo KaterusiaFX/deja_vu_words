@@ -1,10 +1,10 @@
-from flask import Blueprint, flash, redirect, render_template, url_for
+from flask import Blueprint, flash, redirect, render_template, session, url_for
 import re
 
 from webapp.dictionary.dict_functions import process_user_engdict_index, process_user_frenchdict_index
 from webapp.dictionary.dict_functions import user_engdict_search, user_frenchdict_search
-from webapp.dictionary.dict_functions import user_engdict_translate
-from webapp.dictionary.forms import EngDictionarySearchForm, FrenchDictionarySearchForm
+from webapp.dictionary.dict_functions import user_engdict_translate, user_engdict_add_word
+from webapp.dictionary.forms import EngDictionarySearchForm, FrenchDictionarySearchForm, WordInsertForm
 from webapp.dictionary.models import EnglishWord, FrenchWord
 from webapp.user.decorators import admin_required
 from webapp.user.models import User
@@ -134,6 +134,7 @@ def user_process_engdict_search(username):
     search_form = EngDictionarySearchForm()
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
+        session['word'] = search_form.word.data
         word, user_english_word_status, user_english_word_date = user_engdict_search(word_in_form, username)
 
         if word:
@@ -150,14 +151,36 @@ def user_process_engdict_search(username):
         flash('Такого слова нет в вашем английском словаре')
         translation = user_engdict_translate(word_in_form)
         if translation:
+            translation_form = WordInsertForm()
             return render_template(
                 'dictionary/user_engdict_insert.html',
+                page_title=title,
                 english_word=word_in_form,
                 translation=translation,
                 form=search_form,
+                translation_form=translation_form,
                 user=username.username
                 )
         return redirect(url_for('.user_engdict_index', username=username.username))
+
+
+@blueprint.route('/user-process-engdict-insert/<username>', methods=['POST'])
+def user_process_engdict_insert(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    title = "Ваш английский словарь"
+    search_form = EngDictionarySearchForm()
+    form = WordInsertForm()
+    word_in_form = form.insert.data
+    word = session.get('word')
+    english_word, translation = user_engdict_add_word(word_in_form, word, username)
+    return render_template(
+        'dictionary/user_engdict_insert_completed.html',
+        page_title=title,
+        english_word=english_word,
+        translation=translation,
+        form=search_form,
+        user=username.username
+        )
 
 
 @blueprint.route('/user_frenchdict/<username>')

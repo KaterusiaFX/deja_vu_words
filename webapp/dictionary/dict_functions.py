@@ -1,6 +1,9 @@
+from datetime import datetime
 import re
 from translate import Translator
 
+from webapp.db import db
+from webapp.dictionary.get_transcription import get_transcription
 from webapp.dictionary.models import EnglishWord, EnglishWordOfUser, FrenchWord, FrenchWordOfUser, UsersWords
 
 
@@ -71,6 +74,53 @@ def user_engdict_translate(word_in_form):
             translator = Translator(from_lang='ru', to_lang="en")
             translation = translator.translate(word_in_form)
         return translation
+
+
+def user_engdict_add_word(word_in_form, word, username):
+    if re.fullmatch("[a-zA-Z]+", word):
+        if word_in_form:
+            user_new_word = EnglishWordOfUser(
+                word_itself=word,
+                user=username.username,
+                translation_rus=word_in_form,
+                transcription=get_transcription(word),
+                imported_time=datetime.now()
+                )
+            db.session.add(user_new_word)
+            db.session.commit()
+            user_engdict_own_insert(user_new_word, username)
+            return word, word_in_form
+
+        word_exist = EnglishWord.query.filter_by(word_itself=word).first()
+        if word_exist:
+            user_engdict_insert(word_exist, username)
+            return word, word_exist.translation_rus
+
+        translator = Translator(to_lang="ru")
+        translation = translator.translate(word)
+        user_new_word = EnglishWordOfUser(
+                word_itself=word,
+                user=username.username,
+                translation_rus=translation,
+                transcription=get_transcription(word),
+                imported_time=datetime.now()
+                )
+        db.session.add(user_new_word)
+        db.session.commit()
+        user_engdict_own_insert(user_new_word, username)
+        return word, translation
+
+
+def user_engdict_insert(word, user):
+    user.english_words.append(word)
+    db.session.add(user)
+    db.session.commit()
+
+
+def user_engdict_own_insert(word, user):
+    user.user_english_words.append(word)
+    db.session.add(user)
+    db.session.commit()
 
 
 def process_user_frenchdict_index(username):
