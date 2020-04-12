@@ -29,6 +29,6 @@ def get_transcription(word):
     return transcription
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     word = input('Введите слово на английском ')
     print(get_transcription(word))

@@ -18,7 +18,7 @@ blueprint = Blueprint('dictionary', __name__, url_prefix='/dictionary')
 def engdict_index(username):
     username = User.query.filter_by(username=username).first_or_404()
     search_form = EngDictionarySearchForm()
-    title = "Английский словарь (в алфавитном порядке)"
+    title = 'Английский словарь (в алфавитном порядке)'
     english_words = EnglishWord.query.order_by(EnglishWord.word_itself).all()
     english_words_sum = len(EnglishWord.query.order_by(EnglishWord.word_itself).all())
     return render_template(
@@ -36,15 +36,15 @@ def engdict_index(username):
 @admin_required
 def process_engdict_search(username):
     username = User.query.filter_by(username=username).first_or_404()
-    title = "Английский словарь (в алфавитном порядке)"
+    title = 'Английский словарь (в алфавитном порядке)'
     search_form = EngDictionarySearchForm()
     english_words = EnglishWord.query.order_by(EnglishWord.word_itself).all()
     english_words_sum = len(english_words)
     if search_form.validate_on_submit():
         word = search_form.word.data
-        if re.fullmatch("[a-zA-Z]+", word):
+        if re.fullmatch('[a-zA-Z- ]+', word):
             word = EnglishWord.query.filter_by(word_itself=search_form.word.data).first()
-        elif re.fullmatch("[а-яА-Я]+", word):
+        elif re.fullmatch('[а-яА-Я- ]+', word):
             word = EnglishWord.query.filter_by(translation_rus=search_form.word.data).first()
         else:
             word = None
@@ -67,7 +67,7 @@ def process_engdict_search(username):
 def frenchdict_index(username):
     username = User.query.filter_by(username=username).first_or_404()
     search_form = FrenchDictionarySearchForm()
-    title = "Французский словарь (в алфавитном порядке)"
+    title = 'Французский словарь (в алфавитном порядке)'
     french_words = FrenchWord.query.order_by(FrenchWord.word_itself).all()
     french_words_sum = len(FrenchWord.query.order_by(FrenchWord.word_itself).all())
     return render_template(
@@ -85,15 +85,15 @@ def frenchdict_index(username):
 @admin_required
 def process_frenchdict_search(username):
     username = User.query.filter_by(username=username).first_or_404()
-    title = "Французский словарь (в алфавитном порядке)"
+    title = 'Французский словарь (в алфавитном порядке)'
     search_form = FrenchDictionarySearchForm()
     french_words = FrenchWord.query.order_by(FrenchWord.word_itself).all()
     french_words_sum = len(french_words)
     if search_form.validate_on_submit():
         word = search_form.word.data
-        if re.fullmatch("[a-zA-Z]+", word):
+        if re.fullmatch('[a-zA-ZÀ-ÿÆæŒœ -]+', word):
             word = FrenchWord.query.filter_by(word_itself=search_form.word.data).first()
-        elif re.fullmatch("[а-яА-Я]+", word):
+        elif re.fullmatch('[а-яА-Я- ]+', word):
             word = FrenchWord.query.filter_by(translation_rus=search_form.word.data).first()
         else:
             word = None
@@ -115,7 +115,7 @@ def process_frenchdict_search(username):
 def user_engdict_index(username):
     username = User.query.filter_by(username=username).first_or_404()
     search_form = EngDictionarySearchForm()
-    title = "Ваш английский словарь"
+    title = 'Ваш английский словарь'
     english_list = process_user_engdict_index(username)
     english_words_sum = len(english_list)
     return render_template(
@@ -131,7 +131,7 @@ def user_engdict_index(username):
 @blueprint.route('/user-process-engdict-search/<username>', methods=['POST'])
 def user_process_engdict_search(username):
     username = User.query.filter_by(username=username).first_or_404()
-    title = "Ваш английский словарь"
+    title = 'Ваш английский словарь'
     search_form = EngDictionarySearchForm()
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
@@ -168,7 +168,7 @@ def user_process_engdict_search(username):
 @blueprint.route('/user-process-engdict-insert/<username>', methods=['POST'])
 def user_process_engdict_insert(username):
     username = User.query.filter_by(username=username).first_or_404()
-    title = "Ваш английский словарь"
+    title = 'Ваш английский словарь'
     search_form = EngDictionarySearchForm()
     form = WordInsertForm()
     word_in_form = form.insert.data
@@ -188,7 +188,7 @@ def user_process_engdict_insert(username):
 def user_frenchdict_index(username):
     username = User.query.filter_by(username=username).first_or_404()
     search_form = FrenchDictionarySearchForm()
-    title = "Ваш французский словарь"
+    title = 'Ваш французский словарь'
     french_list = process_user_frenchdict_index(username)
     french_words_sum = len(french_list)
     return render_template(
@@ -204,7 +204,7 @@ def user_frenchdict_index(username):
 @blueprint.route('/user-process-frenchdict-search/<username>', methods=['POST'])
 def user_process_frenchdict_search(username):
     username = User.query.filter_by(username=username).first_or_404()
-    title = "Ваш французский словарь"
+    title = 'Ваш французский словарь'
     search_form = FrenchDictionarySearchForm()
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
@@ -241,7 +241,7 @@ def user_process_frenchdict_search(username):
 @blueprint.route('/user-process-frenchdict-insert/<username>', methods=['POST'])
 def user_process_frenchdict_insert(username):
     username = User.query.filter_by(username=username).first_or_404()
-    title = "Ваш французский словарь"
+    title = 'Ваш французский словарь'
     search_form = FrenchDictionarySearchForm()
     form = WordInsertForm()
     word_in_form = form.insert.data
