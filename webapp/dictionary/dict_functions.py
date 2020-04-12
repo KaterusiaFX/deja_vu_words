@@ -29,7 +29,7 @@ def user_engdict_search(word_in_form, username):
     user_id = username.id
     user_words = UsersWords.query.filter_by(user_id=user_id).all()
     word, user_english_word_status, user_english_word_date = None, None, None
-    if re.fullmatch("[a-zA-Z]+", word_in_form):
+    if re.fullmatch("[a-zA-Z- ]+", word_in_form):
         word_exist_userdict = EnglishWordOfUser.query.filter_by(word_itself=word_in_form).all()
         word_exist = EnglishWord.query.filter_by(word_itself=word_in_form).first()
         for userword in user_words:
@@ -41,7 +41,7 @@ def user_engdict_search(word_in_form, username):
                     if every_word.user == username.username and every_word.id == userword.user_engword_id:
                         word = every_word
                         user_english_word_status, user_english_word_date = userword.status, userword.imported_time
-    elif re.fullmatch("[а-яА-Я]+", word_in_form):
+    elif re.fullmatch("[а-яА-Я- ]+", word_in_form):
         word_exist_userdict = EnglishWordOfUser.query.filter_by(translation_rus=word_in_form).all()
         word_exist = EnglishWord.query.filter_by(translation_rus=word_in_form).first()
         for userword in user_words:
@@ -58,7 +58,7 @@ def user_engdict_search(word_in_form, username):
 
 def user_engdict_translate(word_in_form):
     translation = None
-    if re.fullmatch("[a-zA-Z]+", word_in_form):
+    if re.fullmatch("[a-zA-Z- ]+", word_in_form):
         word_exist = EnglishWord.query.filter_by(word_itself=word_in_form).first()
         if word_exist:
             translation = word_exist.translation_rus
@@ -66,7 +66,7 @@ def user_engdict_translate(word_in_form):
             translator = Translator(to_lang="ru")
             translation = translator.translate(word_in_form)
         return translation
-    elif re.fullmatch("[а-яА-Я]+", word_in_form):
+    elif re.fullmatch("[а-яА-Я- ]+", word_in_form):
         word_exist = EnglishWord.query.filter_by(translation_rus=word_in_form).first()
         if word_exist:
             translation = word_exist.word_itself
@@ -77,7 +77,7 @@ def user_engdict_translate(word_in_form):
 
 
 def user_engdict_add_word(word_in_form, word, username):
-    if re.fullmatch("[a-zA-Z]+", word):
+    if re.fullmatch("[a-zA-Z- ]+", word):
         if word_in_form:
             user_new_word = EnglishWordOfUser(
                 word_itself=word,
@@ -90,12 +90,10 @@ def user_engdict_add_word(word_in_form, word, username):
             db.session.commit()
             user_engdict_own_insert(user_new_word, username)
             return word, word_in_form
-
         word_exist = EnglishWord.query.filter_by(word_itself=word).first()
         if word_exist:
             user_engdict_insert(word_exist, username)
             return word, word_exist.translation_rus
-
         translator = Translator(to_lang="ru")
         translation = translator.translate(word)
         user_new_word = EnglishWordOfUser(
@@ -109,6 +107,36 @@ def user_engdict_add_word(word_in_form, word, username):
         db.session.commit()
         user_engdict_own_insert(user_new_word, username)
         return word, translation
+    elif re.fullmatch("[а-яА-Я- ]+", word):
+        if word_in_form:
+            user_new_word = EnglishWordOfUser(
+                word_itself=word_in_form,
+                user=username.username,
+                translation_rus=word,
+                transcription=get_transcription(word_in_form),
+                imported_time=datetime.now()
+                )
+            db.session.add(user_new_word)
+            db.session.commit()
+            user_engdict_own_insert(user_new_word, username)
+            return word_in_form, word
+        word_exist = EnglishWord.query.filter_by(translation_rus=word).first()
+        if word_exist:
+            user_engdict_insert(word_exist, username)
+            return word_exist.word_itself, word
+        translator = Translator(from_lang='ru', to_lang="en")
+        translation = translator.translate(word)
+        user_new_word = EnglishWordOfUser(
+                word_itself=translation,
+                user=username.username,
+                translation_rus=word,
+                transcription=get_transcription(translation),
+                imported_time=datetime.now()
+                )
+        db.session.add(user_new_word)
+        db.session.commit()
+        user_engdict_own_insert(user_new_word, username)
+        return translation, word
 
 
 def user_engdict_insert(word, user):
@@ -145,7 +173,7 @@ def user_frenchdict_search(word_in_form, username):
     user_id = username.id
     user_words = UsersWords.query.filter_by(user_id=user_id).all()
     word, user_french_word_status, user_french_word_date = None, None, None
-    if re.fullmatch("[a-zA-Z]+", word_in_form):
+    if re.fullmatch("[a-zA-ZÀ-ÿÆæŒœ -]+", word_in_form):
         word_exist_userdict = FrenchWordOfUser.query.filter_by(word_itself=word_in_form).all()
         word_exist = FrenchWord.query.filter_by(word_itself=word_in_form).first()
         for userword in user_words:
@@ -157,7 +185,7 @@ def user_frenchdict_search(word_in_form, username):
                     if every_word.user == username.username and every_word.id == userword.user_frenchword_id:
                         word = every_word
                         user_french_word_status, user_french_word_date = userword.status, userword.imported_time
-    elif re.fullmatch("[а-яА-Я]+", word_in_form):
+    elif re.fullmatch("[а-яА-Я- ]+", word_in_form):
         word_exist_userdict = FrenchWordOfUser.query.filter_by(translation_rus=word_in_form).all()
         word_exist = FrenchWord.query.filter_by(translation_rus=word_in_form).first()
         for userword in user_words:
@@ -170,3 +198,94 @@ def user_frenchdict_search(word_in_form, username):
                         word = every_word
                         user_french_word_status, user_french_word_date = userword.status, userword.imported_time
     return word, user_french_word_status, user_french_word_date
+
+
+def user_frenchdict_translate(word_in_form):
+    translation = None
+    if re.fullmatch("[a-zA-ZÀ-ÿÆæŒœ -]+", word_in_form):
+        word_exist = FrenchWord.query.filter_by(word_itself=word_in_form).first()
+        if word_exist:
+            translation = word_exist.translation_rus
+        else:
+            translator = Translator(from_lang='fr', to_lang="ru")
+            translation = translator.translate(word_in_form)
+        return translation
+    elif re.fullmatch("[а-яА-Я- ]+", word_in_form):
+        word_exist = FrenchWord.query.filter_by(translation_rus=word_in_form).first()
+        if word_exist:
+            translation = word_exist.word_itself
+        else:
+            translator = Translator(from_lang='ru', to_lang="fr")
+            translation = translator.translate(word_in_form)
+        return translation
+
+
+def user_frenchdict_add_word(word_in_form, word, username):
+    if re.fullmatch("[a-zA-ZÀ-ÿÆæŒœ -]+", word):
+        if word_in_form:
+            user_new_word = FrenchWordOfUser(
+                word_itself=word,
+                user=username.username,
+                translation_rus=word_in_form,
+                imported_time=datetime.now()
+                )
+            db.session.add(user_new_word)
+            db.session.commit()
+            user_frenchdict_own_insert(user_new_word, username)
+            return word, word_in_form
+        word_exist = FrenchWord.query.filter_by(word_itself=word).first()
+        if word_exist:
+            user_frenchdict_insert(word_exist, username)
+            return word, word_exist.translation_rus
+        translator = Translator(from_lang='fr', to_lang="ru")
+        translation = translator.translate(word)
+        user_new_word = FrenchWordOfUser(
+                word_itself=word,
+                user=username.username,
+                translation_rus=translation,
+                imported_time=datetime.now()
+                )
+        db.session.add(user_new_word)
+        db.session.commit()
+        user_frenchdict_own_insert(user_new_word, username)
+        return word, translation
+    elif re.fullmatch("[а-яА-Я- ]+", word):
+        if word_in_form:
+            user_new_word = FrenchWordOfUser(
+                word_itself=word_in_form,
+                user=username.username,
+                translation_rus=word,
+                imported_time=datetime.now()
+                )
+            db.session.add(user_new_word)
+            db.session.commit()
+            user_frenchdict_own_insert(user_new_word, username)
+            return word_in_form, word
+        word_exist = FrenchWord.query.filter_by(translation_rus=word).first()
+        if word_exist:
+            user_frenchdict_insert(word_exist, username)
+            return word_exist.word_itself, word
+        translator = Translator(from_lang='ru', to_lang="fr")
+        translation = translator.translate(word)
+        user_new_word = FrenchWordOfUser(
+                word_itself=translation,
+                user=username.username,
+                translation_rus=word,
+                imported_time=datetime.now()
+                )
+        db.session.add(user_new_word)
+        db.session.commit()
+        user_frenchdict_own_insert(user_new_word, username)
+        return translation, word
+
+
+def user_frenchdict_insert(word, user):
+    user.french_words.append(word)
+    db.session.add(user)
+    db.session.commit()
+
+
+def user_frenchdict_own_insert(word, user):
+    user.user_french_words.append(word)
+    db.session.add(user)
+    db.session.commit()

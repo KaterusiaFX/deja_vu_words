@@ -3,7 +3,8 @@ import re
 
 from webapp.dictionary.dict_functions import process_user_engdict_index, process_user_frenchdict_index
 from webapp.dictionary.dict_functions import user_engdict_search, user_frenchdict_search
-from webapp.dictionary.dict_functions import user_engdict_translate, user_engdict_add_word
+from webapp.dictionary.dict_functions import user_engdict_translate, user_frenchdict_translate
+from webapp.dictionary.dict_functions import user_engdict_add_word, user_frenchdict_add_word
 from webapp.dictionary.forms import EngDictionarySearchForm, FrenchDictionarySearchForm, WordInsertForm
 from webapp.dictionary.models import EnglishWord, FrenchWord
 from webapp.user.decorators import admin_required
@@ -207,6 +208,7 @@ def user_process_frenchdict_search(username):
     search_form = FrenchDictionarySearchForm()
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
+        session['word'] = search_form.word.data
         word, user_french_word_status, user_french_word_date = user_frenchdict_search(word_in_form, username)
 
         if word:
@@ -221,4 +223,35 @@ def user_process_frenchdict_search(username):
                 )
 
         flash('Такого слова нет в вашем французском словаре')
+        translation = user_frenchdict_translate(word_in_form)
+        if translation:
+            translation_form = WordInsertForm()
+            return render_template(
+                'dictionary/user_frenchdict_insert.html',
+                page_title=title,
+                french_word=word_in_form,
+                translation=translation,
+                form=search_form,
+                translation_form=translation_form,
+                user=username.username
+                )
         return redirect(url_for('.user_frenchdict_index', username=username.username))
+
+
+@blueprint.route('/user-process-frenchdict-insert/<username>', methods=['POST'])
+def user_process_frenchdict_insert(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    title = "Ваш французский словарь"
+    search_form = FrenchDictionarySearchForm()
+    form = WordInsertForm()
+    word_in_form = form.insert.data
+    word = session.get('word')
+    french_word, translation = user_frenchdict_add_word(word_in_form, word, username)
+    return render_template(
+        'dictionary/user_frenchdict_insert_completed.html',
+        page_title=title,
+        french_word=french_word,
+        translation=translation,
+        form=search_form,
+        user=username.username
+        )
