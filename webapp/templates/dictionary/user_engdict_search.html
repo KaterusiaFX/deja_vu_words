@@ -42,6 +42,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <form action="{{ url_for('dictionary.user_delete_engword', username=current_user.username) }}" method="post">
+                                    {{ delete_form.delete() }}
+                                </form>
                             </div>
                         </div>
                     </div>

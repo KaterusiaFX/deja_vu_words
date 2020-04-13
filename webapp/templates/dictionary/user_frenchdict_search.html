@@ -10,7 +10,7 @@
                         <h1>{{ page_title }}</h1>
                         <div class='row'>
                             <div class='col-12'>
-                                <form action="{{ url_for('dictionary.user_process_french_search', username=current_user.username) }}" method="post">
+                                <form action="{{ url_for('dictionary.user_process_frenchdict_search', username=current_user.username) }}" method="post">
                                     <div class="form-group">
                                         <label for="exampleFormControlInput1">{{ form.word.label }}</label>
                                         <div class="input-group">
@@ -40,6 +40,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <form action="{{ url_for('dictionary.user_delete_frenchword', username=current_user.username) }}" method="post">
+                                    {{ delete_form.delete() }}
+                                </form>
                             </div>
                         </div>
                     </div>

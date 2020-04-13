@@ -5,6 +5,8 @@ from webapp.dictionary.dict_functions import process_user_engdict_index, process
 from webapp.dictionary.dict_functions import user_engdict_search, user_frenchdict_search
 from webapp.dictionary.dict_functions import user_engdict_translate, user_frenchdict_translate
 from webapp.dictionary.dict_functions import user_engdict_add_word, user_frenchdict_add_word
+from webapp.dictionary.dict_functions import user_engdict_delete_word, user_frenchdict_delete_word
+from webapp.dictionary.forms import DeleteEngWordButton, DeleteFrenchWordButton
 from webapp.dictionary.forms import EngDictionarySearchForm, FrenchDictionarySearchForm, WordInsertForm
 from webapp.dictionary.models import EnglishWord, FrenchWord
 from webapp.user.decorators import admin_required
@@ -133,6 +135,7 @@ def user_process_engdict_search(username):
     username = User.query.filter_by(username=username).first_or_404()
     title = 'Ваш английский словарь'
     search_form = EngDictionarySearchForm()
+    delete_form = DeleteEngWordButton()
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
         session['word'] = search_form.word.data
@@ -146,6 +149,7 @@ def user_process_engdict_search(username):
                 english_word_status=user_english_word_status,
                 english_word_date=user_english_word_date,
                 form=search_form,
+                delete_form=delete_form,
                 user=username.username
                 )
 
@@ -184,6 +188,15 @@ def user_process_engdict_insert(username):
         )
 
 
+@blueprint.route('/user-delete-engword/<username>', methods=['POST'])
+def user_delete_engword(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    word = session.get('word')
+    deleted_word = user_engdict_delete_word(word, username)
+    flash(f'Слово {deleted_word.word_itself} удалено из вашего английского словаря')
+    return redirect(url_for('.user_engdict_index', username=username.username))
+
+
 @blueprint.route('/user_frenchdict/<username>')
 def user_frenchdict_index(username):
     username = User.query.filter_by(username=username).first_or_404()
@@ -206,6 +219,7 @@ def user_process_frenchdict_search(username):
     username = User.query.filter_by(username=username).first_or_404()
     title = 'Ваш французский словарь'
     search_form = FrenchDictionarySearchForm()
+    delete_form = DeleteFrenchWordButton()
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
         session['word'] = search_form.word.data
@@ -219,6 +233,7 @@ def user_process_frenchdict_search(username):
                 french_word_status=user_french_word_status,
                 french_word_date=user_french_word_date,
                 form=search_form,
+                delete_form=delete_form,
                 user=username.username
                 )
 
@@ -255,3 +270,12 @@ def user_process_frenchdict_insert(username):
         form=search_form,
         user=username.username
         )
+
+
+@blueprint.route('/user-delete-frenchword/<username>', methods=['POST'])
+def user_delete_frenchword(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    word = session.get('word')
+    deleted_word = user_frenchdict_delete_word(word, username)
+    flash(f'Слово {deleted_word.word_itself} удалено из вашего французского словаря')
+    return redirect(url_for('.user_frenchdict_index', username=username.username))

@@ -151,6 +151,37 @@ def user_engdict_own_insert(word, user):
     db.session.commit()
 
 
+def user_engdict_delete_word(word_in_form, username):
+    user_id = username.id
+    user_words = UsersWords.query.filter_by(user_id=user_id).all()
+    word = None
+    if re.fullmatch('[a-zA-Z- ]+', word_in_form):
+        word_exist_userdict = EnglishWordOfUser.query.filter_by(word_itself=word_in_form).all()
+        word_exist = EnglishWord.query.filter_by(word_itself=word_in_form).first()
+        for userword in user_words:
+            if word_exist and userword.engword_id == word_exist.id:
+                word, deletion, delete_englishwordofuser = word_exist, userword, None
+            elif word_exist_userdict:
+                for every_word in word_exist_userdict:
+                    if every_word.user == username.username and every_word.id == userword.user_engword_id:
+                        word, deletion, delete_englishwordofuser = every_word, userword, every_word
+    elif re.fullmatch('[а-яА-Я- ]+', word_in_form):
+        word_exist_userdict = EnglishWordOfUser.query.filter_by(translation_rus=word_in_form).all()
+        word_exist = EnglishWord.query.filter_by(translation_rus=word_in_form).first()
+        for userword in user_words:
+            if word_exist and userword.engword_id == word_exist.id:
+                word, deletion, delete_englishwordofuser = word_exist, userword, None
+            elif word_exist_userdict:
+                for every_word in word_exist_userdict:
+                    if every_word.user == username.username and every_word.id == userword.user_engword_id:
+                        word, deletion, delete_englishwordofuser = every_word, userword, every_word
+    db.session.delete(deletion)
+    if delete_englishwordofuser:
+        db.session.delete(delete_englishwordofuser)
+    db.session.commit()
+    return word
+
+
 def process_user_frenchdict_index(username):
     user_id = username.id
     user_words = UsersWords.query.filter_by(user_id=user_id).all()
@@ -289,3 +320,34 @@ def user_frenchdict_own_insert(word, user):
     user.user_french_words.append(word)
     db.session.add(user)
     db.session.commit()
+
+
+def user_frenchdict_delete_word(word_in_form, username):
+    user_id = username.id
+    user_words = UsersWords.query.filter_by(user_id=user_id).all()
+    word = None
+    if re.fullmatch('[a-zA-ZÀ-ÿÆæŒœ -]+', word_in_form):
+        word_exist_userdict = FrenchWordOfUser.query.filter_by(word_itself=word_in_form).all()
+        word_exist = FrenchWord.query.filter_by(word_itself=word_in_form).first()
+        for userword in user_words:
+            if word_exist and userword.frenchword_id == word_exist.id:
+                word, deletion, delete_frenchwordofuser = word_exist, userword, None
+            elif word_exist_userdict:
+                for every_word in word_exist_userdict:
+                    if every_word.user == username.username and every_word.id == userword.user_frenchword_id:
+                        word, deletion, delete_frenchwordofuser = every_word, userword, every_word
+    elif re.fullmatch('[а-яА-Я- ]+', word_in_form):
+        word_exist_userdict = FrenchWordOfUser.query.filter_by(translation_rus=word_in_form).all()
+        word_exist = FrenchWord.query.filter_by(translation_rus=word_in_form).first()
+        for userword in user_words:
+            if word_exist and userword.frenchword_id == word_exist.id:
+                word, deletion, delete_frenchwordofuser = word_exist, userword, None
+            elif word_exist_userdict:
+                for every_word in word_exist_userdict:
+                    if every_word.user == username.username and every_word.id == userword.user_frenchword_id:
+                        word, deletion, delete_frenchwordofuser = every_word, userword, every_word
+    db.session.delete(deletion)
+    if delete_frenchwordofuser:
+        db.session.delete(delete_frenchwordofuser)
+    db.session.commit()
+    return word

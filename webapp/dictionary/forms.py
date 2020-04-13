@@ -27,3 +27,11 @@ class WordInsertForm(FlaskForm):
         render_kw={"class": "form-control"}
         )
     add = SubmitField('Добавить слово', render_kw={"class": "btn btn-outline-success"})
+
+
+class DeleteEngWordButton(FlaskForm):
+    delete = SubmitField('Удалить', render_kw={"class": "btn btn-outline-danger"})
+
+
+class DeleteFrenchWordButton(FlaskForm):
+    delete = SubmitField('Удалить', render_kw={"class": "btn btn-outline-danger"})
