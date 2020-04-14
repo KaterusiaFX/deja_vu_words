@@ -38,6 +38,17 @@ class SelectTeacherStudentForm(FlaskForm):
     submit = SubmitField('Сохранить', render_kw={"class": "btn btn-info"})
 
 
+class StopTeacherForm(FlaskForm):
+    stop_teacher = BooleanField('Не хочу быть учителем', default=True, render_kw={"class": "form-check-input"})
+    submit = SubmitField('Сохранить', render_kw={"class": "btn btn-info"})
+
+
+class StopStudentForm(FlaskForm):
+    stop_student = BooleanField('Не хочу быть учеником', default=True, render_kw={"class": "form-check-input"})
+    submit = SubmitField('Сохранить', render_kw={"class": "btn btn-info"})
+
+
+
 
 
 

@@ -39,6 +39,10 @@ class Teacher(db.Model, UserMixin):
     teacher_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
 
+    @property
+    def is_teacher(self):
+        return self.user_id == current_user.get_id()
+
     def __repr__(self):
         return f'<Teacher "{self.teacher_id}" has user id {self.user_id}>'
 
@@ -50,6 +54,10 @@ class Student(db.Model, UserMixin):
     __tablename__ = 'students'
     student_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
+
+    @property
+    def is_student(self):
+        return self.user_id == current_user.get_id()
 
     def __repr__(self):
         return f'<Student "{self.student_id}" has user id {self.user_id}>'

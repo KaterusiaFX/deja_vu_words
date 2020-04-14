@@ -11,17 +11,37 @@
                      <div class="container">
                             <div class="row">
                                 <div class="col-9">
-                                    <h4 class="h4">Стать учителем или учеником</h4>
-                                    <form action="{{ url_for('user.select_tch_std', username=current_user.username) }}" method="post">
-                                        {{ form.hidden_tag() }}
-                                        {% for subfield in form.select_tch_std %}
-                                        <div>
-                                            <td>{{ subfield }}</td>
-                                            <td>{{ subfield.label }}</td>
-                                        </div>
-                                        {% endfor %}
-                                        {{ form.submit() }}
-                                    </form>
+                                    {% if current_user.is_teacher %}
+                                        <form action="{{ url_for('user.stop_teacher', username=current_user.username) }}" method="post">
+                                            {{ form.hidden_tag() }}
+                                            <div class="form-group form-check">
+                                                {{ form.stop_teacher() }}
+                                                {{ form.stop_teacher.label(class_='form-check-label') }}
+                                            </div>
+                                            {{ form.submit() }}
+                                        </form>
+                                    {% elif current_user.is_student %}
+                                        <form action="{{ url_for('user.stop-student', username=current_user.username) }}" method="post">
+                                            {{ form.hidden_tag() }}
+                                            <div class="form-group form-check">
+                                                {{ form.stop_student() }}
+                                                {{ form.stop_student.label(class_='form-check-label') }}
+                                            </div>
+                                            {{ form.submit() }}
+                                        </form>
+                                    {% else %}
+                                        <h4 class="h4">Стать учителем или учеником</h4>
+                                        <form action="{{ url_for('user.select_tch_std', username=current_user.username) }}" method="post">
+                                            {{ form.hidden_tag() }}
+                                            {% for subfield in form.select_tch_std %}
+                                            <div>
+                                                <td>{{ subfield }}</td>
+                                                <td>{{ subfield.label }}</td>
+                                            </div>
+                                            {% endfor %}
+                                            {{ form.submit() }}
+                                        </form>
+                                    {% endif %}
                                 </div>
                             </div>
                      </div>

@@ -3,8 +3,10 @@ from flask_login import current_user, login_user, logout_user, login_required
 
 from webapp.user.forms import LoginForm
 from webapp.user.forms import RegistrationForm
-from webapp.user.forms import SelectTeacherStudentForm
-from webapp.user.models import User
+from webapp.user.forms import SelectTeacherStudentForm, StopTeacherForm, StopStudentForm
+from webapp.user.models import User, Teacher, Student
+
+
 from webapp import db
 
 blueprint = Blueprint('user', __name__, url_prefix='/users')
@@ -72,16 +74,68 @@ def select_tch_std(username):
     page_title = "Настройки профиля"
     if form.validate_on_submit():
         user_choice = form.select_tch_std.data
-        print(user_choice)
+        user_id = current_user.get_id()
         if user_choice == 'value':
-            flash('Вы стали учителем')
+            if Teacher.query.filter(Teacher.user_id == user_id).count():
+                flash('Вы уже регистрировались ранее как учитель!')
+                return redirect(url_for('user.user', username=current_user.username))
+            teacher = Teacher(user_id=user_id)
+            db.session.add(teacher)
+            db.session.commit()
+            flash('Вы стали учителем!')
             return redirect(url_for('user.user', username=current_user.username))
-        elif user_choice == 'value_two':
-            flash('Вы стали учеником')
+        if user_choice == 'value_two':
+            if Student.query.filter(Student.user_id == user_id).count():
+                flash('Вы уже регистрировались ранее как ученик!')
+                return redirect(url_for('user.user', username=current_user.username))
+            student = Student(user_id=user_id)
+            db.session.add(student)
+            db.session.commit()
+            flash('Вы стали учеником!')
             return redirect(url_for('user.user', username=current_user.username))
     else:
         print(form.errors)
     return render_template('user/edit_profile.html', user=username, title=page_title, form=form)
+
+
+@blueprint.route('/stop-teacher/<username>', methods=['GET', 'POST'])
+@login_required
+def stop_teacher(username):
+    form = StopTeacherForm()
+    username = User.query.filter_by(username=username).first_or_404()
+    page_title = "Настройки профиля"
+    if form.validate_on_submit():
+        user_id = current_user.get_id()
+        Teacher.query.filter_by(user_id).delete()
+        flash('Вы перестали быть учителем!')
+        return redirect(url_for('user.user', username=current_user.username))
+    else:
+        print(form.errors)
+    return render_template('user/edit_profile.html', user=username, title=page_title, form=form)
+
+
+@blueprint.route('/stop-student/<username>', methods=['GET', 'POST'])
+@login_required
+def stop_student(username):
+    form = StopStudentFormForm()
+    username = User.query.filter_by(username=username).first_or_404()
+    page_title = "Настройки профиля"
+    if form.validate_on_submit():
+        user_id = current_user.get_id()
+        Student.query.filter_by(user_id).delete()
+        flash('Вы перестали быть учеником!')
+        return redirect(url_for('user.user', username=current_user.username))
+    else:
+        print(form.errors)
+    return render_template('user/edit_profile.html', user=username, title=page_title, form=form)
+
+
+
+
+
+
+
+
 
 
 
