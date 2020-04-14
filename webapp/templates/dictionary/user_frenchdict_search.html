@@ -40,9 +40,19 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <form action="{{ url_for('dictionary.user_delete_frenchword', username=current_user.username) }}" method="post">
-                                    {{ delete_form.delete() }}
-                                </form>
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div class="btn-group" role="group" aria-label="First group">
+                                        <form action="{{ url_for('dictionary.user_delete_frenchword', username=current_user.username) }}" method="post">
+                                            {{ delete_form.delete() }}
+                                        </form>
+                                    </div>
+                                    <font color="white">...</font>
+                                    <div class="btn-group" role="group" aria-label="Second group">
+                                        <form action="{{ url_for('dictionary.user_frenchdict_back', username=current_user.username) }}" method="post">
+                                            {{ back_form.back_french() }}
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
