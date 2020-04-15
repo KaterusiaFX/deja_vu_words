@@ -66,15 +66,26 @@ def user(username):
     return render_template('user/user_page.html', user=username, user_id=user_id)
 
 
+def check_teacher_student(user_id):
+    if Teacher.query.filter(Teacher.user_id == user_id).count():
+        user_status = 'Teacher'
+    elif Student.query.filter(Student.user_id == user_id).count():
+        user_status = 'Student'
+    else:
+        user_status = 'User'
+    return user_status
+
+
 @blueprint.route('/select-tch-std/<username>', methods=['GET', 'POST'])
 @login_required
 def select_tch_std(username):
     form = SelectTeacherStudentForm()
     username = User.query.filter_by(username=username).first_or_404()
     page_title = "Настройки профиля"
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     if form.validate_on_submit():
         user_choice = form.select_tch_std.data
-        user_id = current_user.get_id()
         if user_choice == 'value':
             if Teacher.query.filter(Teacher.user_id == user_id).count():
                 flash('Вы уже регистрировались ранее как учитель!')
@@ -95,7 +106,7 @@ def select_tch_std(username):
             return redirect(url_for('user.user', username=current_user.username))
     else:
         print(form.errors)
-    return render_template('user/edit_profile.html', user=username, title=page_title, form=form)
+    return render_template('user/edit_profile.html', user_status=user_status, user=username, title=page_title, form=form)
 
 
 @blueprint.route('/stop-teacher/<username>', methods=['GET', 'POST'])
@@ -104,30 +115,32 @@ def stop_teacher(username):
     form = StopTeacherForm()
     username = User.query.filter_by(username=username).first_or_404()
     page_title = "Настройки профиля"
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     if form.validate_on_submit():
-        user_id = current_user.get_id()
         Teacher.query.filter_by(user_id).delete()
         flash('Вы перестали быть учителем!')
         return redirect(url_for('user.user', username=current_user.username))
     else:
         print(form.errors)
-    return render_template('user/edit_profile.html', user=username, title=page_title, form=form)
+    return render_template('user/edit_profile.html', user_status=user_status, user=username, title=page_title, form=form)
 
 
 @blueprint.route('/stop-student/<username>', methods=['GET', 'POST'])
 @login_required
 def stop_student(username):
-    form = StopStudentFormForm()
+    form = StopStudentForm()
     username = User.query.filter_by(username=username).first_or_404()
     page_title = "Настройки профиля"
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     if form.validate_on_submit():
-        user_id = current_user.get_id()
         Student.query.filter_by(user_id).delete()
         flash('Вы перестали быть учеником!')
         return redirect(url_for('user.user', username=current_user.username))
     else:
         print(form.errors)
-    return render_template('user/edit_profile.html', user=username, title=page_title, form=form)
+    return render_template('user/edit_profile.html', user_status=user_status, user=username, title=page_title, form=form)
 
 
 

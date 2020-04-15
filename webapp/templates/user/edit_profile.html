@@ -11,7 +11,7 @@
                      <div class="container">
                             <div class="row">
                                 <div class="col-9">
-                                    {% if current_user.is_teacher %}
+                                    {% if user_status == 'Teacher' %}
                                         <form action="{{ url_for('user.stop_teacher', username=current_user.username) }}" method="post">
                                             {{ form.hidden_tag() }}
                                             <div class="form-group form-check">
@@ -20,8 +20,8 @@
                                             </div>
                                             {{ form.submit() }}
                                         </form>
-                                    {% elif current_user.is_student %}
-                                        <form action="{{ url_for('user.stop-student', username=current_user.username) }}" method="post">
+                                    {% elif user_status == 'Student' %}
+                                        <form action="{{ url_for('user.stop_student', username=current_user.username) }}" method="post">
                                             {{ form.hidden_tag() }}
                                             <div class="form-group form-check">
                                                 {{ form.stop_student() }}

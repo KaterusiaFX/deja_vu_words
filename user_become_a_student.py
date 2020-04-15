@@ -7,6 +7,7 @@ from webapp.user.models import User, Student, Teacher
 
 app = create_app()
 
+
 with app.app_context():
     user_id = input('Введите user id')
 
@@ -23,3 +24,20 @@ with app.app_context():
         print('Создан пользователь с student_id={}'.format(new_student.student_id))
     else:
         print('Пользователя с таким id нет в базе данных')
+
+    def check_student(user_id):
+        if Student.query.filter(Student.user_id == user_id).count():
+            user_status = 'Student'
+            return user_status
+
+    user_status = check_student(user_id)
+    print(user_status)
+
+
+
+
+
+
+
+
+
