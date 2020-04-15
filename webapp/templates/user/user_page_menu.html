@@ -2,37 +2,43 @@
     <div class="sidebar-sticky">
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="">
+          <a class="nav-link text-left text-info" href="#">
             <span data-feather="home"></span>
             Профиль <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="">
+          <a class="nav-link text-left text-info" href="{{ url_for('dictionary.user_engdict_index', username=current_user.username) }}">
             <span data-feather="file"></span>
-            Мой словарь
+            Мой английский словарь
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="">
+          <a class="nav-link text-left text-info" href="{{ url_for('dictionary.user_frenchdict_index', username=current_user.username) }}">
+            <span data-feather="file"></span>
+            Мой французский словарь
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-left text-info" href="#">
             <span data-feather="shopping-cart"></span>
             Мои тренировки
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="">
+          <a class="nav-link text-left text-info" href="#">
             <span data-feather="users"></span>
             Кабинет учителя
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="">
+          <a class="nav-link text-left text-info" href="#">
             <span data-feather="bar-chart-2"></span>
             Мои ученики
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="">
+          <a class="nav-link text-left text-info" href="#">
             <span data-feather="layers"></span>
             Мой прогресс
           </a>
