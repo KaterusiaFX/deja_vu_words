@@ -126,7 +126,9 @@ def stop_teacher(username):
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     if stop_teacher_form.validate_on_submit():
-        Teacher.query.filter_by(user_id).delete()
+        teacher = Teacher.query.filter_by(user_id=user_id).first()
+        db.session.delete(teacher)
+        db.session.commit()
         flash('Вы перестали быть учителем!')
         return redirect(url_for('user.user', username=current_user.username))
     else:
@@ -149,7 +151,9 @@ def stop_student(username):
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     if stop_student_form.validate_on_submit():
-        Student.query.filter_by(user_id).delete()
+        student = Student.query.filter_by(user_id=user_id).first()
+        db.session.delete(student)
+        db.session.commit()
         flash('Вы перестали быть учеником!')
         return redirect(url_for('user.user', username=current_user.username))
     else:

@@ -58,3 +58,12 @@ class Student(db.Model, UserMixin):
         return set(self.student_id)
 
 
+class TeacherStudent(db.Model):
+    __tabename__ = 'teacher_student'
+    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.teacher_id'))
+    student_id = db.Column(db.Inteher, db.ForeignKey('students.student_id'))
+
+    teachers = db.relationship('Teacher', backref='teachers')
+    students = db.relationship('Student', backref='students')
+
+

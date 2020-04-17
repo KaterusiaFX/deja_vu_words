@@ -9,9 +9,9 @@ app = create_app()
 
 
 with app.app_context():
-    user_id = input('Введите user id')
-
     if User.query.filter(User.id == user_id).count():
+        u_id = User.query.filter(User.id)
+        print(user_id)
         if Teacher.query.filter(Teacher.user_id == user_id).count():
             print('Вы уже зарегистрированы как учитель и не можете стать студентом')
             sys.exit(0)
