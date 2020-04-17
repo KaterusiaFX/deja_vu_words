@@ -79,13 +79,15 @@ def check_teacher_student(user_id):
 @blueprint.route('/select-tch-std/<username>', methods=['GET', 'POST'])
 @login_required
 def select_tch_std(username):
-    form = SelectTeacherStudentForm()
+    select_form = SelectTeacherStudentForm()
+    stop_teacher_form = StopTeacherForm()
+    stop_student_form = StopStudentForm()
     username = User.query.filter_by(username=username).first_or_404()
     page_title = "Настройки профиля"
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
-    if form.validate_on_submit():
-        user_choice = form.select_tch_std.data
+    if select_form.validate_on_submit():
+        user_choice = select_form.select_tch_std.data
         if user_choice == 'value':
             if Teacher.query.filter(Teacher.user_id == user_id).count():
                 flash('Вы уже регистрировались ранее как учитель!')
@@ -105,42 +107,58 @@ def select_tch_std(username):
             flash('Вы стали учеником!')
             return redirect(url_for('user.user', username=current_user.username))
     else:
-        print(form.errors)
-    return render_template('user/edit_profile.html', user_status=user_status, user=username, title=page_title, form=form)
+        print(select_form.errors)
+    return render_template('user/edit_profile.html',
+                           select_form=select_form,
+                           stop_teacher_form=stop_teacher_form,
+                           stop_student_form=stop_student_form,
+                           title=page_title, user=username, user_status=user_status)
 
 
 @blueprint.route('/stop-teacher/<username>', methods=['GET', 'POST'])
 @login_required
 def stop_teacher(username):
-    form = StopTeacherForm()
+    select_form = SelectTeacherStudentForm()
+    stop_teacher_form = StopTeacherForm()
+    stop_student_form = StopStudentForm()
     username = User.query.filter_by(username=username).first_or_404()
     page_title = "Настройки профиля"
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
-    if form.validate_on_submit():
+    if stop_teacher_form.validate_on_submit():
         Teacher.query.filter_by(user_id).delete()
         flash('Вы перестали быть учителем!')
         return redirect(url_for('user.user', username=current_user.username))
     else:
-        print(form.errors)
-    return render_template('user/edit_profile.html', user_status=user_status, user=username, title=page_title, form=form)
+        print(stop_teacher_form.errors)
+    return render_template('user/edit_profile.html',
+                           select_form=select_form,
+                           stop_teacher_form=stop_teacher_form,
+                           stop_student_form=stop_student_form,
+                           title=page_title, user=username, user_status=user_status)
 
 
 @blueprint.route('/stop-student/<username>', methods=['GET', 'POST'])
 @login_required
 def stop_student(username):
-    form = StopStudentForm()
+    select_form = SelectTeacherStudentForm()
+    stop_teacher_form = StopTeacherForm()
+    stop_student_form = StopStudentForm()
     username = User.query.filter_by(username=username).first_or_404()
     page_title = "Настройки профиля"
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
-    if form.validate_on_submit():
+    if stop_student_form.validate_on_submit():
         Student.query.filter_by(user_id).delete()
         flash('Вы перестали быть учеником!')
         return redirect(url_for('user.user', username=current_user.username))
     else:
-        print(form.errors)
-    return render_template('user/edit_profile.html', user_status=user_status, user=username, title=page_title, form=form)
+        print(stop_student_form.errors)
+    return render_template('user/edit_profile.html',
+                           select_form=select_form,
+                           stop_teacher_form=stop_teacher_form,
+                           stop_student_form=stop_student_form,
+                           title=page_title, user=username, user_status=user_status)
 
 
 
