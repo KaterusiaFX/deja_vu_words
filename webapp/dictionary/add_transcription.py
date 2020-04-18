@@ -1,4 +1,4 @@
-from get_transcription import get_transcription
+from webapp.dictionary.get_transcription import get_transcription
 from webapp import create_app
 from webapp.db import db
 from webapp.dictionary.models import EnglishWord
