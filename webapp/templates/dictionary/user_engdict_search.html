@@ -3,14 +3,14 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            {% include 'admin/admin_page_menu.html' %}
+            {% include 'user/user_page_menu.html' %}
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <div class="container">
                         <h1>{{ page_title }}</h1>
                         <div class='row'>
                             <div class='col-12'>
-                                <form action="{{ url_for('dictionary.process_frenchdict_search', username=current_user.username) }}" method="post">
+                                <form action="{{ url_for('dictionary.user_process_engdict_search', username=current_user.username) }}" method="post">
                                     <div class="form-group">
                                         <label for="exampleFormControlInput1">{{ form.word.label }}</label>
                                         <div class="input-group">
@@ -22,25 +22,39 @@
                                         </div>
                                     </div>
                                 </form>
-                                <p>Всего французских слов: {{ french_list_len }}</p>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                        <th scope="col">id</th>
                                         <th scope="col">Слово</th>
                                         <th scope="col">Перевод</th>
+                                        <th scope="col">Транскрипция</th>
+                                        <th scope="col">Статус</th>
                                         <th scope="col">Дата добавления</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                        <th scope="row">{{ french_word.id }}</th>
-                                        <td>{{ french_word.word_itself }}</td>
-                                        <td>{{ french_word.translation_rus }}</td>
-                                        <td>{{ french_word.imported_time.strftime('%d.%m.%Y') }}</td>
+                                        <td>{{ english_word.word_itself }}</td>
+                                        <td>{{ english_word.translation_rus }}</td>
+                                        <td>{{ english_word.transcription }}</td>
+                                        <td>{{ english_word_status }}</td>
+                                        <td>{{ english_word_date.strftime('%d.%m.%Y') }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div class="btn-group" role="group" aria-label="First group">
+                                        <form action="{{ url_for('dictionary.user_delete_engword', username=current_user.username) }}" method="post">
+                                            {{ delete_form.delete() }}
+                                        </form>
+                                    </div>
+                                    <font color="white">...</font>
+                                    <div class="btn-group" role="group" aria-label="Second group">
+                                        <form action="{{ url_for('dictionary.user_engdict_back', username=current_user.username) }}" method="post">
+                                            {{ back_form.back_eng() }}
+                                        </form>
+                                    </div>
+                                </div>    
                             </div>
                         </div>
                     </div>
