@@ -9,6 +9,7 @@ app = create_app()
 
 
 with app.app_context():
+    user_id = input('Введите user id')
     if User.query.filter(User.id == user_id).count():
         u_id = User.query.filter(User.id)
         print(user_id)
@@ -32,12 +33,3 @@ with app.app_context():
 
     user_status = check_student(user_id)
     print(user_status)
-
-
-
-
-
-
-
-
-
