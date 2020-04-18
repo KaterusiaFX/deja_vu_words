@@ -2,7 +2,13 @@
     <div class="sidebar-sticky">
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="#">
+          <a class="nav-link text-left text-info" href="{{ url_for('user.select_tch_std', username=current_user.username) }}">
+            <span data-feather="file"></span>
+            Настройки
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-left text-info" href="{{ url_for('user.user', username=current_user.username) }}">
             <span data-feather="home"></span>
             Профиль <span class="sr-only">(current)</span>
           </a>
@@ -22,19 +28,13 @@
         <li class="nav-item">
           <a class="nav-link text-left text-info" href="#">
             <span data-feather="shopping-cart"></span>
-            Мои тренировки
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="#">
-            <span data-feather="users"></span>
-            Кабинет учителя
+            Моя страница
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-left text-info" href="#">
             <span data-feather="bar-chart-2"></span>
-            Мои ученики
+            Мои тренировки
           </a>
         </li>
         <li class="nav-item">

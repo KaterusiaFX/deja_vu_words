@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, RadioField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 from webapp.user.models import User
@@ -31,3 +31,25 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Такой email адрес уже существует')
+
+
+class SelectTeacherStudentForm(FlaskForm):
+    select_tch_std = RadioField('Label', choices=[('value', 'Я учитель'), ('value_two', 'Я ученик')], )
+    submit = SubmitField('Сохранить', render_kw={"class": "btn btn-info"})
+
+
+class StopTeacherForm(FlaskForm):
+    stop_teacher = BooleanField('Не хочу быть учителем', default=True, render_kw={"class": "form-check-input"})
+    submit = SubmitField('Сохранить', render_kw={"class": "btn btn-info"})
+
+
+class StopStudentForm(FlaskForm):
+    stop_student = BooleanField('Не хочу быть учеником', default=True, render_kw={"class": "form-check-input"})
+    submit = SubmitField('Сохранить', render_kw={"class": "btn btn-info"})
+
+
+
+
+
+
+
