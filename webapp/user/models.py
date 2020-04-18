@@ -60,10 +60,9 @@ class Student(db.Model, UserMixin):
 
 class TeacherStudent(db.Model):
     __tabename__ = 'teacher_student'
+    id = db.Column(db.Integer, primary_key=True)
     teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.teacher_id'))
-    student_id = db.Column(db.Inteher, db.ForeignKey('students.student_id'))
+    student_id = db.Column(db.Integer, db.ForeignKey('students.student_id'))
 
     teachers = db.relationship('Teacher', backref='teachers')
     students = db.relationship('Student', backref='students')
-
-

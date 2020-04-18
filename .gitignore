@@ -12,7 +12,6 @@ config.py
 *.db
 webapp.db.sqbpro
 .vscode
-migrations/
 
 # C extensions
 *.so

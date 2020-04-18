@@ -163,22 +163,3 @@ def stop_student(username):
                            stop_teacher_form=stop_teacher_form,
                            stop_student_form=stop_student_form,
                            title=page_title, user=username, user_status=user_status)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
