@@ -35,33 +35,16 @@ def process_user_engdict_index(username):
 
 
 def user_engdict_search(word_in_form, username):
-    user_id = username.id
-    user_words = UsersWords.query.filter_by(user_id=user_id).all()
     word, user_english_word_status, user_english_word_date = None, None, None
+    user_engwords = process_user_engdict_index(username)
     if language_check(word_in_form) == 'English':
-        word_exist_userdict = EnglishWordOfUser.query.filter_by(word_itself=word_in_form).all()
-        word_exist = EnglishWord.query.filter_by(word_itself=word_in_form).first()
-        for userword in user_words:
-            if word_exist and userword.engword_id == word_exist.id:
-                word = word_exist
-                user_english_word_status, user_english_word_date = userword.status, userword.imported_time
-            elif word_exist_userdict:
-                for every_word in word_exist_userdict:
-                    if every_word.user == username.username and every_word.id == userword.user_engword_id:
-                        word = every_word
-                        user_english_word_status, user_english_word_date = userword.status, userword.imported_time
+        for engword in user_engwords:
+            if engword[0].word_itself == word_in_form:
+                return engword
     elif language_check(word_in_form) == 'Russian':
-        word_exist_userdict = EnglishWordOfUser.query.filter_by(translation_rus=word_in_form).all()
-        word_exist = EnglishWord.query.filter_by(translation_rus=word_in_form).first()
-        for userword in user_words:
-            if word_exist and userword.engword_id == word_exist.id:
-                word = word_exist
-                user_english_word_status, user_english_word_date = userword.status, userword.imported_time
-            elif word_exist_userdict:
-                for every_word in word_exist_userdict:
-                    if every_word.user == username.username and every_word.id == userword.user_engword_id:
-                        word = every_word
-                        user_english_word_status, user_english_word_date = userword.status, userword.imported_time
+        for engword in user_engwords:
+            if engword[0].translation_rus == word_in_form:
+                return engword
     return word, user_english_word_status, user_english_word_date
 
 
@@ -87,6 +70,7 @@ def user_engdict_translate(word_in_form):
 
 def user_engdict_add_word(word_in_form, word, username):
     if language_check(word) == 'English':
+        # a user wants to add its own translation
         if word_in_form:
             user_new_word = EnglishWordOfUser(
                 word_itself=word,
@@ -100,11 +84,12 @@ def user_engdict_add_word(word_in_form, word, username):
             user_engdict_own_insert(user_new_word, username)
             return word, word_in_form
         word_exist = EnglishWord.query.filter_by(word_itself=word).first()
+        # a user agree with our translation and the word in our common dictionary
         if word_exist:
             user_engdict_insert(word_exist, username)
             return word, word_exist.translation_rus
-        translator = Translator(to_lang='ru')
-        translation = translator.translate(word)
+        # a user agree with our translation, but there is no such word in our common dictionary
+        translation = user_engdict_translate(word)
         user_new_word = EnglishWordOfUser(
                 word_itself=word,
                 user=username.username,
@@ -117,7 +102,8 @@ def user_engdict_add_word(word_in_form, word, username):
         user_engdict_own_insert(user_new_word, username)
         return word, translation
     elif language_check(word) == 'Russian':
-        if word_in_form:
+        # user wants to add its own translation
+        if word_in_form:            
             user_new_word = EnglishWordOfUser(
                 word_itself=word_in_form,
                 user=username.username,
@@ -130,11 +116,12 @@ def user_engdict_add_word(word_in_form, word, username):
             user_engdict_own_insert(user_new_word, username)
             return word_in_form, word
         word_exist = EnglishWord.query.filter_by(translation_rus=word).first()
+        # user agree with our translation and word in our common dictionary
         if word_exist:
             user_engdict_insert(word_exist, username)
             return word_exist.word_itself, word
-        translator = Translator(from_lang='ru', to_lang='en')
-        translation = translator.translate(word)
+        # user agree with our translation, but there is no such word in our common dictionary
+        translation = user_engdict_translate(word)
         user_new_word = EnglishWordOfUser(
                 word_itself=translation,
                 user=username.username,
@@ -210,33 +197,16 @@ def process_user_frenchdict_index(username):
 
 
 def user_frenchdict_search(word_in_form, username):
-    user_id = username.id
-    user_words = UsersWords.query.filter_by(user_id=user_id).all()
     word, user_french_word_status, user_french_word_date = None, None, None
+    user_frenchwords = process_user_frenchdict_index(username)
     if language_check(word_in_form) == ('English' or 'French'):
-        word_exist_userdict = FrenchWordOfUser.query.filter_by(word_itself=word_in_form).all()
-        word_exist = FrenchWord.query.filter_by(word_itself=word_in_form).first()
-        for userword in user_words:
-            if word_exist and userword.frenchword_id == word_exist.id:
-                word = word_exist
-                user_french_word_status, user_french_word_date = userword.status, userword.imported_time
-            elif word_exist_userdict:
-                for every_word in word_exist_userdict:
-                    if every_word.user == username.username and every_word.id == userword.user_frenchword_id:
-                        word = every_word
-                        user_french_word_status, user_french_word_date = userword.status, userword.imported_time
+        for frenchword in user_frenchwords:
+            if frenchword[0].word_itself == word_in_form:
+                return frenchword
     elif language_check(word_in_form) == 'Russian':
-        word_exist_userdict = FrenchWordOfUser.query.filter_by(translation_rus=word_in_form).all()
-        word_exist = FrenchWord.query.filter_by(translation_rus=word_in_form).first()
-        for userword in user_words:
-            if word_exist and userword.frenchword_id == word_exist.id:
-                word = word_exist
-                user_french_word_status, user_french_word_date = userword.status, userword.imported_time
-            elif word_exist_userdict:
-                for every_word in word_exist_userdict:
-                    if every_word.user == username.username and every_word.id == userword.user_frenchword_id:
-                        word = every_word
-                        user_french_word_status, user_french_word_date = userword.status, userword.imported_time
+        for frenchword in user_frenchwords:
+            if frenchword[0].translation_rus == word_in_form:
+                return frenchword
     return word, user_french_word_status, user_french_word_date
 
 
@@ -262,6 +232,7 @@ def user_frenchdict_translate(word_in_form):
 
 def user_frenchdict_add_word(word_in_form, word, username):
     if language_check(word) == ('English' or 'French'):
+        # a user wants to add its own translation
         if word_in_form:
             user_new_word = FrenchWordOfUser(
                 word_itself=word,
@@ -274,11 +245,12 @@ def user_frenchdict_add_word(word_in_form, word, username):
             user_frenchdict_own_insert(user_new_word, username)
             return word, word_in_form
         word_exist = FrenchWord.query.filter_by(word_itself=word).first()
+        # user agree with our translation and word in our common dictionary
         if word_exist:
             user_frenchdict_insert(word_exist, username)
             return word, word_exist.translation_rus
-        translator = Translator(from_lang='fr', to_lang='ru')
-        translation = translator.translate(word)
+        # user agree with our translation, but there is no such word in our common dictionary
+        translation = user_frenchdict_translate(word)
         user_new_word = FrenchWordOfUser(
                 word_itself=word,
                 user=username.username,
@@ -290,6 +262,7 @@ def user_frenchdict_add_word(word_in_form, word, username):
         user_frenchdict_own_insert(user_new_word, username)
         return word, translation
     elif language_check(word) == 'Russian':
+        # a user wants to add its own translation
         if word_in_form:
             user_new_word = FrenchWordOfUser(
                 word_itself=word_in_form,
@@ -300,13 +273,14 @@ def user_frenchdict_add_word(word_in_form, word, username):
             db.session.add(user_new_word)
             db.session.commit()
             user_frenchdict_own_insert(user_new_word, username)
-            return word_in_form, word
+            return word_in_form, word        
         word_exist = FrenchWord.query.filter_by(translation_rus=word).first()
+        # user agree with our translation and word in our common dictionary
         if word_exist:
             user_frenchdict_insert(word_exist, username)
             return word_exist.word_itself, word
-        translator = Translator(from_lang='ru', to_lang='fr')
-        translation = translator.translate(word)
+        # user agree with our translation, but there is no such word in our common dictionary
+        translation = user_frenchdict_translate(word)
         user_new_word = FrenchWordOfUser(
                 word_itself=translation,
                 user=username.username,
