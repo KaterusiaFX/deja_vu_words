@@ -24,6 +24,7 @@ def register_a_student(user_id):
         else:
             return 'Пользователя с таким id нет в базе данных'
 
+
 def check_student(user_id):
     with app.app_context():
         if Student.query.filter(Student.user_id == user_id).count():
