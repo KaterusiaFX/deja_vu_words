@@ -179,6 +179,7 @@ def user_process_engdict_insert(username):
     title = 'Ваш английский словарь'
     search_form = EngDictionarySearchForm()
     form = WordInsertForm()
+    back_form = BackToEngDictionary()
     word_in_form = form.insert.data
     word = session.get('word')
     english_word, translation = user_engdict_add_word(word_in_form, word, username)
@@ -188,6 +189,7 @@ def user_process_engdict_insert(username):
         english_word=english_word,
         translation=translation,
         form=search_form,
+        back_form=back_form,
         user=username.username
         )
 
@@ -272,6 +274,7 @@ def user_process_frenchdict_insert(username):
     title = 'Ваш французский словарь'
     search_form = FrenchDictionarySearchForm()
     form = WordInsertForm()
+    back_form = BackToFrenchDictionary()
     word_in_form = form.insert.data
     word = session.get('word')
     french_word, translation = user_frenchdict_add_word(word_in_form, word, username)
@@ -281,6 +284,7 @@ def user_process_frenchdict_insert(username):
         french_word=french_word,
         translation=translation,
         form=search_form,
+        back_form=back_form,
         user=username.username
         )
 

@@ -7,6 +7,15 @@ from webapp.dictionary.get_transcription import get_transcription
 from webapp.dictionary.models import EnglishWord, EnglishWordOfUser, FrenchWord, FrenchWordOfUser, UsersWords
 
 
+def language_check(word):
+    if re.fullmatch('[a-zA-Z- ]+', word):
+        return 'English'
+    if re.fullmatch('[a-zA-ZÀ-ÿÆæŒœ -]+', word):
+        return 'French'
+    if re.fullmatch('[а-яА-Я- ]+', word):
+        return 'Russian'
+
+
 def process_user_engdict_index(username):
     user_id = username.id
     user_words = UsersWords.query.filter_by(user_id=user_id).all()
@@ -29,7 +38,7 @@ def user_engdict_search(word_in_form, username):
     user_id = username.id
     user_words = UsersWords.query.filter_by(user_id=user_id).all()
     word, user_english_word_status, user_english_word_date = None, None, None
-    if re.fullmatch('[a-zA-Z- ]+', word_in_form):
+    if language_check(word_in_form) == 'English':
         word_exist_userdict = EnglishWordOfUser.query.filter_by(word_itself=word_in_form).all()
         word_exist = EnglishWord.query.filter_by(word_itself=word_in_form).first()
         for userword in user_words:
@@ -41,7 +50,7 @@ def user_engdict_search(word_in_form, username):
                     if every_word.user == username.username and every_word.id == userword.user_engword_id:
                         word = every_word
                         user_english_word_status, user_english_word_date = userword.status, userword.imported_time
-    elif re.fullmatch('[а-яА-Я- ]+', word_in_form):
+    elif language_check(word_in_form) == 'Russian':
         word_exist_userdict = EnglishWordOfUser.query.filter_by(translation_rus=word_in_form).all()
         word_exist = EnglishWord.query.filter_by(translation_rus=word_in_form).first()
         for userword in user_words:
@@ -58,7 +67,7 @@ def user_engdict_search(word_in_form, username):
 
 def user_engdict_translate(word_in_form):
     translation = None
-    if re.fullmatch('[a-zA-Z- ]+', word_in_form):
+    if language_check(word_in_form) == 'English':
         word_exist = EnglishWord.query.filter_by(word_itself=word_in_form).first()
         if word_exist:
             translation = word_exist.translation_rus
@@ -66,7 +75,7 @@ def user_engdict_translate(word_in_form):
             translator = Translator(to_lang='ru')
             translation = translator.translate(word_in_form)
         return translation
-    elif re.fullmatch('[а-яА-Я- ]+', word_in_form):
+    elif language_check(word_in_form) == 'Russian':
         word_exist = EnglishWord.query.filter_by(translation_rus=word_in_form).first()
         if word_exist:
             translation = word_exist.word_itself
@@ -77,7 +86,7 @@ def user_engdict_translate(word_in_form):
 
 
 def user_engdict_add_word(word_in_form, word, username):
-    if re.fullmatch('[a-zA-Z- ]+', word):
+    if language_check(word) == 'English':
         if word_in_form:
             user_new_word = EnglishWordOfUser(
                 word_itself=word,
@@ -107,7 +116,7 @@ def user_engdict_add_word(word_in_form, word, username):
         db.session.commit()
         user_engdict_own_insert(user_new_word, username)
         return word, translation
-    elif re.fullmatch('[а-яА-Я- ]+', word):
+    elif language_check(word) == 'Russian':
         if word_in_form:
             user_new_word = EnglishWordOfUser(
                 word_itself=word_in_form,
@@ -155,7 +164,7 @@ def user_engdict_delete_word(word_in_form, username):
     user_id = username.id
     user_words = UsersWords.query.filter_by(user_id=user_id).all()
     word = None
-    if re.fullmatch('[a-zA-Z- ]+', word_in_form):
+    if language_check(word_in_form) == 'English':
         word_exist_userdict = EnglishWordOfUser.query.filter_by(word_itself=word_in_form).all()
         word_exist = EnglishWord.query.filter_by(word_itself=word_in_form).first()
         for userword in user_words:
@@ -165,7 +174,7 @@ def user_engdict_delete_word(word_in_form, username):
                 for every_word in word_exist_userdict:
                     if every_word.user == username.username and every_word.id == userword.user_engword_id:
                         word, deletion, delete_englishwordofuser = every_word, userword, every_word
-    elif re.fullmatch('[а-яА-Я- ]+', word_in_form):
+    elif language_check(word_in_form) == 'Russian':
         word_exist_userdict = EnglishWordOfUser.query.filter_by(translation_rus=word_in_form).all()
         word_exist = EnglishWord.query.filter_by(translation_rus=word_in_form).first()
         for userword in user_words:
@@ -204,7 +213,7 @@ def user_frenchdict_search(word_in_form, username):
     user_id = username.id
     user_words = UsersWords.query.filter_by(user_id=user_id).all()
     word, user_french_word_status, user_french_word_date = None, None, None
-    if re.fullmatch('[a-zA-ZÀ-ÿÆæŒœ -]+', word_in_form):
+    if language_check(word_in_form) == ('English' or 'French'):
         word_exist_userdict = FrenchWordOfUser.query.filter_by(word_itself=word_in_form).all()
         word_exist = FrenchWord.query.filter_by(word_itself=word_in_form).first()
         for userword in user_words:
@@ -216,7 +225,7 @@ def user_frenchdict_search(word_in_form, username):
                     if every_word.user == username.username and every_word.id == userword.user_frenchword_id:
                         word = every_word
                         user_french_word_status, user_french_word_date = userword.status, userword.imported_time
-    elif re.fullmatch('[а-яА-Я- ]+', word_in_form):
+    elif language_check(word_in_form) == 'Russian':
         word_exist_userdict = FrenchWordOfUser.query.filter_by(translation_rus=word_in_form).all()
         word_exist = FrenchWord.query.filter_by(translation_rus=word_in_form).first()
         for userword in user_words:
@@ -233,7 +242,7 @@ def user_frenchdict_search(word_in_form, username):
 
 def user_frenchdict_translate(word_in_form):
     translation = None
-    if re.fullmatch('[a-zA-ZÀ-ÿÆæŒœ -]+', word_in_form):
+    if language_check(word_in_form) == ('English' or 'French'):
         word_exist = FrenchWord.query.filter_by(word_itself=word_in_form).first()
         if word_exist:
             translation = word_exist.translation_rus
@@ -241,7 +250,7 @@ def user_frenchdict_translate(word_in_form):
             translator = Translator(from_lang='fr', to_lang='ru')
             translation = translator.translate(word_in_form)
         return translation
-    elif re.fullmatch('[а-яА-Я- ]+', word_in_form):
+    elif language_check(word_in_form) == 'Russian':
         word_exist = FrenchWord.query.filter_by(translation_rus=word_in_form).first()
         if word_exist:
             translation = word_exist.word_itself
@@ -252,7 +261,7 @@ def user_frenchdict_translate(word_in_form):
 
 
 def user_frenchdict_add_word(word_in_form, word, username):
-    if re.fullmatch('[a-zA-ZÀ-ÿÆæŒœ -]+', word):
+    if language_check(word) == ('English' or 'French'):
         if word_in_form:
             user_new_word = FrenchWordOfUser(
                 word_itself=word,
@@ -280,7 +289,7 @@ def user_frenchdict_add_word(word_in_form, word, username):
         db.session.commit()
         user_frenchdict_own_insert(user_new_word, username)
         return word, translation
-    elif re.fullmatch('[а-яА-Я- ]+', word):
+    elif language_check(word) == 'Russian':
         if word_in_form:
             user_new_word = FrenchWordOfUser(
                 word_itself=word_in_form,
@@ -326,7 +335,7 @@ def user_frenchdict_delete_word(word_in_form, username):
     user_id = username.id
     user_words = UsersWords.query.filter_by(user_id=user_id).all()
     word = None
-    if re.fullmatch('[a-zA-ZÀ-ÿÆæŒœ -]+', word_in_form):
+    if language_check(word_in_form) == ('English' or 'French'):
         word_exist_userdict = FrenchWordOfUser.query.filter_by(word_itself=word_in_form).all()
         word_exist = FrenchWord.query.filter_by(word_itself=word_in_form).first()
         for userword in user_words:
@@ -336,7 +345,7 @@ def user_frenchdict_delete_word(word_in_form, username):
                 for every_word in word_exist_userdict:
                     if every_word.user == username.username and every_word.id == userword.user_frenchword_id:
                         word, deletion, delete_frenchwordofuser = every_word, userword, every_word
-    elif re.fullmatch('[а-яА-Я- ]+', word_in_form):
+    elif language_check(word_in_form) == 'Russian':
         word_exist_userdict = FrenchWordOfUser.query.filter_by(translation_rus=word_in_form).all()
         word_exist = FrenchWord.query.filter_by(translation_rus=word_in_form).first()
         for userword in user_words:
