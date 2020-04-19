@@ -18,7 +18,7 @@ def language_check(word):
 
 def process_user_engdict_index(username):
     user_words = UsersWords.query.filter_by(user_id=username.id).all()
-    english_words, english_words_status, english_words_date = [], [], []
+    english_words, english_words_status, english_words_date, userword_id = [], [], [], []
     for user_word in user_words:
         eng_word = None
         if user_word.engword_id:
@@ -29,11 +29,12 @@ def process_user_engdict_index(username):
             english_words.append(eng_word)
             english_words_status.append(user_word.status)
             english_words_date.append(user_word.imported_time)
-    return list(zip(english_words, english_words_status, english_words_date))
+            userword_id.append(user_word.id)
+    return list(zip(english_words, english_words_status, english_words_date, userword_id))
 
 
 def user_engdict_search(word_in_form, username):
-    word, user_english_word_status, user_english_word_date = None, None, None
+    word, user_english_word_status, user_english_word_date, userword_id = None, None, None, None
     user_engwords = process_user_engdict_index(username)
 
     if language_check(word_in_form) == 'English':
@@ -46,7 +47,7 @@ def user_engdict_search(word_in_form, username):
             if engword[0].translation_rus == word_in_form:
                 return engword
 
-    return word, user_english_word_status, user_english_word_date
+    return word, user_english_word_status, user_english_word_date, userword_id
 
 
 def user_engdict_translate(word_in_form):
@@ -161,7 +162,7 @@ def user_engdict_delete_word(word_in_form, username):
 
 def process_user_frenchdict_index(username):
     user_words = UsersWords.query.filter_by(user_id=username.id).all()
-    french_words, french_words_status, french_words_date = [], [], []
+    french_words, french_words_status, french_words_date, userword_id = [], [], [], []
     for user_word in user_words:
         french_word = None
         if user_word.frenchword_id:
@@ -172,21 +173,25 @@ def process_user_frenchdict_index(username):
             french_words.append(french_word)
             french_words_status.append(user_word.status)
             french_words_date.append(user_word.imported_time)
-    return list(zip(french_words, french_words_status, french_words_date))
+            userword_id.append(user_word.id)
+    return list(zip(french_words, french_words_status, french_words_date, userword_id))
 
 
 def user_frenchdict_search(word_in_form, username):
-    word, user_french_word_status, user_french_word_date = None, None, None
+    word, user_french_word_status, user_french_word_date, userword_id = None, None, None, None
     user_frenchwords = process_user_frenchdict_index(username)
+
     if language_check(word_in_form) == ('English' or 'French'):
         for frenchword in user_frenchwords:
             if frenchword[0].word_itself == word_in_form:
                 return frenchword
+
     elif language_check(word_in_form) == 'Russian':
         for frenchword in user_frenchwords:
             if frenchword[0].translation_rus == word_in_form:
                 return frenchword
-    return word, user_french_word_status, user_french_word_date
+
+    return word, user_french_word_status, user_french_word_date, userword_id
 
 
 def user_frenchdict_translate(word_in_form):
@@ -196,6 +201,7 @@ def user_frenchdict_translate(word_in_form):
             return word_exist.translation_rus
         translator = Translator(from_lang='fr', to_lang='ru')
         return translator.translate(word_in_form)
+
     elif language_check(word_in_form) == 'Russian':
         word_exist = FrenchWord.query.filter_by(translation_rus=word_in_form).first()
         if word_exist:
@@ -267,6 +273,7 @@ def user_frenchdict_own_insert(word, user):
 def user_frenchdict_delete_word(word_in_form, username):
     user_words = UsersWords.query.filter_by(user_id=username.id).all()
     word = None
+
     if language_check(word_in_form) == ('English' or 'French'):
         word_exist_userdict = FrenchWordOfUser.query.filter_by(word_itself=word_in_form).all()
         word_exist = FrenchWord.query.filter_by(word_itself=word_in_form).first()
@@ -277,6 +284,7 @@ def user_frenchdict_delete_word(word_in_form, username):
                 for every_word in word_exist_userdict:
                     if every_word.user == username.username and every_word.id == userword.user_frenchword_id:
                         word, deletion, delete_frenchwordofuser = every_word, userword, every_word
+
     elif language_check(word_in_form) == 'Russian':
         word_exist_userdict = FrenchWordOfUser.query.filter_by(translation_rus=word_in_form).all()
         word_exist = FrenchWord.query.filter_by(translation_rus=word_in_form).first()
@@ -287,6 +295,7 @@ def user_frenchdict_delete_word(word_in_form, username):
                 for every_word in word_exist_userdict:
                     if every_word.user == username.username and every_word.id == userword.user_frenchword_id:
                         word, deletion, delete_frenchwordofuser = every_word, userword, every_word
+
     db.session.delete(deletion)
     if delete_frenchwordofuser:
         db.session.delete(delete_frenchwordofuser)

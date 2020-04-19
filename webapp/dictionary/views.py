@@ -141,7 +141,10 @@ def user_process_engdict_search(username):
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
         session['word'] = search_form.word.data
-        word, user_english_word_status, user_english_word_date = user_engdict_search(word_in_form, username)
+        word, user_english_word_status, user_english_word_date, userword_id = user_engdict_search(
+            word_in_form,
+            username
+            )
 
         if word:
             return render_template(
@@ -236,7 +239,10 @@ def user_process_frenchdict_search(username):
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
         session['word'] = search_form.word.data
-        word, user_french_word_status, user_french_word_date = user_frenchdict_search(word_in_form, username)
+        word, user_french_word_status, user_french_word_date, userword_id = user_frenchdict_search(
+            word_in_form,
+            username
+            )
 
         if word:
             return render_template(

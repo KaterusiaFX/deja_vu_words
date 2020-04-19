@@ -13,6 +13,8 @@ class UsersWords(db.Model):
     user_frenchword_id = db.Column(db.Integer, db.ForeignKey('French_words_added_by_users.id'))
     imported_time = db.Column(db.DateTime, nullable=True, default=datetime.now())
     status = db.Column(db.String, nullable=True, default='new')
+    memorizing_time = db.Column(db.DateTime, nullable=True)
+    word_translation = db.Column(db.Integer, nullable=True, default=0)
 
     users = db.relationship('User', backref='users')
     english_words = db.relationship('EnglishWord', backref='english_words')
