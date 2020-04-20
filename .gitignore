@@ -15,6 +15,7 @@ webapp.db.sqbpro
 
 # C extensions
 *.so
+*.jpg
 
 # Distribution / packaging
 .Python

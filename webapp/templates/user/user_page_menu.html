@@ -32,7 +32,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-left text-info" href="#">
+          <a class="nav-link text-left text-info" href="{{ url_for('exercises.choose_exercise', username=current_user.username) }}">
             <span data-feather="bar-chart-2"></span>
             Мои тренировки
           </a>
