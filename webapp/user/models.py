@@ -68,4 +68,3 @@ class TeacherStudent(db.Model, UserMixin):
     teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.teacher_id', ondelete='CASCADE'), nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('students.student_id', ondelete='CASCADE'), nullable=False)
 
-    tch_has_std = db.relationship('Student', backref='teacher_std')
