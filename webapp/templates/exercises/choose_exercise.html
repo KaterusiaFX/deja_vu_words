@@ -17,37 +17,54 @@
                                     </ol>
                                     <div class="carousel-inner">
                                         <div class="carousel-item active">
-                                            <img src="{{url_for('static', filename='England.jpg')}}" class="d-block w-100" height=650 alt="...">
+                                            <img src="{{url_for('static', filename='London.jpg')}}" class="d-block w-100" height=650 alt="...">
                                             <div class="carousel-caption d-none d-md-block text-top">
-                                                <h1><font color="green" align='top'>Английские тренировки</font></h1>
+                                                <h1><font color="lightseagreen" align='top'>Английские тренировки</font></h1>
+                                                <br />
+                                                <br />
                                                 <table class="table table-borderless">
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <a href='{{ url_for('exercises.word_translation', username=current_user.username) }}'>
-                                                                    <img src="{{url_for('static', filename='word-tr.jpg')}}" class="rounded float-left img-responsive" height=240 border="50">
+                                                                <a href='{{ url_for('exercises.engword_translation', username=current_user.username) }}' class="btn btn-squared-default btn-info">
+                                                                    <br />
+                                                                    <br />
+                                                                    Слово - 
+                                                                    <br />
+                                                                    перевод
+                                                                    <br />
                                                                 </a>
-                                                                <p>W-T</p>
                                                             </td>
                                                             <td>
-                                                                <a href='#'>
-                                                                    <img src="{{url_for('static', filename='tr-word.jpg')}}" class="rounded float-right" height=240 border="50">
+                                                                <a href='#' class="btn btn-squared-default btn-info">
+                                                                    <br />
+                                                                    <br />
+                                                                    Перевод - 
+                                                                    <br />
+                                                                    слово
+                                                                    <br />
                                                                 </a>
-                                                                <p>T-W</p>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <a href='#'>
-                                                                    <img src="{{url_for('static', filename='audition.jpg')}}" class="rounded float-left" height=240 border="50">
+                                                                <a href='#' class="btn btn-squared-default btn-info">
+                                                                    <br />
+                                                                    <br />
+                                                                    Аудирование
+                                                                    <br />
+                                                                    <br />
                                                                 </a>
-                                                                <p>AUD</p>
                                                             </td>
                                                             <td>
-                                                                <a href='#'>
-                                                                    <img src="{{url_for('static', filename='remember-not.jpg')}}" class="rounded float-right" height=240 border="50">
+                                                                <a href='#' class="btn btn-squared-default btn-info">
+                                                                    <br />
+                                                                    <br />
+                                                                    Помню -
+                                                                    <br />
+                                                                    не помню
+                                                                    <br />
                                                                 </a>
-                                                                <p>REM</p>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -57,34 +74,51 @@
                                         <div class="carousel-item">
                                             <img src="{{url_for('static', filename='Paris.jpg')}}" class="d-block w-100" height=650 alt="...">
                                             <div class="carousel-caption d-none d-md-block">
-                                                <h1><font color="green" align='top'>Французские тренировки</font></h1>
+                                                <h1><font color="teal" align='top'>Французские тренировки</font></h1>
+                                                <br />
+                                                <br />
                                                 <table class="table table-borderless">
                                                     <tr>
                                                             <td>
-                                                                <a href='#'>
-                                                                    <img src="{{url_for('static', filename='word-tr.jpg')}}" class="rounded float-left img-responsive" height=240 border="50">
+                                                                <a href='#' class="btn btn-squared-default btn-info">
+                                                                    <br />
+                                                                    <br />
+                                                                    Слово - 
+                                                                    <br />
+                                                                    перевод
+                                                                    <br />
                                                                 </a>
-                                                                <p>W-T</p>
                                                             </td>
                                                             <td>
-                                                                <a href='#'>
-                                                                    <img src="{{url_for('static', filename='tr-word.jpg')}}" class="rounded float-right" height=240 border="50">
+                                                                <a href='#' class="btn btn-squared-default btn-info">
+                                                                    <br />
+                                                                    <br />
+                                                                    Перевод - 
+                                                                    <br />
+                                                                    слово
+                                                                    <br />
                                                                 </a>
-                                                                <p>T-W</p>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <a href='#'>
-                                                                    <img src="{{url_for('static', filename='audition.jpg')}}" class="rounded float-left" height=240 border="50">
+                                                                <a href='#' class="btn btn-squared-default btn-info">
+                                                                    <br />
+                                                                    <br />
+                                                                    Аудирование
+                                                                    <br />
+                                                                    <br />
                                                                 </a>
-                                                                <p>AUD</p>
                                                             </td>
                                                             <td>
-                                                                <a href='#'>
-                                                                    <img src="{{url_for('static', filename='remember-not.jpg')}}" class="rounded float-right" height=240 border="50">
+                                                                <a href='#' class="btn btn-squared-default btn-info">
+                                                                    <br />
+                                                                    <br />
+                                                                    Помню -
+                                                                    <br />
+                                                                    не помню
+                                                                    <br />
                                                                 </a>
-                                                                <p>REM</p>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -109,4 +143,20 @@
             </main>
         </div>
     </div>
+<style>
+    .btn-squared-default
+    {
+        width: 200px !important;
+        height: 200px !important;
+        font-size: 20px;
+        opacity: 0.5;
+    }
+
+        .btn-squared-default:hover
+        {
+            border: 5px dotted white;
+            font-weight: 700;
+            opacity: 1;
+        }
+</style>
 {% endblock %}
