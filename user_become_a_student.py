@@ -35,3 +35,5 @@ if __name__ == '__main__':
     user_id = input('Введите user id: ')
     print(check_student(user_id))
     print(register_a_student(user_id))
+
+
