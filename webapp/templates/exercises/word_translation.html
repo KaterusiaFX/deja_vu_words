@@ -15,7 +15,7 @@
                             <div class='col-12' align="middle">
                                 <div class="card" style="width: 30rem;" align="middle">
                                     <div class="card-body">
-                                        <p class="card-text"><font size="6">{{ guess_word[0].word_itself }}</font></p>
+                                        <p class="card-text"><font size="6">{{ guess_word }}</font></p>
                                         <p>
                                             <button class="btn btn-outline-info" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                                 Показать варианты
@@ -23,20 +23,20 @@
                                         </p>
                                         <div class="collapse" id="collapseExample">
                                             <div class="card card-body">
-                                                <a href="{{ url_for('exercises.engword_translation_answer', username=current_user.username, guess_word={{ guess_word }}, user_answer={{ mixture[0] }}, mixture={{ mixture }}) }}" class="list-group-item list-group-item-action">
-                                                    {{ mixture[0][0].translation_rus }}
+                                                <a href="{{ url_for('exercises.engword_translation_answer', username=current_user.username, user_answer='0', guess_word=guess_word, mixture=mixture) }}" class="list-group-item list-group-item-action">
+                                                    {{ mixture[0] }}
                                                 </a>
                                                 <a href="#" class="list-group-item list-group-item-action">
-                                                    {{ mixture[1][0].translation_rus }}
+                                                    {{ mixture[1] }}
                                                 </a>
                                                 <a href="#" class="list-group-item list-group-item-action">
-                                                    {{ mixture[2][0].translation_rus }}
+                                                    {{ mixture[2] }}
                                                 </a>
                                                 <a href="#" class="list-group-item list-group-item-action">
-                                                    {{ mixture[3][0].translation_rus }}
+                                                    {{ mixture[3] }}
                                                 </a>
                                                 <a href="#" class="list-group-item list-group-item-action">
-                                                    {{ mixture[4][0].translation_rus }}
+                                                    {{ mixture[4] }}
                                                 </a>
                                                 <br>
                                                 <a href="#" class="btn btn-outline-secondary btn-sm">далее</a>
