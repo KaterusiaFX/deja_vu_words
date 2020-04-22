@@ -58,14 +58,6 @@ def register():
     return render_template('user/register.html', page_title=title, form=form)
 
 
-@blueprint.route('/user/<username>')
-@login_required
-def user(username):
-    username = User.query.filter_by(username=username).first_or_404()
-    user_id = current_user.get_id()
-    return render_template('user/user_page.html', user=username, user_id=user_id)
-
-
 def check_teacher_student(user_id):
     if Teacher.query.filter(Teacher.user_id == user_id).count():
         user_status = 'Teacher'
@@ -74,6 +66,15 @@ def check_teacher_student(user_id):
     else:
         user_status = 'User'
     return user_status
+
+
+@blueprint.route('/user/<username>')
+@login_required
+def user(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
+    return render_template('user/user_page.html', user=username, user_id=user_id, user_status=user_status)
 
 
 @blueprint.route('/select-tch-std/<username>', methods=['GET', 'POST'])

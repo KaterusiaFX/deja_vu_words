@@ -40,7 +40,8 @@ class Teacher(db.Model, UserMixin):
     __tablename__ = 'teachers'
     teacher_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), unique=True)
-    student_tch = db.relationship('TeacherStudent', backref='teachers')
+
+    students = db.relationship('Student', secondary='teachers_students')
 
     def __repr__(self):
         return f'<Teacher "{self.teacher_id}" has user id {self.user_id}>'
@@ -53,7 +54,6 @@ class Student(db.Model, UserMixin):
     __tablename__ = 'students'
     student_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), unique=True)
-    teacher_std = db.relationship('TeacherStudent', backref='students')
 
     def __repr__(self):
         return f'<Student "{self.student_id}" has user id {self.user_id}>'
@@ -68,24 +68,6 @@ class TeacherStudent(db.Model, UserMixin):
     teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.teacher_id', ondelete='CASCADE'), nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('students.student_id', ondelete='CASCADE'), nullable=False)
 
-
-class Association(db.Model, UserMixin):
-    __tablename__ = 'association'
-    left_id = db.Column(db.Integer, db.ForeignKey('left.id'), primary_key=True)
-    right_id = db.Column(db.Integer, db.ForeignKey('right.id'), primary_key=True)
-    extra_data = db.Column(db.String(50))
-    child = db.relationship("Child", back_populates="parents")
-    parent = db.relationship("Parent", back_populates="children")
-
-
-class Parent(db.Model, UserMixin):
-    __tablename__ = 'left'
-    id = db.Column(db.Integer, primary_key=True)
-    children = db.relationship("Association", back_populates="parent")
-
-
-class Child(db.Model, UserMixin):
-    __tablename__ = 'right'
-    id = db.Column(db.Integer, primary_key=True)
-    parents = db.relationship("Association", back_populates="child")
+    teachers = db.relationship('Teacher', backref='teachers')
+    students = db.relationship('Student', backref='students')
 
