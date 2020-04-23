@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+        <div class="row">
+            <div class="col-4">
+                <form action="{{ url_for('user.teacher_add_student') }}" method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.student_username.label }}
+                        {{ form.student_username() }}
+                        {% for error in form.student_username.errors %}
+                        <span style="color: orange;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {{ form.submit() }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

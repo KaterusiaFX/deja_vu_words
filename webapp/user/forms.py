@@ -46,3 +46,14 @@ class StopTeacherForm(FlaskForm):
 class StopStudentForm(FlaskForm):
     stop_student = BooleanField('Не хочу быть учеником', default=True, render_kw={"class": "form-check-input"})
     submit = SubmitField('Сохранить', render_kw={"class": "btn btn-info"})
+
+
+class AddStudentForm(FlaskForm):
+    student_username = StringField('Имя пользователя ученика', validators=[DataRequired()],
+                                   render_kw={"class": "form-control"})
+    submit = SubmitField('Сохранить', render_kw={"class": "btn btn-info"})
+
+    def validate_student_username(self, student_username):
+        user = User.query.filter_by(username=student_username.data).first()
+        if user is None:
+            raise ValidationError('Ученик с таким именем не зарегистрирован на сайте')

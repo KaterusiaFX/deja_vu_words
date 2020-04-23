@@ -4,7 +4,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from webapp.user.forms import LoginForm
 from webapp.user.forms import RegistrationForm
 from webapp.user.forms import SelectTeacherStudentForm, StopTeacherForm, StopStudentForm
-from webapp.user.models import User, Teacher, Student
+from webapp.user.models import User, Teacher, Student, TeacherStudent
 
 
 from webapp import db
@@ -164,3 +164,60 @@ def stop_student(username):
                            stop_teacher_form=stop_teacher_form,
                            stop_student_form=stop_student_form,
                            title=page_title, user=username, user_status=user_status)
+
+
+@blueprint.route('/teacher-add-student/<username>', methods=['GET', 'POST'])
+@login_required
+def teacher_add_student(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    title = 'Добавить ученика'
+    add_student_form = AddStudentForm
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
+    teacher = Teacher.query.filter(Teacher.user_id == user_id).first()
+    teacher_id = teacher.teacher_id
+    if form.validate_on_submit():
+        student_username = User(student_username=add_student_form.student_username.data)  # имя студента из формы
+        if TeacherStudent.query.filter(TeacherStudent.teacher_id == teacher_id).count() > 0:  # если учитель уже добавлял учеников
+            teachers_students = TeacherStudent.query.filter(TeacherStudent.teacher_id == teacher_id).all()  # достаем все записи с учениками для данного учителя
+            for teacher_student in teachers_students:  # для каждой записи проверяем
+                st_user = User.query.filter(User.username == student_username).first()  #  из таблицы User достаем запись по имени ученика
+                st_user_id = st_user.id  # по имени ученика получаем id ученика
+                if teacher_student.student_id == st_user_id:
+                    flash('Этот ученик уже добавлен в список ваших учеников!')
+                    return redirect(url_for('user.teacher_add_student', username=current_user.username))
+
+                teacher.students.append(s)
+                db.session.add(t)
+                db.session.commit()
+
+    def teacher_has_student():
+        user_id = current_user.get_id()
+        teacher = Teacher.query.filter(Teacher.user_id == user_id).first()
+        teacher_id = teacher.teacher_id
+        if TeacherStudent.query.filter(TeacherStudent.teacher_id == teacher_id).count() > 0:
+            teachers_students = TeacherStudent.query.filter(TeacherStudent.teacher_id == teacher_id).all()
+            for teacher_student in teachers_students:
+                student_id = teacher_student.student_id
+                if student_id ==
+                    student_id = st.student_id
+                print(student_id)
+        else:
+            print('Вас нет в таблице teachers_students')
+
+    return render_template('user/teacher_add_student.html',
+                           add_student_form=add_student_form,
+                           page_title=title, user=username, user_status=user_status)
+
+def teacher_add_student(t_id, s_id):
+    with app.app_context():
+        t = Teacher.query.filter(Teacher.user_id == t_id).first()
+        print(t)
+        s = Student.query.filter(Student.user_id == s_id).first()
+        print(s)
+        t.students.append(s)
+        db.session.add(t)
+        db.session.commit()
+        return f'Учитель с id {t_id} добавил ученика {s_id}'
+
+
