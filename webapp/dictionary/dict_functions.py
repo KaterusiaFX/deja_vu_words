@@ -185,7 +185,7 @@ def user_frenchdict_search(word_in_form, username):
     word, user_french_word_status, user_french_word_date, userword_id = None, None, None, None
     user_frenchwords = process_user_frenchdict_index(username)
 
-    if language_check(word_in_form) == ('English' or 'French'):
+    if language_check(word_in_form) == 'English' or language_check(word_in_form) == 'French':
         for frenchword in user_frenchwords:
             if frenchword[0].word_itself == word_in_form:
                 return frenchword
@@ -199,7 +199,7 @@ def user_frenchdict_search(word_in_form, username):
 
 
 def user_frenchdict_translate(word_in_form):
-    if language_check(word_in_form) == ('English' or 'French'):
+    if language_check(word_in_form) == 'English' or language_check(word_in_form) == 'French':
         word_exist = FrenchWord.query.filter_by(word_itself=word_in_form).first()
         if word_exist:
             return word_exist.translation_rus
@@ -215,7 +215,7 @@ def user_frenchdict_translate(word_in_form):
 
 
 def user_frenchdict_add_word(word_in_form, word, username):
-    if language_check(word) == ('English' or 'French'):
+    if language_check(word) == 'English' or language_check(word) == 'French':
         # a user wants to add its own translation
         if word_in_form:
             user_new_word = alternative_frenchdict_supplement(word, username, word_in_form)
@@ -278,7 +278,7 @@ def user_frenchdict_delete_word(word_in_form, username):
     user_words = UsersWords.query.filter_by(user_id=username.id).all()
     word = None
 
-    if language_check(word_in_form) == ('English' or 'French'):
+    if language_check(word_in_form) == 'English' or language_check(word_in_form) == 'French':
         word_exist_userdict = FrenchWordOfUser.query.filter_by(word_itself=word_in_form).all()
         word_exist = FrenchWord.query.filter_by(word_itself=word_in_form).first()
         for userword in user_words:
