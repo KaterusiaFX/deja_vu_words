@@ -30,7 +30,9 @@ def process_user_engdict_index(username):
             english_words_status.append(user_word.status)
             english_words_date.append(user_word.imported_time)
             userword_id.append(user_word.id)
-    return list(zip(english_words, english_words_status, english_words_date, userword_id))
+    result = list(zip(english_words, english_words_status, english_words_date, userword_id))
+    result_sorted_by_date = sorted(result, key=lambda word_date: word_date[2], reverse=True)
+    return result_sorted_by_date
 
 
 def user_engdict_search(word_in_form, username):
@@ -174,7 +176,9 @@ def process_user_frenchdict_index(username):
             french_words_status.append(user_word.status)
             french_words_date.append(user_word.imported_time)
             userword_id.append(user_word.id)
-    return list(zip(french_words, french_words_status, french_words_date, userword_id))
+    result = list(zip(french_words, french_words_status, french_words_date, userword_id))
+    result_sorted_by_date = sorted(result, key=lambda word_date: word_date[2], reverse=True)
+    return result_sorted_by_date
 
 
 def user_frenchdict_search(word_in_form, username):
