@@ -131,6 +131,60 @@ def user_engdict_index(username):
         )
 
 
+@blueprint.route('/user_engdict_new/<username>')
+def user_engdict_index_new(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    search_form = EngDictionarySearchForm()
+    title = 'Ваш английский словарь'
+    english_list = process_user_engdict_index(username)
+    english_list_new = [word for word in english_list if word[1] == 'new']
+    english_words_sum = len(english_list_new)
+    return render_template(
+        'dictionary/user_engdict_index_new.html',
+        page_title=title,
+        english_list=english_list_new,
+        english_list_len=english_words_sum,
+        form=search_form,
+        user=username.username
+        )
+
+
+@blueprint.route('/user_engdict_familiar/<username>')
+def user_engdict_index_familiar(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    search_form = EngDictionarySearchForm()
+    title = 'Ваш английский словарь'
+    english_list = process_user_engdict_index(username)
+    english_list_new = [word for word in english_list if word[1] == 'familiar']
+    english_words_sum = len(english_list_new)
+    return render_template(
+        'dictionary/user_engdict_index_familiar.html',
+        page_title=title,
+        english_list=english_list_new,
+        english_list_len=english_words_sum,
+        form=search_form,
+        user=username.username
+        )
+
+
+@blueprint.route('/user_engdict_forgotten/<username>')
+def user_engdict_index_forgotten(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    search_form = EngDictionarySearchForm()
+    title = 'Ваш английский словарь'
+    english_list = process_user_engdict_index(username)
+    english_list_new = [word for word in english_list if word[1] == 'forgotten']
+    english_words_sum = len(english_list_new)
+    return render_template(
+        'dictionary/user_engdict_index_forgotten.html',
+        page_title=title,
+        english_list=english_list_new,
+        english_list_len=english_words_sum,
+        form=search_form,
+        user=username.username
+        )
+
+
 @blueprint.route('/user-process-engdict-search/<username>', methods=['POST'])
 def user_process_engdict_search(username):
     username = User.query.filter_by(username=username).first_or_404()
@@ -223,6 +277,60 @@ def user_frenchdict_index(username):
         'dictionary/user_frenchdict_index.html',
         page_title=title,
         french_list=french_list,
+        french_list_len=french_words_sum,
+        form=search_form,
+        user=username.username
+        )
+
+
+@blueprint.route('/user_frenchdict_new/<username>')
+def user_frenchdict_index_new(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    search_form = FrenchDictionarySearchForm()
+    title = 'Ваш французский словарь'
+    french_list = process_user_frenchdict_index(username)
+    french_list_new = [word for word in french_list if word[1] == 'new']
+    french_words_sum = len(french_list_new)
+    return render_template(
+        'dictionary/user_frenchdict_index_new.html',
+        page_title=title,
+        french_list=french_list_new,
+        french_list_len=french_words_sum,
+        form=search_form,
+        user=username.username
+        )
+
+
+@blueprint.route('/user_frenchdict_familiar/<username>')
+def user_frenchdict_index_familiar(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    search_form = FrenchDictionarySearchForm()
+    title = 'Ваш французский словарь'
+    french_list = process_user_frenchdict_index(username)
+    french_list_new = [word for word in french_list if word[1] == 'familiar']
+    french_words_sum = len(french_list_new)
+    return render_template(
+        'dictionary/user_frenchdict_index_familiar.html',
+        page_title=title,
+        french_list=french_list_new,
+        french_list_len=french_words_sum,
+        form=search_form,
+        user=username.username
+        )
+
+
+@blueprint.route('/user_frenchdict_forgotten/<username>')
+def user_frenchdict_index_forgotten(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    search_form = FrenchDictionarySearchForm()
+    title = 'Ваш французский словарь'
+    french_list = process_user_frenchdict_index(username)
+    french_list_new = [word for word in french_list if word[1] == 'forgotten']
+    french_words_sum = len(french_list_new)
+    return render_template(
+        'dictionary/user_frenchdict_index_forgotten.html',
+        page_title=title,
+        french_list=french_list_new,
         french_list_len=french_words_sum,
         form=search_form,
         user=username.username

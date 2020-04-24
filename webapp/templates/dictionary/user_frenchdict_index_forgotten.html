@@ -10,10 +10,7 @@
                         <h1>{{ page_title }}</h1>
                         <div class='row'>
                             <div class='col-12'>
-                                <form action="{{ url_for(
-                                    'dictionary.user_process_engdict_search',
-                                    username=current_user.username) }}"
-                                    method="post">
+                                <form action="{{ url_for('dictionary.user_process_frenchdict_search', username=current_user.username) }}" method="post">
                                 {{ form.hidden_tag() }}
                                     <div class="form-group">
                                         <label for="exampleFormControlInput1">{{ form.word.label }}</label>
@@ -30,23 +27,23 @@
                                                 </button>
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item" href="{{ url_for(
-                                                        'dictionary.user_engdict_index_new',
+                                                        'dictionary.user_frenchdict_index_new',
                                                         username=current_user.username) }}">
                                                         Новые
                                                     </a>
                                                     <a class="dropdown-item" href="{{ url_for(
-                                                        'dictionary.user_engdict_index_familiar',
+                                                        'dictionary.user_frenchdict_index_familiar',
                                                         username=current_user.username) }}">
                                                         Изученные
                                                     </a>
                                                     <a class="dropdown-item" href="{{ url_for(
-                                                        'dictionary.user_engdict_index_forgotten',
+                                                        'dictionary.user_frenchdict_index_forgotten',
                                                         username=current_user.username) }}">
                                                         Забытые
                                                     </a>
                                                     <div role="separator" class="dropdown-divider"></div>
                                                     <a class="dropdown-item" href="{{ url_for(
-                                                        'dictionary.user_engdict_index',
+                                                        'dictionary.user_frenchdict_index',
                                                         username=current_user.username) }}">
                                                         Все слова
                                                     </a>
@@ -55,24 +52,22 @@
                                         </div>
                                     </div>
                                 </form>
-                                {% if english_list_len %}
-                                    <p>Всего английских слов: {{ english_list_len }}</p>
+                                {% if french_list_len %}
+                                    <p>Количество забытых французских слов: {{ french_list_len }}</p>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
                                             <th scope="col">Слово</th>
                                             <th scope="col">Перевод</th>
-                                            <th scope="col">Транскрипция</th>
                                             <th scope="col">Статус</th>
                                             <th scope="col">Дата добавления</th>
                                             </tr>
                                         </thead>
-                                        {% for word_tuple in english_list %}
+                                        {% for word_tuple in french_list %}
                                         <tbody>
                                             <tr>
                                             <td>{{ word_tuple[0].word_itself }}</td>
                                             <td>{{ word_tuple[0].translation_rus }}</td>
-                                            <td>{{ word_tuple[0].transcription }}</td>
                                             <td>{{ word_tuple[1] }}</td>
                                             <td>{{ word_tuple[2].strftime('%d.%m.%Y') }}</td>
                                             </tr>
@@ -80,7 +75,7 @@
                                     {% endfor %}
                                     </table>
                                 {% else %}
-                                    <p>Ваш словарь пуст</p>
+                                    <p>У вас нет забытых французских слов</p>
                                 {% endif %}
                             </div>
                         </div>

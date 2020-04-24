@@ -10,10 +10,7 @@
                         <h1>{{ page_title }}</h1>
                         <div class='row'>
                             <div class='col-12'>
-                                <form action="{{ url_for(
-                                    'dictionary.user_process_engdict_search',
-                                    username=current_user.username) }}"
-                                    method="post">
+                                <form action="{{ url_for('dictionary.user_process_engdict_search', username=current_user.username) }}" method="post">
                                 {{ form.hidden_tag() }}
                                     <div class="form-group">
                                         <label for="exampleFormControlInput1">{{ form.word.label }}</label>
@@ -21,11 +18,7 @@
                                             {{ form.word() }}
                                             <div class="input-group-append">
                                                 {{ form.search() }}
-                                                <button type="button" 
-                                                class="btn btn-outline-info dropdown-toggle dropdown-toggle-split" 
-                                                data-toggle="dropdown" 
-                                                aria-haspopup="true" 
-                                                aria-expanded="false">
+                                                <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
                                                 <div class="dropdown-menu">
@@ -56,7 +49,7 @@
                                     </div>
                                 </form>
                                 {% if english_list_len %}
-                                    <p>Всего английских слов: {{ english_list_len }}</p>
+                                    <p>Количество изученных английских слов: {{ english_list_len }}</p>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
@@ -80,7 +73,7 @@
                                     {% endfor %}
                                     </table>
                                 {% else %}
-                                    <p>Ваш словарь пуст</p>
+                                    <p>У вас нет изученных английских слов</p>
                                 {% endif %}
                             </div>
                         </div>
