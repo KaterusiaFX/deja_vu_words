@@ -33,7 +33,7 @@
         </li>
         {% if user_status == 'Teacher' %}
             <li class="nav-item">
-              <a class="nav-link text-left text-info" href="#">
+              <a class="nav-link text-left text-info" href="{{ url_for('user.teacher_add_student', username=current_user.username) }}">
                 <span data-feather="shopping-cart"></span>
                 Мои ученики
               </a>

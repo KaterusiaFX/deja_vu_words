@@ -71,3 +71,5 @@ class TeacherStudent(db.Model, UserMixin):
     teachers = db.relationship('Teacher', backref='teachers')
     students = db.relationship('Student', backref='students')
 
+    def __repr__(self):
+        return f'<Teacher "{self.teacher_id}" has student {self.student_id}>'

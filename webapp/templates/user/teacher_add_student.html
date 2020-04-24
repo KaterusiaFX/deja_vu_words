@@ -1,22 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-        <h1>{{ page_title }}</h1>
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-4">
-                <form action="{{ url_for('user.teacher_add_student') }}" method="post">
-                    {{ form.hidden_tag() }}
-                    <div class="form-group">
-                        {{ form.student_username.label }}
-                        {{ form.student_username() }}
-                        {% for error in form.student_username.errors %}
-                        <span style="color: orange;">{{ error }}</span>
-                        {% endfor %}
+            {% include 'user/user_page_menu.html' %}
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                         <h1 class="h2">{{ title }} {{ user.username }}</h1>
                     </div>
-                    {{ form.submit() }}
-                </form>
-            </div>
+                     <div class="container">
+                            <div class="row">
+                                <div class="col-9">
+                                    <form action="{{ url_for('user.teacher_add_student', username=current_user.username) }}" method="post">
+                                        {{ form.hidden_tag() }}
+                                        <div class="form-group">
+                                            {{ form.student_username.label }}
+                                            {{ form.student_username() }}
+                                            {% for error in form.student_username.errors %}
+                                            <span style="color: orange;">{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {{ form.submit() }}
+                                    </form>
+                                </div>
+                            </div>
+                     </div>
+                </main>
         </div>
     </div>
 {% endblock %}
+
