@@ -1,3 +1,5 @@
+# пример тестового файла, удалить в будущем
+
 from my_english_dict import webapp_engdict_insert
 
 
