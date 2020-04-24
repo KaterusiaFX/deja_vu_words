@@ -10,7 +10,7 @@
                         <h1>{{ page_title }}</h1>
                         <div class='row'>
                             <div class='col-12'>
-                                <div id="carouselExampleCaptions" class="carousel slide">
+                                <div id="carouselExampleCaptions" class="carousel slide" data-interval="false">
                                     <ol class="carousel-indicators">
                                         <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
                                         <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>                                        
@@ -26,7 +26,11 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <a href='{{ url_for('exercises.engword_translation', username=current_user.username) }}' class="btn btn-squared-default btn-info">
+                                                                <a href='{{ url_for(
+                                                                    'exercises.engword_translation',
+                                                                    username=current_user.username
+                                                                    ) }}'
+                                                                class="btn btn-squared-default btn-info">
                                                                     <br />
                                                                     <br />
                                                                     Слово - 
@@ -36,7 +40,11 @@
                                                                 </a>
                                                             </td>
                                                             <td>
-                                                                <a href='#' class="btn btn-squared-default btn-info">
+                                                                <a href='{{ url_for(
+                                                                    'exercises.translation_engword',
+                                                                    username=current_user.username
+                                                                    ) }}'
+                                                                class="btn btn-squared-default btn-info">
                                                                     <br />
                                                                     <br />
                                                                     Перевод - 
@@ -80,7 +88,11 @@
                                                 <table class="table table-borderless">
                                                     <tr>
                                                             <td>
-                                                                <a href='{{ url_for('exercises.frenchword_translation', username=current_user.username) }}' class="btn btn-squared-default btn-info">
+                                                                <a href='{{ url_for(
+                                                                    'exercises.frenchword_translation',
+                                                                    username=current_user.username
+                                                                    ) }}'
+                                                                class="btn btn-squared-default btn-info">
                                                                     <br />
                                                                     <br />
                                                                     Слово - 
@@ -90,7 +102,11 @@
                                                                 </a>
                                                             </td>
                                                             <td>
-                                                                <a href='#' class="btn btn-squared-default btn-info">
+                                                                <a href='{{ url_for(
+                                                                    'exercises.translation_frenchword',
+                                                                    username=current_user.username
+                                                                    ) }}'
+                                                                class="btn btn-squared-default btn-info">
                                                                     <br />
                                                                     <br />
                                                                     Перевод - 

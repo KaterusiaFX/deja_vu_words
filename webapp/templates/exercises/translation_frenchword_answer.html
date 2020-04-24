@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            {% include 'user/user_page_menu.html' %}
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <div class="container">
+                        <h1>{{ page_title }}</h1>
+                        <div class='row'>
+                            <div class='col-12' align="middle"><center>
+                                <div class="card-deck">
+                                    <div class="card" style="width: 30rem;" align="middle">
+                                        <div class="card-body">
+                                            {% if decision == 'Верно' %}
+                                                <p class="card-text"><font size="6">{{ true_word[0].translation_rus }}</font></p>
+                                                <p class="card-text"><font size="3" face="cursive">{{ true_word[0].transcription }}</font></p>
+                                                <p class="card-text"><font size="4">перевод: {{ true_word[0].word_itself }}</font></p>
+                                            {% elif decision == 'Неверно' %}
+                                                <p class="card-text"><font size="6">{{ true_word[0].translation_rus }}</font></p>
+                                                <p class="card-text"><font size="3" face="cursive">{{ true_word[0].transcription }}</font></p>
+                                                <p class="card-text"><font size="4">перевод: {{ true_word[0].word_itself }}</font></p>
+                                            {% endif %}
+                                            <div class="card card-body">
+                                                <a href="#" class="list-group-item list-group-item-action">{{ mixture[0] }}</a>
+                                                <a href="#" class="list-group-item list-group-item-action">{{ mixture[1] }}</a>
+                                                <a href="#" class="list-group-item list-group-item-action">{{ mixture[2] }}</a>
+                                                <a href="#" class="list-group-item list-group-item-action">{{ mixture[3] }}</a>
+                                                <a href="#" class="list-group-item list-group-item-action">{{ mixture[4] }}</a>
+                                                <br />
+                                                <a href="{{ url_for('exercises.translation_frenchword',
+                                                username=current_user.username) }}"
+                                                class="btn btn-outline-secondary btn-sm">далее</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        {% if decision == 'Верно' %}
+                                            <h2><font color='forestgreen' align='right'>{{ decision }}</font></h2>
+                                            <img src="{{url_for('static', filename='right.jpg')}}" height=400 align='right'>
+                                        {% elif decision == 'Неверно' %}
+                                            <h2><font color='crimson' align='right'>{{ decision }}</font></h2>
+                                            <img src="{{url_for('static', filename='wrong2.jpg')}}" height=400 align='right'>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </center></div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-12' align="middle"><center>
+                                <br />
+                                <a href="{{ url_for(
+                                'dictionary.user_frenchdict_index',
+                                username=current_user.username) }}"
+                                class="btn btn-outline-info">
+                                    Назад во французский словарь
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+{% endblock %}

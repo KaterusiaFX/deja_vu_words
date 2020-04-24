@@ -15,6 +15,10 @@ class UsersWords(db.Model):
     status = db.Column(db.String, nullable=True, default='new')
     memorizing_time = db.Column(db.DateTime, nullable=True)
     word_translation = db.Column(db.Integer, nullable=True, default=0)
+    translation_word = db.Column(db.Integer, nullable=True, default=0)
+    word_write = db.Column(db.Integer, nullable=True, default=0)
+    translation_write = db.Column(db.Integer, nullable=True, default=0)
+    remember_word = db.Column(db.Integer, nullable=True, default=0)
 
     users = db.relationship('User', backref='users')
     english_words = db.relationship('EnglishWord', backref='english_words')

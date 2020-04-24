@@ -18,7 +18,8 @@ def language_check(word):
 
 def process_user_engdict_index(username):
     user_words = UsersWords.query.filter_by(user_id=username.id).all()
-    english_words, english_words_status, english_words_date, userword_id = [], [], [], []
+    english_words, english_words_status, english_words_date, userword_id, memorizing_date = [], [], [], [], []
+    word_translation, translation_word, word_write, translation_write, remember_word = [], [], [], [], []
     for user_word in user_words:
         eng_word = None
         if user_word.engword_id:
@@ -30,7 +31,24 @@ def process_user_engdict_index(username):
             english_words_status.append(user_word.status)
             english_words_date.append(user_word.imported_time)
             userword_id.append(user_word.id)
-    result = list(zip(english_words, english_words_status, english_words_date, userword_id))
+            memorizing_date.append(user_word.memorizing_time)
+            word_translation.append(user_word.word_translation)
+            translation_word.append(user_word.translation_word)
+            word_write.append(user_word.word_write)
+            translation_write.append(user_word.translation_write)
+            remember_word.append(user_word.remember_word)
+    result = list(zip(
+        english_words,
+        english_words_status,
+        english_words_date,
+        userword_id,
+        memorizing_date,
+        word_translation,
+        translation_word,
+        word_write,
+        translation_write,
+        remember_word
+        ))
     result_sorted_by_date = sorted(result, key=lambda word_date: word_date[2], reverse=True)
     return result_sorted_by_date
 
@@ -164,7 +182,8 @@ def user_engdict_delete_word(word_in_form, username):
 
 def process_user_frenchdict_index(username):
     user_words = UsersWords.query.filter_by(user_id=username.id).all()
-    french_words, french_words_status, french_words_date, userword_id = [], [], [], []
+    french_words, french_words_status, french_words_date, userword_id, memorizing_date = [], [], [], [], []
+    word_translation, translation_word, word_write, translation_write, remember_word = [], [], [], [], []
     for user_word in user_words:
         french_word = None
         if user_word.frenchword_id:
@@ -176,7 +195,24 @@ def process_user_frenchdict_index(username):
             french_words_status.append(user_word.status)
             french_words_date.append(user_word.imported_time)
             userword_id.append(user_word.id)
-    result = list(zip(french_words, french_words_status, french_words_date, userword_id))
+            memorizing_date.append(user_word.memorizing_time)
+            word_translation.append(user_word.word_translation)
+            translation_word.append(user_word.translation_word)
+            word_write.append(user_word.word_write)
+            translation_write.append(user_word.translation_write)
+            remember_word.append(user_word.remember_word)
+    result = list(zip(
+        french_words,
+        french_words_status,
+        french_words_date,
+        userword_id,
+        memorizing_date,
+        word_translation,
+        translation_word,
+        word_write,
+        translation_write,
+        remember_word
+        ))
     result_sorted_by_date = sorted(result, key=lambda word_date: word_date[2], reverse=True)
     return result_sorted_by_date
 
