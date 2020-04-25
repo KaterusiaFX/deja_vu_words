@@ -6,6 +6,8 @@ from webapp.user.forms import RegistrationForm
 from webapp.user.forms import SelectTeacherStudentForm, StopTeacherForm, StopStudentForm, AddStudentForm
 from webapp.user.models import User, Teacher, Student, TeacherStudent
 
+from webapp.user.user_functions import check_teacher_student
+
 
 from webapp import db
 
@@ -56,16 +58,6 @@ def register():
         flash('Вы успешно зарегистрировались!')
         return redirect(url_for('user.login'))
     return render_template('user/register.html', page_title=title, form=form)
-
-
-def check_teacher_student(user_id):
-    if Teacher.query.filter(Teacher.user_id == user_id).count():
-        user_status = 'Teacher'
-    elif Student.query.filter(Student.user_id == user_id).count():
-        user_status = 'Student'
-    else:
-        user_status = 'User'
-    return user_status
 
 
 @blueprint.route('/user/<username>')
@@ -170,13 +162,44 @@ def stop_student(username):
 def teacher_add_student(username):
     username = User.query.filter_by(username=username).first_or_404()
     title = 'Добавить ученика'
-    form = AddStudentForm
-    user_id = current_user.get_id()  # есть id текущего юзера
+    form = AddStudentForm()
+    user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
+    teacher = Teacher.query.filter(Teacher.user_id == user_id).first()
+    teacher_id = teacher.teacher_id
+    if form.validate_on_submit():
+        if user_status != 'Teacher':
+            flash('Вы не являетесь учителем и не можете добавить себе учеников!')
+            return redirect(url_for('user.select_tch_std', username=current_user.username))
+        else:
+            student_data = form.student_username.data
+            student = User.query.filter(User.username == student_data).first()
+            student_user_id = student.id
+            check_student = Student.query.filter(Student.user_id == student_user_id).first()
+            if check_student is None:
+                flash('Этот пользоваетль еще не стал учеником и вы не можете его добавить!')
+                return redirect(url_for('user.teacher_add_student', username=current_user.username))
+            else:
+                student_id_student = check_student.student_id
+        check_student_added = TeacherStudent.query.filter(TeacherStudent.student_id == student_id_student).first()
+        if check_student_added is None:
+            teacher_student = TeacherStudent(teacher_id=teacher_id, student_id=student_id_student)
+            db.session.add(teacher_student)
+            db.session.commit()
+            flash('Вы добавили себе нового ученика!')
+            return redirect(url_for('user.teacher_add_student', username=current_user.username))
+        else:
+            teachers_students = TeacherStudent.query.filter(TeacherStudent.student_id == student_id_student).all()
+            for teacher_student in teachers_students:
+                teacher_in_record = teacher_student.teacher_id
+                if teacher_in_record == teacher_id:
+                    flash('Этот студент уже добавлен в ваш список учеников и не может быть добавлен повторно!')
+                    return redirect(url_for('user.user', username=current_user.username))
+            teacher_student = TeacherStudent(teacher_id=teacher_id, student_id=student_id_student)
+            db.session.add(teacher_student)
+            db.session.commit()
+            flash('Вы добавили себе нового ученика!')
+            return redirect(url_for('user.user', username=current_user.username))
     return render_template('user/teacher_add_student.html',
                            form=form,
                            title=title, user=username, user_status=user_status)
-
-
-
-
