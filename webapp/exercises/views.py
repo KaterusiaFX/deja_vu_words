@@ -19,17 +19,30 @@ def choose_exercise(username):
 def engword_translation(username):
     username = User.query.filter_by(username=username).first_or_404()
     new_words = list(filter(lambda x: x[1] == 'new' and x[5] != None, process_user_engdict_index(username)))
-    new_words_for_other_words_sampling = list(filter(lambda x: x[1] == 'new', process_user_engdict_index(username)))
-    guess_word = choice(new_words)
-    other_words = [word[0].translation_rus for word in new_words_for_other_words_sampling if word != guess_word]
-    other_words = sample(other_words, 4)
-    other_words.append(guess_word[0].translation_rus)
-    mixture = sorted(other_words, key=lambda x: random())
+    new_words_number = len(new_words)
+    if new_words_number:
+        new_words_for_other_words_sampling = list(filter(
+            lambda x: x[1] == 'new',
+            process_user_engdict_index(username)
+            ))
+        guess_word = choice(new_words)
+        other_words = [word[0].translation_rus for word in new_words_for_other_words_sampling if word != guess_word]
+        other_words = sample(other_words, 4)
+        other_words.append(guess_word[0].translation_rus)
+        mixture = sorted(other_words, key=lambda x: random())
+        return render_template(
+            'exercises/engword_translation.html',
+            guess_word=guess_word[0].word_itself,
+            new_words_number=new_words_number,
+            mixture=mixture
+            )
+    guess_word, mixture = None, None
     return render_template(
-        'exercises/engword_translation.html',
-        guess_word=guess_word[0].word_itself,
-        mixture=mixture
-        )
+            'exercises/engword_translation.html',
+            guess_word=guess_word,
+            new_words_number=new_words_number,
+            mixture=mixture
+            )
 
 
 @blueprint.route('/engword_translation_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
@@ -51,17 +64,30 @@ def engword_translation_answer(username, user_answer, guess_word, mixture):
 def translation_engword(username):
     username = User.query.filter_by(username=username).first_or_404()
     new_words = list(filter(lambda x: x[1] == 'new' and x[6] != None, process_user_engdict_index(username)))
-    new_words_for_other_words_sampling = list(filter(lambda x: x[1] == 'new', process_user_engdict_index(username)))
-    guess_word = choice(new_words)
-    other_words = [word[0].word_itself for word in new_words_for_other_words_sampling if word != guess_word]
-    other_words = sample(other_words, 4)
-    other_words.append(guess_word[0].word_itself)
-    mixture = sorted(other_words, key=lambda x: random())
+    new_words_number = len(new_words)
+    if new_words_number:
+        new_words_for_other_words_sampling = list(filter(
+            lambda x: x[1] == 'new',
+            process_user_engdict_index(username)
+            ))
+        guess_word = choice(new_words)
+        other_words = [word[0].word_itself for word in new_words_for_other_words_sampling if word != guess_word]
+        other_words = sample(other_words, 4)
+        other_words.append(guess_word[0].word_itself)
+        mixture = sorted(other_words, key=lambda x: random())
+        return render_template(
+            'exercises/translation_engword.html',
+            guess_word=guess_word[0].translation_rus,
+            new_words_number=new_words_number,
+            mixture=mixture
+            )
+    guess_word, mixture = None, None
     return render_template(
-        'exercises/translation_engword.html',
-        guess_word=guess_word[0].translation_rus,
-        mixture=mixture
-        )
+            'exercises/translation_engword.html',
+            guess_word=guess_word,
+            new_words_number=new_words_number,
+            mixture=mixture
+            )
     
 
 @blueprint.route('/translation_engword_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
@@ -83,17 +109,30 @@ def translation_engword_answer(username, user_answer, guess_word, mixture):
 def frenchword_translation(username):
     username = User.query.filter_by(username=username).first_or_404()
     new_words = list(filter(lambda x: x[1] == 'new' and x[5] != None, process_user_frenchdict_index(username)))
-    new_words_for_other_words_sampling = list(filter(lambda x: x[1] == 'new', process_user_frenchdict_index(username)))
-    guess_word = choice(new_words)
-    other_words = [word[0].translation_rus for word in new_words_for_other_words_sampling if word != guess_word]
-    other_words = sample(other_words, 4)
-    other_words.append(guess_word[0].translation_rus)
-    mixture = sorted(other_words, key=lambda x: random())
+    new_words_number = len(new_words)
+    if new_words_number:
+        new_words_for_other_words_sampling = list(filter(
+            lambda x: x[1] == 'new',
+            process_user_frenchdict_index(username)
+            ))
+        guess_word = choice(new_words)
+        other_words = [word[0].translation_rus for word in new_words_for_other_words_sampling if word != guess_word]
+        other_words = sample(other_words, 4)
+        other_words.append(guess_word[0].translation_rus)
+        mixture = sorted(other_words, key=lambda x: random())
+        return render_template(
+            'exercises/frenchword_translation.html',
+            guess_word=guess_word[0].word_itself,
+            new_words_number=new_words_number,
+            mixture=mixture
+            )
+    guess_word, mixture = None, None
     return render_template(
-        'exercises/frenchword_translation.html',
-        guess_word=guess_word[0].word_itself,
-        mixture=mixture
-        )
+            'exercises/frenchword_translation.html',
+            guess_word=guess_word,
+            new_words_number=new_words_number,
+            mixture=mixture
+            )
 
 
 @blueprint.route('/frenchword_translation_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
@@ -115,17 +154,30 @@ def frenchword_translation_answer(username, user_answer, guess_word, mixture):
 def translation_frenchword(username):
     username = User.query.filter_by(username=username).first_or_404()
     new_words = list(filter(lambda x: x[1] == 'new' and x[6] != None, process_user_frenchdict_index(username)))
-    new_words_for_other_words_sampling = list(filter(lambda x: x[1] == 'new', process_user_frenchdict_index(username)))
-    guess_word = choice(new_words)
-    other_words = [word[0].word_itself for word in new_words_for_other_words_sampling if word != guess_word]
-    other_words = sample(other_words, 4)
-    other_words.append(guess_word[0].word_itself)
-    mixture = sorted(other_words, key=lambda x: random())
+    new_words_number = len(new_words)
+    if new_words_number:
+        new_words_for_other_words_sampling = list(filter(
+            lambda x: x[1] == 'new',
+            process_user_frenchdict_index(username)
+            ))
+        guess_word = choice(new_words)
+        other_words = [word[0].word_itself for word in new_words_for_other_words_sampling if word != guess_word]
+        other_words = sample(other_words, 4)
+        other_words.append(guess_word[0].word_itself)
+        mixture = sorted(other_words, key=lambda x: random())
+        return render_template(
+            'exercises/translation_frenchword.html',
+            guess_word=guess_word[0].translation_rus,
+            new_words_number=new_words_number,
+            mixture=mixture
+            )
+    guess_word, mixture = None, None
     return render_template(
-        'exercises/translation_frenchword.html',
-        guess_word=guess_word[0].translation_rus,
-        mixture=mixture
-        )
+            'exercises/translation_frenchword.html',
+            guess_word=guess_word,
+            new_words_number=new_words_number,
+            mixture=mixture
+            )
     
 
 @blueprint.route('/translation_frenchword_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
