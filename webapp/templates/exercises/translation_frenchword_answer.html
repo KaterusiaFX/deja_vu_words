@@ -15,11 +15,9 @@
                                         <div class="card-body">
                                             {% if decision == 'Верно' %}
                                                 <p class="card-text"><font size="6">{{ true_word[0].translation_rus }}</font></p>
-                                                <p class="card-text"><font size="3" face="cursive">{{ true_word[0].transcription }}</font></p>
                                                 <p class="card-text"><font size="4">перевод: {{ true_word[0].word_itself }}</font></p>
                                             {% elif decision == 'Неверно' %}
                                                 <p class="card-text"><font size="6">{{ true_word[0].translation_rus }}</font></p>
-                                                <p class="card-text"><font size="3" face="cursive">{{ true_word[0].transcription }}</font></p>
                                                 <p class="card-text"><font size="4">перевод: {{ true_word[0].word_itself }}</font></p>
                                             {% endif %}
                                             <div class="card card-body">

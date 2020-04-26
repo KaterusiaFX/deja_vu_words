@@ -15,22 +15,16 @@
                                         <div class="card-body">
                                             {% if decision == 'Верно' %}
                                                 <p class="card-text"><font size="6">{{ true_word[0].word_itself }}</font></p>
+                                                <p class="card-text"><font size="3" face="cursive">{{ true_word[0].transcription }}</font></p>
                                                 <p class="card-text"><font size="4">перевод: {{ true_word[0].translation_rus }}</font></p>
                                             {% elif decision == 'Неверно' %}
                                                 <p class="card-text"><font size="6">{{ true_word[0].word_itself }}</font></p>
+                                                <p class="card-text"><font size="3" face="cursive">{{ true_word[0].transcription }}</font></p>
                                                 <p class="card-text"><font size="4">перевод: {{ true_word[0].translation_rus }}</font></p>
                                             {% endif %}
-                                            <div class="card card-body">
-                                                <a href="#" class="list-group-item list-group-item-action">{{ mixture[0] }}</a>
-                                                <a href="#" class="list-group-item list-group-item-action">{{ mixture[1] }}</a>
-                                                <a href="#" class="list-group-item list-group-item-action">{{ mixture[2] }}</a>
-                                                <a href="#" class="list-group-item list-group-item-action">{{ mixture[3] }}</a>
-                                                <a href="#" class="list-group-item list-group-item-action">{{ mixture[4] }}</a>
-                                                <br />
-                                                <a href="{{ url_for('.frenchword_translation',
-                                                username=current_user.username) }}"
-                                                class="btn btn-outline-secondary btn-sm">далее</a>
-                                            </div>
+                                            <a href="{{ url_for('.insert_engword',
+                                            username=current_user.username) }}"
+                                            class="btn btn-outline-secondary btn-sm btn-block">далее</a>
                                         </div>
                                     </div>
                                     <div class="form-group">

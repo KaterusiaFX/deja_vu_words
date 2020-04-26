@@ -10,7 +10,7 @@
                         <h1>{{ page_title }}</h1>
                         <div class='row'>
                             <div align="middle">
-                                <h1>Вписать слово</h1>
+                                <h1>Вписать перевод</h1>
                             <div>
                             <div class='col-12' align="middle">
                                 <div class="card" style="width: 30rem;" align="middle">
@@ -18,7 +18,7 @@
                                         {% if new_words_number %}
                                             <p class="card-text"><font size="6">{{ guess_word }}</font></p>
                                             <form action="{{ url_for(
-                                                'exercises.insert_translation_of_frenchword_answer',
+                                                '.insert_translation_of_frenchword_answer',
                                                 username=current_user.username,
                                                 guess_word=guess_word) }}"
                                                 method="post">

@@ -54,7 +54,11 @@
                                                                 </a>
                                                             </td>
                                                             <td>
-                                                                <a href='#' class="btn btn-squared-default btn-info">
+                                                                <a href='{{ url_for(
+                                                                    '.insert_engword',
+                                                                    username=current_user.username
+                                                                    ) }}'
+                                                                class="btn btn-squared-default btn-info">
                                                                     <br />
                                                                     <br />
                                                                     Вписать
@@ -141,7 +145,11 @@
                                                                 </a>
                                                             </td>
                                                             <td>
-                                                                <a href='#' class="btn btn-squared-default btn-info">
+                                                                <a href='{{ url_for(
+                                                                    '.insert_frenchword',
+                                                                    username=current_user.username
+                                                                    ) }}'
+                                                                class="btn btn-squared-default btn-info">
                                                                     <br />
                                                                     <br />
                                                                     Вписать

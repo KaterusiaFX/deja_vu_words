@@ -27,7 +27,7 @@
                                             </p>
                                             <div class="collapse" id="collapseExample">
                                                 <div class="card card-body">
-                                                    <a href="{{ url_for('exercises.engword_translation_answer', 
+                                                    <a href="{{ url_for('.engword_translation_answer', 
                                                     username=current_user.username,
                                                     user_answer=0,
                                                     guess_word=guess_word,
@@ -35,7 +35,7 @@
                                                     class="list-group-item list-group-item-action">
                                                         {{ mixture[0] }}
                                                     </a>
-                                                    <a href="{{ url_for('exercises.engword_translation_answer', 
+                                                    <a href="{{ url_for('.engword_translation_answer', 
                                                     username=current_user.username,
                                                     user_answer=1,
                                                     guess_word=guess_word,
@@ -43,7 +43,7 @@
                                                     class="list-group-item list-group-item-action">
                                                         {{ mixture[1] }}
                                                     </a>
-                                                    <a href="{{ url_for('exercises.engword_translation_answer', 
+                                                    <a href="{{ url_for('.engword_translation_answer', 
                                                     username=current_user.username,
                                                     user_answer=2,
                                                     guess_word=guess_word,
@@ -51,14 +51,14 @@
                                                     class="list-group-item list-group-item-action">
                                                         {{ mixture[2] }}
                                                     </a>
-                                                    <a href="{{ url_for('exercises.engword_translation_answer', 
+                                                    <a href="{{ url_for('.engword_translation_answer', 
                                                     username=current_user.username,
                                                     user_answer=3,
                                                     guess_word=guess_word,
                                                     mixture=mixture) }}"
                                                     class="list-group-item list-group-item-action">                                                    {{ mixture[3] }}
                                                     </a>
-                                                    <a href="{{ url_for('exercises.engword_translation_answer', 
+                                                    <a href="{{ url_for('.engword_translation_answer', 
                                                     username=current_user.username,
                                                     user_answer=4,
                                                     guess_word=guess_word,
@@ -66,7 +66,7 @@
                                                     class="list-group-item list-group-item-action">                                                    {{ mixture[4] }}
                                                     </a>
                                                     <br>
-                                                    <a href="{{ url_for('exercises.engword_translation',
+                                                    <a href="{{ url_for('.engword_translation',
                                                     username=current_user.username) }}"
                                                     class="btn btn-outline-secondary btn-sm">далее</a>
                                                 </div>
