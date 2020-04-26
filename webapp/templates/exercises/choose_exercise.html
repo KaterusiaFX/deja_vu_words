@@ -22,90 +22,90 @@
                                                 <h1><font color="lightseagreen" align='top'>Английские тренировки</font></h1>
                                                 <br />
                                                 <br />
-                                                <table class="table table-borderless">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <a href='{{ url_for(
-                                                                    '.engword_translation',
-                                                                    username=current_user.username
-                                                                    ) }}'
-                                                                class="btn btn-squared-default btn-info">
-                                                                    <br />
-                                                                    <br />
-                                                                    Слово - 
-                                                                    <br />
-                                                                    перевод
-                                                                    <br />
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <a href='{{ url_for(
-                                                                    '.translation_engword',
-                                                                    username=current_user.username
-                                                                    ) }}'
-                                                                class="btn btn-squared-default btn-info">
-                                                                    <br />
-                                                                    <br />
-                                                                    Перевод - 
-                                                                    <br />
-                                                                    слово
-                                                                    <br />
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <a href='{{ url_for(
-                                                                    '.insert_engword',
-                                                                    username=current_user.username
-                                                                    ) }}'
-                                                                class="btn btn-squared-default btn-info">
-                                                                    <br />
-                                                                    <br />
-                                                                    Вписать
-                                                                    <br />
-                                                                    слово
-                                                                    <br />
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <a href='{{ url_for(
-                                                                    '.insert_translation_of_engword',
-                                                                    username=current_user.username
-                                                                    ) }}'
-                                                                class="btn btn-squared-default btn-info">
-                                                                    <br />
-                                                                    <br />
-                                                                    Вписать
-                                                                    <br />
-                                                                    перевод
-                                                                    <br />
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <a href='#' class="btn btn-squared-default btn-info">
-                                                                    <br />
-                                                                    <br />
-                                                                    Вписать
-                                                                    <br />
-                                                                    на слух
-                                                                    <br />
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <a href='#' class="btn btn-squared-default btn-info">
-                                                                    <br />
-                                                                    <br />
-                                                                    Помню -
-                                                                    <br />
-                                                                    не помню
-                                                                    <br />
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                <div class="row">
+                                                    <div class="col"></div>
+                                                    <div class="col"></div>
+                                                    <div class="col"></div>
+                                                    <div class="col">
+                                                        <a href='{{ url_for(
+                                                            '.engword_translation',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
+                                                            <br />
+                                                            <br />
+                                                            Слово - 
+                                                            <br />
+                                                            перевод
+                                                            <br />
+                                                        </a>
+                                                    </div>
+                                                    <div class="col"></div>
+                                                    <div class="col">
+                                                        <a href='{{ url_for(
+                                                            '.translation_engword',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
+                                                            <br />
+                                                            <br />
+                                                            Перевод - 
+                                                            <br />
+                                                            слово
+                                                            <br />
+                                                        </a>
+                                                    </div>
+                                                    <div class="col"></div>
+                                                    <div class="col"></div>
+                                                    <div class="col"></div>
+                                                </div>
+                                                <br />
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <a href='{{ url_for(
+                                                            '.insert_engword',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
+                                                            <br />
+                                                            <br />
+                                                            Вписать
+                                                            <br />
+                                                            слово
+                                                            <br />
+                                                        </a>
+                                                    </div>
+                                                    <div class="col">
+                                                        <a href='{{ url_for(
+                                                            '.insert_translation_of_engword',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
+                                                            <br />
+                                                            <br />
+                                                            Вписать
+                                                            <br />
+                                                            перевод
+                                                            <br />
+                                                        </a>
+                                                    </div>
+                                                    <div class="col">
+                                                        <a href='{{ url_for(
+                                                            '.remember_engword',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
+                                                            <br />
+                                                            <br />
+                                                            Помню -
+                                                            <br />
+                                                            не помню
+                                                            <br />
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <br />
                                             </div>
                                         </div>
                                         <div class="carousel-item">
@@ -114,89 +114,90 @@
                                                 <h1><font color="teal" align='top'>Французские тренировки</font></h1>
                                                 <br />
                                                 <br />
-                                                <table class="table table-borderless">
-                                                    <tr>
-                                                            <td>
-                                                                <a href='{{ url_for(
-                                                                    '.frenchword_translation',
-                                                                    username=current_user.username
-                                                                    ) }}'
-                                                                class="btn btn-squared-default btn-info">
-                                                                    <br />
-                                                                    <br />
-                                                                    Слово - 
-                                                                    <br />
-                                                                    перевод
-                                                                    <br />
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <a href='{{ url_for(
-                                                                    '.translation_frenchword',
-                                                                    username=current_user.username
-                                                                    ) }}'
-                                                                class="btn btn-squared-default btn-info">
-                                                                    <br />
-                                                                    <br />
-                                                                    Перевод - 
-                                                                    <br />
-                                                                    слово
-                                                                    <br />
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <a href='{{ url_for(
-                                                                    '.insert_frenchword',
-                                                                    username=current_user.username
-                                                                    ) }}'
-                                                                class="btn btn-squared-default btn-info">
-                                                                    <br />
-                                                                    <br />
-                                                                    Вписать
-                                                                    <br />
-                                                                    слово
-                                                                    <br />
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <a href='{{ url_for(
-                                                                    '.insert_translation_of_frenchword',
-                                                                    username=current_user.username
-                                                                    ) }}'
-                                                                class="btn btn-squared-default btn-info">
-                                                                    <br />
-                                                                    <br />
-                                                                    Вписать
-                                                                    <br />
-                                                                    перевод
-                                                                    <br />
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <a href='#' class="btn btn-squared-default btn-info">
-                                                                    <br />
-                                                                    <br />
-                                                                    Вписать
-                                                                    <br />
-                                                                    на слух
-                                                                    <br />
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <a href='#' class="btn btn-squared-default btn-info">
-                                                                    <br />
-                                                                    <br />
-                                                                    Помню -
-                                                                    <br />
-                                                                    не помню
-                                                                    <br />
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                <div class="row">
+                                                    <div class="col"></div>
+                                                    <div class="col"></div>
+                                                    <div class="col"></div>
+                                                    <div class="col">
+                                                        <a href='{{ url_for(
+                                                            '.frenchword_translation',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
+                                                            <br />
+                                                            <br />
+                                                            Слово - 
+                                                            <br />
+                                                            перевод
+                                                            <br />
+                                                        </a>
+                                                    </div>
+                                                    <div class="col"></div>
+                                                    <div class="col">
+                                                        <a href='{{ url_for(
+                                                            '.translation_frenchword',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
+                                                            <br />
+                                                            <br />
+                                                            Перевод - 
+                                                            <br />
+                                                            слово
+                                                            <br />
+                                                        </a>
+                                                    </div>
+                                                    <div class="col"></div>
+                                                    <div class="col"></div>
+                                                    <div class="col"></div>
+                                                </div>
+                                                <br />
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col">  
+                                                        <a href='{{ url_for(
+                                                            '.insert_frenchword',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
+                                                            <br />
+                                                            <br />
+                                                            Вписать
+                                                            <br />
+                                                            слово
+                                                            <br />
+                                                        </a>
+                                                    </div>
+                                                    <div class="col"> 
+                                                        <a href='{{ url_for(
+                                                            '.insert_translation_of_frenchword',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
+                                                            <br />
+                                                            <br />
+                                                            Вписать
+                                                            <br />
+                                                            перевод
+                                                            <br />
+                                                        </a>
+                                                    </div>
+                                                    <div class="col">
+                                                        <a href='{{ url_for(
+                                                            '.remember_frenchword',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
+                                                            <br />
+                                                            <br />
+                                                            Помню -
+                                                            <br />
+                                                            не помню
+                                                            <br />
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <br />
                                             </div>
                                         </div>
                                         </div>

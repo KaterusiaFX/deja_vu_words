@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, redirect, render_template, url_for
 from random import choice, random, sample
 import re
 
@@ -8,6 +8,8 @@ from webapp.exercises.exercise_functions import engword_translation_training, fr
 from webapp.exercises.exercise_functions import insert_engword_training, insert_frenchword_training
 from webapp.exercises.exercise_functions import insert_translation_of_engword_training
 from webapp.exercises.exercise_functions import insert_translation_of_frenchword_training
+from webapp.exercises.exercise_functions import not_remember_engword_training, not_remember_frenchword_training
+from webapp.exercises.exercise_functions import remember_engword_training, remember_frenchword_training
 from webapp.exercises.exercise_functions import translation_engword_training, translation_frenchword_training
 from webapp.user.models import User
 
@@ -159,6 +161,35 @@ def insert_translation_of_engword_answer(username, guess_word):
             )
 
 
+@blueprint.route('/remember_engword/<username>')
+def remember_engword(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    new_words = list(filter(lambda x: x[1] == 'new' and x[9] is not None, process_user_engdict_index(username)))
+    new_words_number = len(new_words)
+    if new_words_number:
+        guess_word = choice(new_words)
+        return render_template(
+            'exercises/remember_engword.html',
+            guess_word=guess_word[0].word_itself,
+            new_words_number=new_words_number
+            )
+    return render_template('exercises/remember_engword.html')
+
+
+@blueprint.route('/remember_engword_answer/<username>/<guess_word>')
+def remember_engword_answer(username, guess_word):
+    username = User.query.filter_by(username=username).first_or_404()
+    remember_engword_training(username, guess_word)
+    return redirect(url_for('.remember_engword', username=username.username))
+
+
+@blueprint.route('/not_remember_engword_answer/<username>/<guess_word>')
+def not_remember_engword_answer(username, guess_word):
+    username = User.query.filter_by(username=username).first_or_404()
+    not_remember_engword_training(username, guess_word)
+    return redirect(url_for('.remember_engword', username=username.username))
+
+
 @blueprint.route('/frenchword_translation/<username>')
 def frenchword_translation(username):
     username = User.query.filter_by(username=username).first_or_404()
@@ -297,3 +328,32 @@ def insert_translation_of_frenchword_answer(username, guess_word):
             true_word=true_word,
             decision=decision
             )
+
+
+@blueprint.route('/remember_frenchword/<username>')
+def remember_frenchword(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    new_words = list(filter(lambda x: x[1] == 'new' and x[9] is not None, process_user_frenchdict_index(username)))
+    new_words_number = len(new_words)
+    if new_words_number:
+        guess_word = choice(new_words)
+        return render_template(
+            'exercises/remember_frenchword.html',
+            guess_word=guess_word[0].word_itself,
+            new_words_number=new_words_number
+            )
+    return render_template('exercises/remember_frenchword.html')
+
+
+@blueprint.route('/remember_frenchword_answer/<username>/<guess_word>')
+def remember_frenchword_answer(username, guess_word):
+    username = User.query.filter_by(username=username).first_or_404()
+    remember_frenchword_training(username, guess_word)
+    return redirect(url_for('.remember_frenchword', username=username.username))
+
+
+@blueprint.route('/not_remember_frenchword_answer/<username>/<guess_word>')
+def not_remember_frenchword_answer(username, guess_word):
+    username = User.query.filter_by(username=username).first_or_404()
+    not_remember_frenchword_training(username, guess_word)
+    return redirect(url_for('.remember_frenchword', username=username.username))

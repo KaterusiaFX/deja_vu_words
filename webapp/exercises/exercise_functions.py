@@ -71,6 +71,23 @@ def insert_translation_of_engword_training(username, guess_word, user_answer):
     return 'Неверно', guess_word
 
 
+def remember_engword_training(username, guess_word):
+    guess_word = user_engdict_search(guess_word, username)
+    word = UsersWords.query.get(guess_word[3])
+    word.remember_word = None
+    db.session.commit()
+    if word.word_translation is None and word.translation_word is None \
+            and word.word_write is None and word.translation_write is None:
+        word_status_change_to_familiar(word)
+
+
+def not_remember_engword_training(username, guess_word):
+    guess_word = user_engdict_search(guess_word, username)
+    word = UsersWords.query.get(guess_word[3])
+    word.remember_word += 1
+    db.session.commit()
+
+
 def frenchword_translation_training(username, guess_word, user_answer):
     guess_word = user_frenchdict_search(guess_word, username)
     word = UsersWords.query.get(guess_word[3])
@@ -129,3 +146,20 @@ def insert_translation_of_frenchword_training(username, guess_word, user_answer)
     word.translation_write += 1
     db.session.commit()
     return 'Неверно', guess_word
+
+
+def remember_frenchword_training(username, guess_word):
+    guess_word = user_frenchdict_search(guess_word, username)
+    word = UsersWords.query.get(guess_word[3])
+    word.remember_word = None
+    db.session.commit()
+    if word.word_translation is None and word.translation_word is None \
+            and word.word_write is None and word.translation_write is None:
+        word_status_change_to_familiar(word)
+
+
+def not_remember_frenchword_training(username, guess_word):
+    guess_word = user_frenchdict_search(guess_word, username)
+    word = UsersWords.query.get(guess_word[3])
+    word.remember_word += 1
+    db.session.commit()
