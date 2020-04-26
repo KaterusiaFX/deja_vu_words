@@ -27,22 +27,25 @@
         </li>
         <li class="nav-item">
           <a class="nav-link text-left text-info" href="#">
-            <span data-feather="shopping-cart"></span>
-            Моя страница
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="#">
-            <span data-feather="bar-chart-2"></span>
-            Мои тренировки
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="#">
             <span data-feather="layers"></span>
             Мой прогресс
           </a>
         </li>
+        {% if user_status == 'Teacher' %}
+            <li class="nav-item">
+              <a class="nav-link text-left text-info" href="{{ url_for('user.teacher_add_student', username=current_user.username) }}">
+                <span data-feather="shopping-cart"></span>
+                Мои ученики
+              </a>
+            </li>
+        {% elif user_status == 'Student' %}
+            <li class="nav-item">
+              <a class="nav-link text-left text-info" href="#">
+                <span data-feather="bar-chart-2"></span>
+                Мои учителя
+              </a>
+            </li>
+        {% endif %}
       </ul>
     </div>
 </nav>
