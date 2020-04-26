@@ -27,7 +27,7 @@
                                                         <tr>
                                                             <td>
                                                                 <a href='{{ url_for(
-                                                                    'exercises.engword_translation',
+                                                                    '.engword_translation',
                                                                     username=current_user.username
                                                                     ) }}'
                                                                 class="btn btn-squared-default btn-info">
@@ -41,7 +41,7 @@
                                                             </td>
                                                             <td>
                                                                 <a href='{{ url_for(
-                                                                    'exercises.translation_engword',
+                                                                    '.translation_engword',
                                                                     username=current_user.username
                                                                     ) }}'
                                                                 class="btn btn-squared-default btn-info">
@@ -66,7 +66,11 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <a href='#' class="btn btn-squared-default btn-info">
+                                                                <a href='{{ url_for(
+                                                                    '.insert_translation_of_engword',
+                                                                    username=current_user.username
+                                                                    ) }}'
+                                                                class="btn btn-squared-default btn-info">
                                                                     <br />
                                                                     <br />
                                                                     Вписать
@@ -110,7 +114,7 @@
                                                     <tr>
                                                             <td>
                                                                 <a href='{{ url_for(
-                                                                    'exercises.frenchword_translation',
+                                                                    '.frenchword_translation',
                                                                     username=current_user.username
                                                                     ) }}'
                                                                 class="btn btn-squared-default btn-info">
@@ -124,7 +128,7 @@
                                                             </td>
                                                             <td>
                                                                 <a href='{{ url_for(
-                                                                    'exercises.translation_frenchword',
+                                                                    '.translation_frenchword',
                                                                     username=current_user.username
                                                                     ) }}'
                                                                 class="btn btn-squared-default btn-info">
@@ -149,7 +153,11 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <a href='#' class="btn btn-squared-default btn-info">
+                                                                <a href='{{ url_for(
+                                                                    '.insert_translation_of_frenchword',
+                                                                    username=current_user.username
+                                                                    ) }}'
+                                                                class="btn btn-squared-default btn-info">
                                                                     <br />
                                                                     <br />
                                                                     Вписать

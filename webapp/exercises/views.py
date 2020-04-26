@@ -3,8 +3,11 @@ from random import choice, random, sample
 import re
 
 from webapp.dictionary.dict_functions import process_user_engdict_index, process_user_frenchdict_index
+from webapp.exercises.forms import InsertWordForm
 from webapp.exercises.exercise_functions import engword_translation_training, frenchword_translation_training
 from webapp.exercises.exercise_functions import translation_engword_training, translation_frenchword_training
+from webapp.exercises.exercise_functions import insert_translation_of_engword_training
+from webapp.exercises.exercise_functions import insert_translation_of_frenchword_training
 from webapp.user.models import User
 
 blueprint = Blueprint('exercises', __name__, url_prefix='/exercises')
@@ -36,13 +39,7 @@ def engword_translation(username):
             new_words_number=new_words_number,
             mixture=mixture
             )
-    guess_word, mixture = None, None
-    return render_template(
-            'exercises/engword_translation.html',
-            guess_word=guess_word,
-            new_words_number=new_words_number,
-            mixture=mixture
-            )
+    return render_template('exercises/engword_translation.html')
 
 
 @blueprint.route('/engword_translation_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
@@ -81,13 +78,7 @@ def translation_engword(username):
             new_words_number=new_words_number,
             mixture=mixture
             )
-    guess_word, mixture = None, None
-    return render_template(
-            'exercises/translation_engword.html',
-            guess_word=guess_word,
-            new_words_number=new_words_number,
-            mixture=mixture
-            )
+    return render_template('exercises/translation_engword.html')
     
 
 @blueprint.route('/translation_engword_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
@@ -103,6 +94,37 @@ def translation_engword_answer(username, user_answer, guess_word, mixture):
         mixture=final_mixture,
         decision=decision
         )
+
+
+@blueprint.route('/insert_translation_of_engword/<username>')
+def insert_translation_of_engword(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    new_words = list(filter(lambda x: x[1] == 'new' and x[8] != None, process_user_engdict_index(username)))
+    new_words_number = len(new_words)
+    form = InsertWordForm()
+    if new_words_number:
+        guess_word = choice(new_words)
+        return render_template(
+            'exercises/insert_translation_of_engword.html',
+            guess_word=guess_word[0].word_itself,
+            new_words_number=new_words_number,
+            form=form
+            )
+    return render_template('exercises/insert_translation_of_engword.html')
+
+
+@blueprint.route('/insert_translation_of_engword_answer/<username>/<guess_word>', methods=['POST'])
+def insert_translation_of_engword_answer(username, guess_word):
+    username = User.query.filter_by(username=username).first_or_404()
+    form = InsertWordForm()
+    if form.validate_on_submit():
+        user_answer = form.word.data
+        decision, true_word = insert_translation_of_engword_training(username, guess_word, user_answer)
+        return render_template(
+            'exercises/insert_translation_of_engword_answer.html',
+            true_word=true_word,
+            decision=decision
+            )
 
 
 @blueprint.route('/frenchword_translation/<username>')
@@ -126,13 +148,7 @@ def frenchword_translation(username):
             new_words_number=new_words_number,
             mixture=mixture
             )
-    guess_word, mixture = None, None
-    return render_template(
-            'exercises/frenchword_translation.html',
-            guess_word=guess_word,
-            new_words_number=new_words_number,
-            mixture=mixture
-            )
+    return render_template('exercises/frenchword_translation.html')
 
 
 @blueprint.route('/frenchword_translation_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
@@ -171,13 +187,7 @@ def translation_frenchword(username):
             new_words_number=new_words_number,
             mixture=mixture
             )
-    guess_word, mixture = None, None
-    return render_template(
-            'exercises/translation_frenchword.html',
-            guess_word=guess_word,
-            new_words_number=new_words_number,
-            mixture=mixture
-            )
+    return render_template('exercises/translation_frenchword.html')
     
 
 @blueprint.route('/translation_frenchword_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
@@ -193,3 +203,34 @@ def translation_frenchword_answer(username, user_answer, guess_word, mixture):
         mixture=final_mixture,
         decision=decision
         )
+
+
+@blueprint.route('/insert_translation_of_frenchword/<username>')
+def insert_translation_of_frenchword(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    new_words = list(filter(lambda x: x[1] == 'new' and x[8] != None, process_user_frenchdict_index(username)))
+    new_words_number = len(new_words)
+    form = InsertWordForm()
+    if new_words_number:
+        guess_word = choice(new_words)
+        return render_template(
+            'exercises/insert_translation_of_frenchword.html',
+            guess_word=guess_word[0].word_itself,
+            new_words_number=new_words_number,
+            form=form
+            )
+    return render_template('exercises/insert_translation_of_frenchword.html')
+
+
+@blueprint.route('/insert_translation_of_frenchword_answer/<username>/<guess_word>', methods=['POST'])
+def insert_translation_of_frenchword_answer(username, guess_word):
+    username = User.query.filter_by(username=username).first_or_404()
+    form = InsertWordForm()
+    if form.validate_on_submit():
+        user_answer = form.word.data
+        decision, true_word = insert_translation_of_frenchword_training(username, guess_word, user_answer)
+        return render_template(
+            'exercises/insert_translation_of_frenchword_answer.html',
+            true_word=true_word,
+            decision=decision
+            )

@@ -60,12 +60,12 @@ def user_engdict_search(word_in_form, username):
     if language_check(word_in_form) == 'English':
         for engword in user_engwords:
             if engword[0].word_itself == word_in_form:
-                return engword
+                return engword[:4]
 
     elif language_check(word_in_form) == 'Russian':
         for engword in user_engwords:
             if engword[0].translation_rus == word_in_form:
-                return engword
+                return engword[:4]
 
     return word, user_english_word_status, user_english_word_date, userword_id
 
@@ -224,12 +224,12 @@ def user_frenchdict_search(word_in_form, username):
     if language_check(word_in_form) == 'English' or language_check(word_in_form) == 'French':
         for frenchword in user_frenchwords:
             if frenchword[0].word_itself == word_in_form:
-                return frenchword
+                return frenchword[:4]
 
     elif language_check(word_in_form) == 'Russian':
         for frenchword in user_frenchwords:
             if frenchword[0].translation_rus == word_in_form:
-                return frenchword
+                return frenchword[:4]
 
     return word, user_french_word_status, user_french_word_date, userword_id
 

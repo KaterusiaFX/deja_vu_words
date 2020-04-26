@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import FormField, StringField, SubmitField
+from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
 
@@ -43,5 +43,3 @@ class WordInsertForm(FlaskForm):
         render_kw={"class": "form-control"}
         )
     add = SubmitField('Добавить слово', render_kw={"class": "btn btn-outline-success"})
-    back_to_eng = FormField(BackToEngDictionary)
-    back_to_french = FormField(BackToFrenchDictionary)
