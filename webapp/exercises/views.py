@@ -21,7 +21,7 @@ def choose_exercise(username):
 @blueprint.route('/engword_translation/<username>')
 def engword_translation(username):
     username = User.query.filter_by(username=username).first_or_404()
-    new_words = list(filter(lambda x: x[1] == 'new' and x[5] != None, process_user_engdict_index(username)))
+    new_words = list(filter(lambda x: x[1] == 'new' and x[5] is not None, process_user_engdict_index(username)))
     new_words_number = len(new_words)
     if new_words_number:
         new_words_for_other_words_sampling = list(filter(
@@ -60,7 +60,7 @@ def engword_translation_answer(username, user_answer, guess_word, mixture):
 @blueprint.route('/translation_engword/<username>')
 def translation_engword(username):
     username = User.query.filter_by(username=username).first_or_404()
-    new_words = list(filter(lambda x: x[1] == 'new' and x[6] != None, process_user_engdict_index(username)))
+    new_words = list(filter(lambda x: x[1] == 'new' and x[6] is not None, process_user_engdict_index(username)))
     new_words_number = len(new_words)
     if new_words_number:
         new_words_for_other_words_sampling = list(filter(
@@ -79,7 +79,7 @@ def translation_engword(username):
             mixture=mixture
             )
     return render_template('exercises/translation_engword.html')
-    
+
 
 @blueprint.route('/translation_engword_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
 def translation_engword_answer(username, user_answer, guess_word, mixture):
@@ -99,7 +99,7 @@ def translation_engword_answer(username, user_answer, guess_word, mixture):
 @blueprint.route('/insert_translation_of_engword/<username>')
 def insert_translation_of_engword(username):
     username = User.query.filter_by(username=username).first_or_404()
-    new_words = list(filter(lambda x: x[1] == 'new' and x[8] != None, process_user_engdict_index(username)))
+    new_words = list(filter(lambda x: x[1] == 'new' and x[8] is not None, process_user_engdict_index(username)))
     new_words_number = len(new_words)
     form = InsertWordForm()
     if new_words_number:
@@ -130,7 +130,7 @@ def insert_translation_of_engword_answer(username, guess_word):
 @blueprint.route('/frenchword_translation/<username>')
 def frenchword_translation(username):
     username = User.query.filter_by(username=username).first_or_404()
-    new_words = list(filter(lambda x: x[1] == 'new' and x[5] != None, process_user_frenchdict_index(username)))
+    new_words = list(filter(lambda x: x[1] == 'new' and x[5] is not None, process_user_frenchdict_index(username)))
     new_words_number = len(new_words)
     if new_words_number:
         new_words_for_other_words_sampling = list(filter(
@@ -169,7 +169,7 @@ def frenchword_translation_answer(username, user_answer, guess_word, mixture):
 @blueprint.route('/translation_frenchword/<username>')
 def translation_frenchword(username):
     username = User.query.filter_by(username=username).first_or_404()
-    new_words = list(filter(lambda x: x[1] == 'new' and x[6] != None, process_user_frenchdict_index(username)))
+    new_words = list(filter(lambda x: x[1] == 'new' and x[6] is not None, process_user_frenchdict_index(username)))
     new_words_number = len(new_words)
     if new_words_number:
         new_words_for_other_words_sampling = list(filter(
@@ -188,7 +188,7 @@ def translation_frenchword(username):
             mixture=mixture
             )
     return render_template('exercises/translation_frenchword.html')
-    
+
 
 @blueprint.route('/translation_frenchword_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
 def translation_frenchword_answer(username, user_answer, guess_word, mixture):
@@ -208,7 +208,7 @@ def translation_frenchword_answer(username, user_answer, guess_word, mixture):
 @blueprint.route('/insert_translation_of_frenchword/<username>')
 def insert_translation_of_frenchword(username):
     username = User.query.filter_by(username=username).first_or_404()
-    new_words = list(filter(lambda x: x[1] == 'new' and x[8] != None, process_user_frenchdict_index(username)))
+    new_words = list(filter(lambda x: x[1] == 'new' and x[8] is not None, process_user_frenchdict_index(username)))
     new_words_number = len(new_words)
     form = InsertWordForm()
     if new_words_number:

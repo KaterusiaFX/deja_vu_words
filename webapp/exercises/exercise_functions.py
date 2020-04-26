@@ -17,8 +17,8 @@ def engword_translation_training(username, guess_word, user_answer):
     if guess_word[0].translation_rus == user_answer:
         word.word_translation = None  # если слово изучено, то в ячейку пишется NULL
         db.session.commit()
-        if word.translation_word == None and word.word_write == None \
-            and word.translation_write == None and word.remember_word == None:
+        if word.translation_word is None and word.word_write is None \
+                and word.translation_write is None and word.remember_word is None:
             word_status_change_to_familiar(word)
         return 'Верно', guess_word
     word.word_translation += 1  # если пользователь ошибся с переводом, то увеличиваем счетчик попыток на 1
@@ -32,9 +32,9 @@ def translation_engword_training(username, guess_word, user_answer):
     if guess_word[0].word_itself == user_answer:
         word.translation_word = None  # если слово изучено, то в ячейку пишется NULL
         db.session.commit()
-        if word.word_translation == None and word.word_write == None \
-            and word.translation_write == None and word.remember_word == None:
-            word_status_change_to_familiar(word) #
+        if word.word_translation is None and word.word_write is None \
+                and word.translation_write is None and word.remember_word is None:
+            word_status_change_to_familiar(word)
         return 'Верно', guess_word
     word.translation_word += 1  # если пользователь ошибся с переводом, то увеличиваем счетчик попыток на 1
     db.session.commit()
@@ -47,9 +47,9 @@ def insert_translation_of_engword_training(username, guess_word, user_answer):
     if guess_word[0].translation_rus == user_answer:
         word.translation_write = None  # если слово изучено, то в ячейку пишется NULL
         db.session.commit()
-        if word.word_translation == None and word.translation_word == None \
-            and word.word_write == None and word.remember_word == None:
-            word_status_change_to_familiar(word) #
+        if word.word_translation is None and word.translation_word is None \
+                and word.word_write is None and word.remember_word is None:
+            word_status_change_to_familiar(word)
         return 'Верно', guess_word
     word.translation_write += 1  # если пользователь ошибся с переводом, то увеличиваем счетчик попыток на 1
     db.session.commit()
@@ -62,8 +62,8 @@ def frenchword_translation_training(username, guess_word, user_answer):
     if guess_word[0].translation_rus == user_answer:
         word.word_translation = None  # если слово изучено, то в ячейку пишется NULL
         db.session.commit()
-        if word.translation_word == None and word.word_write == None \
-            and word.translation_write == None and word.remember_word == None:
+        if word.translation_word is None and word.word_write is None \
+                and word.translation_write is None and word.remember_word is None:
             word_status_change_to_familiar(word)
         return 'Верно', guess_word
     word.word_translation += 1  # если пользователь ошибся с переводом, то увеличиваем счетчик попыток на 1
@@ -77,9 +77,9 @@ def translation_frenchword_training(username, guess_word, user_answer):
     if guess_word[0].word_itself == user_answer:
         word.translation_word = None  # если слово изучено, то в ячейку пишется NULL
         db.session.commit()
-        if word.word_translation == None and word.word_write == None \
-            and word.translation_write == None and word.remember_word == None:
-            word_status_change_to_familiar(word) #
+        if word.word_translation is None and word.word_write is None \
+                and word.translation_write is None and word.remember_word is None:
+            word_status_change_to_familiar(word)
         return 'Верно', guess_word
     word.translation_word += 1  # если пользователь ошибся с переводом, то увеличиваем счетчик попыток на 1
     db.session.commit()
@@ -92,9 +92,9 @@ def insert_translation_of_frenchword_training(username, guess_word, user_answer)
     if guess_word[0].translation_rus == user_answer:
         word.translation_write = None  # если слово изучено, то в ячейку пишется NULL
         db.session.commit()
-        if word.word_translation == None and word.translation_word == None \
-            and word.word_write == None and word.remember_word == None:
-            word_status_change_to_familiar(word) #
+        if word.word_translation is None and word.translation_word is None \
+                and word.word_write is None and word.remember_word is None:
+            word_status_change_to_familiar(word)
         return 'Верно', guess_word
     word.translation_write += 1  # если пользователь ошибся с переводом, то увеличиваем счетчик попыток на 1
     db.session.commit()
