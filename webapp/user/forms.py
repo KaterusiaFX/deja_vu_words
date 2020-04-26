@@ -35,7 +35,7 @@ class RegistrationForm(FlaskForm):
 
 class AddStudentForm(FlaskForm):
 
-    student_username = StringField('Напишите имя пользоваетля ученика', validators=[DataRequired()], render_kw={"class": "form-control"})
+    student_username = StringField('Добавить ученика', validators=[DataRequired()], render_kw={"class": "form-control"})
     submit = SubmitField('Сохранить', render_kw={"class": "btn btn-info"})
 
     def validate_student_username(self, student_username):

@@ -6,7 +6,7 @@ from webapp.user.forms import RegistrationForm
 from webapp.user.forms import SelectTeacherStudentForm, StopTeacherForm, StopStudentForm, AddStudentForm
 from webapp.user.models import User, Teacher, Student, TeacherStudent
 
-from webapp.user.user_functions import check_teacher_student
+from webapp.user.user_functions import check_teacher_student, student_list
 
 
 from webapp import db
@@ -66,7 +66,7 @@ def user(username):
     username = User.query.filter_by(username=username).first_or_404()
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
-    return render_template('user/user_page.html', user=username, user_id=user_id, user_status=user_status)
+    return render_template('user/user_page.html', user=username, user_status=user_status)
 
 
 @blueprint.route('/select-tch-std/<username>', methods=['GET', 'POST'])
@@ -161,12 +161,14 @@ def stop_student(username):
 @blueprint.route('/teacher-add-student/<username>', methods=['GET', 'POST'])
 def teacher_add_student(username):
     username = User.query.filter_by(username=username).first_or_404()
-    title = 'Добавить ученика'
+    title = 'Мои ученики'
     form = AddStudentForm()
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     teacher = Teacher.query.filter(Teacher.user_id == user_id).first()
     teacher_id = teacher.teacher_id
+    list_of_students = student_list(teacher_id)
+    student_list_len = len(list_of_students)
     if form.validate_on_submit():
         if user_status != 'Teacher':
             flash('Вы не являетесь учителем и не можете добавить себе учеников!')
@@ -201,5 +203,5 @@ def teacher_add_student(username):
             flash('Вы добавили себе нового ученика!')
             return redirect(url_for('user.user', username=current_user.username))
     return render_template('user/teacher_add_student.html',
-                           form=form,
-                           title=title, user=username, user_status=user_status)
+                           form=form, title=title, user=username, user_status=user_status,
+                           list_of_students=list_of_students, student_list_len=student_list_len)

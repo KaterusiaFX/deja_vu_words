@@ -24,12 +24,6 @@ def register_a_student(user_id):
         else:
             return 'Пользователя с таким id нет в базе данных'
 
-def check_student(user_id):
-    with app.app_context():
-        if Student.query.filter(Student.user_id == user_id).count():
-            user_status = 'Student'
-            return user_status
-
 
 if __name__ == '__main__':
     user_id = input('Введите user id: ')

@@ -16,7 +16,8 @@ def student_list(teacher):
             student_in_user = User.query.filter(User.id == student_user_id).first()
             student_name = student_in_user.username
             list_of_students.append(student_name)
-        return list_of_students
+        student_list_len = len(list_of_students)
+        return list_of_students, student_list_len
 
 
 if __name__ == '__main__':
