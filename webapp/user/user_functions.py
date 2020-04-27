@@ -1,4 +1,3 @@
-from webapp.db import db
 from webapp.user.models import User, Teacher, Student, TeacherStudent
 
 

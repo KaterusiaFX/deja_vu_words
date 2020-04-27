@@ -57,6 +57,3 @@ class StopTeacherForm(FlaskForm):
 class StopStudentForm(FlaskForm):
     stop_student = BooleanField('Не хочу быть учеником', default=True, render_kw={"class": "form-check-input"})
     submit = SubmitField('Сохранить', render_kw={"class": "btn btn-info"})
-
-
-

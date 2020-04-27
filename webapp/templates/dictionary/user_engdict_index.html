@@ -10,7 +10,10 @@
                         <h1>{{ page_title }}</h1>
                         <div class='row'>
                             <div class='col-12'>
-                                <form action="{{ url_for('dictionary.user_process_engdict_search', username=current_user.username) }}" method="post">
+                                <form action="{{ url_for(
+                                    'dictionary.user_process_engdict_search',
+                                    username=current_user.username) }}"
+                                    method="post">
                                 {{ form.hidden_tag() }}
                                     <div class="form-group">
                                         <label for="exampleFormControlInput1">{{ form.word.label }}</label>
@@ -18,6 +21,36 @@
                                             {{ form.word() }}
                                             <div class="input-group-append">
                                                 {{ form.search() }}
+                                                <button type="button" 
+                                                class="btn btn-outline-info dropdown-toggle dropdown-toggle-split" 
+                                                data-toggle="dropdown" 
+                                                aria-haspopup="true" 
+                                                aria-expanded="false">
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="{{ url_for(
+                                                        'dictionary.user_engdict_index_new',
+                                                        username=current_user.username) }}">
+                                                        Новые
+                                                    </a>
+                                                    <a class="dropdown-item" href="{{ url_for(
+                                                        'dictionary.user_engdict_index_familiar',
+                                                        username=current_user.username) }}">
+                                                        Изученные
+                                                    </a>
+                                                    <a class="dropdown-item" href="{{ url_for(
+                                                        'dictionary.user_engdict_index_forgotten',
+                                                        username=current_user.username) }}">
+                                                        Забытые
+                                                    </a>
+                                                    <div role="separator" class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="{{ url_for(
+                                                        'dictionary.user_engdict_index',
+                                                        username=current_user.username) }}">
+                                                        Все слова
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

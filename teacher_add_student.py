@@ -1,7 +1,6 @@
-import sys
 from webapp import create_app
 from webapp.db import db
-from webapp.user.models import User, Student, Teacher, TeacherStudent
+from webapp.user.models import Student, Teacher
 
 app = create_app()
 

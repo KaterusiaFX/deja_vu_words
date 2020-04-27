@@ -3,8 +3,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from webapp.db import db
 
-from sqlalchemy.orm import relationship
-
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'

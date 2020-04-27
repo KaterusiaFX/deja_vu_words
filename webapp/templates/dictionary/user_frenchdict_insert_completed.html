@@ -23,6 +23,9 @@
                                     </div>
                                 </form>
                                 <p>Cлово "{{ french_word }}" добавлено в ваш французский словарь, перевод: "{{ translation }}".</p>
+                                <form action="{{ url_for('dictionary.user_frenchdict_back', username=current_user.username) }}" method="post">
+                                    {{ back_form.back_french() }}
+                                </form>
                             </div>
                         </div>
                     </div>

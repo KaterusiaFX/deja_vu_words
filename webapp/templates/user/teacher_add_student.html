@@ -4,45 +4,44 @@
     <div class="container-fluid">
         <div class="row">
             {% include 'user/user_page_menu.html' %}
-                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                         <h1 class="h1">{{ title }}</h1>
-                    </div>
-                     <div class="container">
-                            <div class="row">
-                                <div class="col-8">
-                                    {% if student_list_len > 0 %}
-                                        <h4>В моем классе {{ student_list_len }} ученика</h4>
-                                        {% for student in list_of_students %}
-                                            <ul class="list-group">
-                                              <li class="list-group-item">{{ student }}</li>
-                                            </ul>
-                                        {% endfor %}
-                                    {% else %}
-                                        <h4>В моем классе пока нет учеников</h4>
-                                    {% endif %}
-                                    <br><br>
-                                    <form action="{{ url_for('user.teacher_add_student', username=current_user.username) }}" method="post">
-                                        {{ form.hidden_tag() }}
-                                        <div class="form-group">
-                                            {{ form.student_username.label }}
-                                            <div class="input-group">
-                                                {{ form.student_username() }}
-                                                <div class="input-group-append">
-                                                    {{ form.submit() }}
-                                                </div>
-                                            </div>
-                                            {% for error in form.student_username.errors %}
-                                                <span style="color: orange;">{{ error }}</span>
-                                            {% endfor %}
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h1">{{ title }}</h1>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-8">
+                            <h1 class="h1">{{ user.username }}</h1>
+                            {% if student_list_len > 0 %}
+                                <h4>Количество моих учеников: {{ student_list_len }}</h4>
+                                {% for student in list_of_students %}
+                                    <ul class="list-group">
+                                        <li class="list-group-item">{{ student }}</li>
+                                    </ul>
+                                {% endfor %}
+                            {% else %}
+                                <h4>У меня пока нет учеников</h4>
+                            {% endif %}
+                            <br><br>
+                            <form action="{{ url_for('user.teacher_add_student', username=current_user.username) }}" method="post">
+                                {{ form.hidden_tag() }}
+                                <div class="form-group">
+                                    {{ form.student_username.label }}
+                                    <div class="input-group">
+                                        {{ form.student_username() }}
+                                        <div class="input-group-append">
+                                            {{ form.submit() }}
                                         </div>
-                                    </form>
-
+                                    </div>
+                                    {% for error in form.student_username.errors %}
+                                        <span style="color: orange;">{{ error }}</span>
+                                    {% endfor %}
                                 </div>
-                            </div>
-                     </div>
-                </main>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
 {% endblock %}
-
