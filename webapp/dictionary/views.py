@@ -1,5 +1,6 @@
 from flask import Blueprint, flash, redirect, render_template, session, url_for
 import re
+from flask_login import current_user
 
 from webapp.dictionary.dict_functions import process_user_engdict_index, process_user_frenchdict_index
 from webapp.dictionary.dict_functions import user_engdict_search, user_frenchdict_search
@@ -12,6 +13,7 @@ from webapp.dictionary.forms import EngDictionarySearchForm, FrenchDictionarySea
 from webapp.dictionary.models import EnglishWord, FrenchWord
 from webapp.user.decorators import admin_required
 from webapp.user.models import User
+from webapp.user.views import check_teacher_student
 
 blueprint = Blueprint('dictionary', __name__, url_prefix='/dictionary')
 
@@ -121,13 +123,16 @@ def user_engdict_index(username):
     title = 'Ваш английский словарь'
     english_list = process_user_engdict_index(username)
     english_words_sum = len(english_list)
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     return render_template(
         'dictionary/user_engdict_index.html',
         page_title=title,
         english_list=english_list,
         english_list_len=english_words_sum,
         form=search_form,
-        user=username.username
+        user=username.username,
+        user_status=user_status
         )
 
 
@@ -139,13 +144,16 @@ def user_engdict_index_new(username):
     english_list = process_user_engdict_index(username)
     english_list_new = [word for word in english_list if word[1] == 'new']
     english_words_sum = len(english_list_new)
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     return render_template(
         'dictionary/user_engdict_index_new.html',
         page_title=title,
         english_list=english_list_new,
         english_list_len=english_words_sum,
         form=search_form,
-        user=username.username
+        user=username.username,
+        user_status=user_status
         )
 
 
@@ -157,13 +165,16 @@ def user_engdict_index_familiar(username):
     english_list = process_user_engdict_index(username)
     english_list_new = [word for word in english_list if word[1] == 'familiar']
     english_words_sum = len(english_list_new)
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     return render_template(
         'dictionary/user_engdict_index_familiar.html',
         page_title=title,
         english_list=english_list_new,
         english_list_len=english_words_sum,
         form=search_form,
-        user=username.username
+        user=username.username,
+        user_status=user_status
         )
 
 
@@ -175,13 +186,16 @@ def user_engdict_index_forgotten(username):
     english_list = process_user_engdict_index(username)
     english_list_new = [word for word in english_list if word[1] == 'forgotten']
     english_words_sum = len(english_list_new)
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     return render_template(
         'dictionary/user_engdict_index_forgotten.html',
         page_title=title,
         english_list=english_list_new,
         english_list_len=english_words_sum,
         form=search_form,
-        user=username.username
+        user=username.username,
+        user_status=user_status
         )
 
 
@@ -192,6 +206,8 @@ def user_process_engdict_search(username):
     search_form = EngDictionarySearchForm()
     delete_form = DeleteEngWordButton()
     back_form = BackToEngDictionary()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
         session['word'] = search_form.word.data
@@ -210,7 +226,8 @@ def user_process_engdict_search(username):
                 form=search_form,
                 delete_form=delete_form,
                 back_form=back_form,
-                user=username.username
+                user=username.username,
+                user_status=user_status
                 )
 
         flash('Такого слова нет в вашем английском словаре')
@@ -225,7 +242,8 @@ def user_process_engdict_search(username):
                 form=search_form,
                 back_form=back_form,
                 translation_form=translation_form,
-                user=username.username
+                user=username.username,
+                user_status=user_status
                 )
         return redirect(url_for('.user_engdict_index', username=username.username))
 
@@ -236,10 +254,12 @@ def user_process_engdict_insert(username):
     title = 'Ваш английский словарь'
     search_form = EngDictionarySearchForm()
     form = WordInsertForm()
-    back_form = BackToEngDictionary()
     word_in_form = form.insert.data
     word = session.get('word')
     english_word, translation = user_engdict_add_word(word_in_form, word, username)
+    back_form = BackToEngDictionary()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     return render_template(
         'dictionary/user_engdict_insert_completed.html',
         page_title=title,
@@ -247,7 +267,8 @@ def user_process_engdict_insert(username):
         translation=translation,
         form=search_form,
         back_form=back_form,
-        user=username.username
+        user=username.username,
+        user_status=user_status
         )
 
 
@@ -273,13 +294,16 @@ def user_frenchdict_index(username):
     title = 'Ваш французский словарь'
     french_list = process_user_frenchdict_index(username)
     french_words_sum = len(french_list)
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     return render_template(
         'dictionary/user_frenchdict_index.html',
         page_title=title,
         french_list=french_list,
         french_list_len=french_words_sum,
         form=search_form,
-        user=username.username
+        user=username.username,
+        user_status=user_status
         )
 
 
@@ -291,13 +315,16 @@ def user_frenchdict_index_new(username):
     french_list = process_user_frenchdict_index(username)
     french_list_new = [word for word in french_list if word[1] == 'new']
     french_words_sum = len(french_list_new)
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     return render_template(
         'dictionary/user_frenchdict_index_new.html',
         page_title=title,
         french_list=french_list_new,
         french_list_len=french_words_sum,
         form=search_form,
-        user=username.username
+        user=username.username,
+        user_status=user_status
         )
 
 
@@ -309,13 +336,16 @@ def user_frenchdict_index_familiar(username):
     french_list = process_user_frenchdict_index(username)
     french_list_new = [word for word in french_list if word[1] == 'familiar']
     french_words_sum = len(french_list_new)
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     return render_template(
         'dictionary/user_frenchdict_index_familiar.html',
         page_title=title,
         french_list=french_list_new,
         french_list_len=french_words_sum,
         form=search_form,
-        user=username.username
+        user=username.username,
+        user_status=user_status
         )
 
 
@@ -327,13 +357,16 @@ def user_frenchdict_index_forgotten(username):
     french_list = process_user_frenchdict_index(username)
     french_list_new = [word for word in french_list if word[1] == 'forgotten']
     french_words_sum = len(french_list_new)
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     return render_template(
         'dictionary/user_frenchdict_index_forgotten.html',
         page_title=title,
         french_list=french_list_new,
         french_list_len=french_words_sum,
         form=search_form,
-        user=username.username
+        user=username.username,
+        user_status=user_status
         )
 
 
@@ -344,6 +377,8 @@ def user_process_frenchdict_search(username):
     search_form = FrenchDictionarySearchForm()
     delete_form = DeleteFrenchWordButton()
     back_form = BackToFrenchDictionary()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     if search_form.validate_on_submit():
         word_in_form, word = search_form.word.data, None
         session['word'] = search_form.word.data
@@ -362,7 +397,8 @@ def user_process_frenchdict_search(username):
                 form=search_form,
                 delete_form=delete_form,
                 back_form=back_form,
-                user=username.username
+                user=username.username,
+                user_status=user_status
                 )
 
         flash('Такого слова нет в вашем французском словаре')
@@ -377,7 +413,8 @@ def user_process_frenchdict_search(username):
                 form=search_form,
                 back_form=back_form,
                 translation_form=translation_form,
-                user=username.username
+                user=username.username,
+                user_status=user_status
                 )
         return redirect(url_for('.user_frenchdict_index', username=username.username))
 
@@ -392,6 +429,9 @@ def user_process_frenchdict_insert(username):
     word_in_form = form.insert.data
     word = session.get('word')
     french_word, translation = user_frenchdict_add_word(word_in_form, word, username)
+    back_form = BackToFrenchDictionary()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     return render_template(
         'dictionary/user_frenchdict_insert_completed.html',
         page_title=title,
@@ -399,7 +439,7 @@ def user_process_frenchdict_insert(username):
         translation=translation,
         form=search_form,
         back_form=back_form,
-        user=username.username
+        user_status=user_status
         )
 
 

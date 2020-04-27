@@ -1,4 +1,5 @@
 from flask import Blueprint, redirect, render_template, url_for
+from flask_login import current_user
 from random import choice, random, sample
 import re
 
@@ -12,18 +13,23 @@ from webapp.exercises.exercise_functions import not_remember_engword_training, n
 from webapp.exercises.exercise_functions import remember_engword_training, remember_frenchword_training
 from webapp.exercises.exercise_functions import translation_engword_training, translation_frenchword_training
 from webapp.user.models import User
+from webapp.user.views import check_teacher_student
 
 blueprint = Blueprint('exercises', __name__, url_prefix='/exercises')
 
 
 @blueprint.route('/choose_exercise/<username>')
 def choose_exercise(username):
-    return render_template('exercises/choose_exercise.html')
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
+    return render_template('exercises/choose_exercise.html', user_status=user_status)
 
 
 @blueprint.route('/engword_translation/<username>')
 def engword_translation(username):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     new_words = list(filter(lambda x: x[1] == 'new' and x[5] is not None, process_user_engdict_index(username)))
     new_words_number = len(new_words)
     if new_words_number:
@@ -40,14 +46,17 @@ def engword_translation(username):
             'exercises/engword_translation.html',
             guess_word=guess_word[0].word_itself,
             new_words_number=new_words_number,
-            mixture=mixture
+            mixture=mixture,
+            user_status=user_status
             )
-    return render_template('exercises/engword_translation.html')
+    return render_template('exercises/engword_translation.html', user_status=user_status)
 
 
 @blueprint.route('/engword_translation_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
 def engword_translation_answer(username, user_answer, guess_word, mixture):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     mixture = mixture.split(', ')
     mixture = [re.findall('[а-яА-Я-]+', x) for x in mixture]
     final_mixture = [' '.join(word) if len(word) > 1 else word[0] for word in mixture]
@@ -56,13 +65,16 @@ def engword_translation_answer(username, user_answer, guess_word, mixture):
         'exercises/engword_translation_answer.html',
         true_word=true_word,
         mixture=final_mixture,
-        decision=decision
+        decision=decision,
+        user_status=user_status
         )
 
 
 @blueprint.route('/translation_engword/<username>')
 def translation_engword(username):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     new_words = list(filter(lambda x: x[1] == 'new' and x[6] is not None, process_user_engdict_index(username)))
     new_words_number = len(new_words)
     if new_words_number:
@@ -79,14 +91,17 @@ def translation_engword(username):
             'exercises/translation_engword.html',
             guess_word=guess_word[0].translation_rus,
             new_words_number=new_words_number,
-            mixture=mixture
+            mixture=mixture,
+            user_status=user_status
             )
-    return render_template('exercises/translation_engword.html')
+    return render_template('exercises/translation_engword.html', user_status=user_status)
 
 
 @blueprint.route('/translation_engword_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
 def translation_engword_answer(username, user_answer, guess_word, mixture):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     mixture = mixture.split(', ')
     mixture = [re.findall('[a-zA-Z-]+', x) for x in mixture]
     final_mixture = [' '.join(word) if len(word) > 1 else word[0] for word in mixture]
@@ -95,13 +110,16 @@ def translation_engword_answer(username, user_answer, guess_word, mixture):
         'exercises/translation_engword_answer.html',
         true_word=true_word,
         mixture=final_mixture,
-        decision=decision
+        decision=decision,
+        user_status=user_status
         )
 
 
 @blueprint.route('/insert_engword/<username>')
 def insert_engword(username):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     new_words = list(filter(lambda x: x[1] == 'new' and x[7] is not None, process_user_engdict_index(username)))
     new_words_number = len(new_words)
     form = InsertWordForm()
@@ -111,14 +129,17 @@ def insert_engword(username):
             'exercises/insert_engword.html',
             guess_word=guess_word[0].translation_rus,
             new_words_number=new_words_number,
-            form=form
+            form=form,
+            user_status=user_status
             )
-    return render_template('exercises/insert_engword.html')
+    return render_template('exercises/insert_engword.html', user_status=user_status)
 
 
 @blueprint.route('/insert_engword_answer/<username>/<guess_word>', methods=['POST'])
 def insert_engword_answer(username, guess_word):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     form = InsertWordForm()
     if form.validate_on_submit():
         user_answer = form.word.data
@@ -126,13 +147,16 @@ def insert_engword_answer(username, guess_word):
         return render_template(
             'exercises/insert_engword_answer.html',
             true_word=true_word,
-            decision=decision
+            decision=decision,
+            user_status=user_status
             )
 
 
 @blueprint.route('/insert_translation_of_engword/<username>')
 def insert_translation_of_engword(username):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     new_words = list(filter(lambda x: x[1] == 'new' and x[8] is not None, process_user_engdict_index(username)))
     new_words_number = len(new_words)
     form = InsertWordForm()
@@ -142,14 +166,17 @@ def insert_translation_of_engword(username):
             'exercises/insert_translation_of_engword.html',
             guess_word=guess_word[0].word_itself,
             new_words_number=new_words_number,
-            form=form
+            form=form,
+            user_status=user_status
             )
-    return render_template('exercises/insert_translation_of_engword.html')
+    return render_template('exercises/insert_translation_of_engword.html', user_status=user_status)
 
 
 @blueprint.route('/insert_translation_of_engword_answer/<username>/<guess_word>', methods=['POST'])
 def insert_translation_of_engword_answer(username, guess_word):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     form = InsertWordForm()
     if form.validate_on_submit():
         user_answer = form.word.data
@@ -157,13 +184,16 @@ def insert_translation_of_engword_answer(username, guess_word):
         return render_template(
             'exercises/insert_translation_of_engword_answer.html',
             true_word=true_word,
-            decision=decision
+            decision=decision,
+            user_status=user_status
             )
 
 
 @blueprint.route('/remember_engword/<username>')
 def remember_engword(username):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     new_words = list(filter(lambda x: x[1] == 'new' and x[9] is not None, process_user_engdict_index(username)))
     new_words_number = len(new_words)
     if new_words_number:
@@ -171,9 +201,10 @@ def remember_engword(username):
         return render_template(
             'exercises/remember_engword.html',
             guess_word=guess_word[0].word_itself,
-            new_words_number=new_words_number
+            new_words_number=new_words_number,
+            user_status=user_status
             )
-    return render_template('exercises/remember_engword.html')
+    return render_template('exercises/remember_engword.html', user_status=user_status)
 
 
 @blueprint.route('/remember_engword_answer/<username>/<guess_word>')
@@ -193,6 +224,8 @@ def not_remember_engword_answer(username, guess_word):
 @blueprint.route('/frenchword_translation/<username>')
 def frenchword_translation(username):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     new_words = list(filter(lambda x: x[1] == 'new' and x[5] is not None, process_user_frenchdict_index(username)))
     new_words_number = len(new_words)
     if new_words_number:
@@ -209,14 +242,17 @@ def frenchword_translation(username):
             'exercises/frenchword_translation.html',
             guess_word=guess_word[0].word_itself,
             new_words_number=new_words_number,
-            mixture=mixture
+            mixture=mixture,
+            user_status=user_status
             )
-    return render_template('exercises/frenchword_translation.html')
+    return render_template('exercises/frenchword_translation.html', user_status=user_status)
 
 
 @blueprint.route('/frenchword_translation_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
 def frenchword_translation_answer(username, user_answer, guess_word, mixture):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     mixture = mixture.split(', ')
     mixture = [re.findall('[а-яА-Я]+', x) for x in mixture]
     final_mixture = [' '.join(word) if len(word) > 1 else word[0] for word in mixture]
@@ -225,13 +261,16 @@ def frenchword_translation_answer(username, user_answer, guess_word, mixture):
         'exercises/frenchword_translation_answer.html',
         true_word=true_word,
         mixture=final_mixture,
-        decision=decision
+        decision=decision,
+        user_status=user_status
         )
 
 
 @blueprint.route('/translation_frenchword/<username>')
 def translation_frenchword(username):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     new_words = list(filter(lambda x: x[1] == 'new' and x[6] is not None, process_user_frenchdict_index(username)))
     new_words_number = len(new_words)
     if new_words_number:
@@ -248,14 +287,17 @@ def translation_frenchword(username):
             'exercises/translation_frenchword.html',
             guess_word=guess_word[0].translation_rus,
             new_words_number=new_words_number,
-            mixture=mixture
+            mixture=mixture,
+            user_status=user_status
             )
-    return render_template('exercises/translation_frenchword.html')
+    return render_template('exercises/translation_frenchword.html', user_status=user_status)
 
 
 @blueprint.route('/translation_frenchword_answer/<username>/<int:user_answer>/<guess_word>/<mixture>')
 def translation_frenchword_answer(username, user_answer, guess_word, mixture):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     mixture = mixture.split(', ')
     mixture = [re.findall('[a-zA-Z-]+', x) for x in mixture]
     final_mixture = [' '.join(word) if len(word) > 1 else word[0] for word in mixture]
@@ -264,13 +306,16 @@ def translation_frenchword_answer(username, user_answer, guess_word, mixture):
         'exercises/translation_frenchword_answer.html',
         true_word=true_word,
         mixture=final_mixture,
-        decision=decision
+        decision=decision,
+        user_status=user_status
         )
 
 
 @blueprint.route('/insert_frenchword/<username>')
 def insert_frenchword(username):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     new_words = list(filter(lambda x: x[1] == 'new' and x[7] is not None, process_user_frenchdict_index(username)))
     new_words_number = len(new_words)
     form = InsertWordForm()
@@ -280,14 +325,17 @@ def insert_frenchword(username):
             'exercises/insert_frenchword.html',
             guess_word=guess_word[0].translation_rus,
             new_words_number=new_words_number,
-            form=form
+            form=form,
+            user_status=user_status
             )
-    return render_template('exercises/insert_frenchword.html')
+    return render_template('exercises/insert_frenchword.html', user_status=user_status)
 
 
 @blueprint.route('/insert_frenchword_answer/<username>/<guess_word>', methods=['POST'])
 def insert_frenchword_answer(username, guess_word):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     form = InsertWordForm()
     if form.validate_on_submit():
         user_answer = form.word.data
@@ -295,13 +343,16 @@ def insert_frenchword_answer(username, guess_word):
         return render_template(
             'exercises/insert_frenchword_answer.html',
             true_word=true_word,
-            decision=decision
+            decision=decision,
+            user_status=user_status
             )
 
 
 @blueprint.route('/insert_translation_of_frenchword/<username>')
 def insert_translation_of_frenchword(username):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     new_words = list(filter(lambda x: x[1] == 'new' and x[8] is not None, process_user_frenchdict_index(username)))
     new_words_number = len(new_words)
     form = InsertWordForm()
@@ -311,14 +362,17 @@ def insert_translation_of_frenchword(username):
             'exercises/insert_translation_of_frenchword.html',
             guess_word=guess_word[0].word_itself,
             new_words_number=new_words_number,
-            form=form
+            form=form,
+            user_status=user_status
             )
-    return render_template('exercises/insert_translation_of_frenchword.html')
+    return render_template('exercises/insert_translation_of_frenchword.html', user_status=user_status)
 
 
 @blueprint.route('/insert_translation_of_frenchword_answer/<username>/<guess_word>', methods=['POST'])
 def insert_translation_of_frenchword_answer(username, guess_word):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     form = InsertWordForm()
     if form.validate_on_submit():
         user_answer = form.word.data
@@ -326,13 +380,16 @@ def insert_translation_of_frenchword_answer(username, guess_word):
         return render_template(
             'exercises/insert_translation_of_frenchword_answer.html',
             true_word=true_word,
-            decision=decision
+            decision=decision,
+            user_status=user_status
             )
 
 
 @blueprint.route('/remember_frenchword/<username>')
 def remember_frenchword(username):
     username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
     new_words = list(filter(lambda x: x[1] == 'new' and x[9] is not None, process_user_frenchdict_index(username)))
     new_words_number = len(new_words)
     if new_words_number:
@@ -340,9 +397,10 @@ def remember_frenchword(username):
         return render_template(
             'exercises/remember_frenchword.html',
             guess_word=guess_word[0].word_itself,
-            new_words_number=new_words_number
+            new_words_number=new_words_number,
+            user_status=user_status
             )
-    return render_template('exercises/remember_frenchword.html')
+    return render_template('exercises/remember_frenchword.html', user_status=user_status)
 
 
 @blueprint.route('/remember_frenchword_answer/<username>/<guess_word>')

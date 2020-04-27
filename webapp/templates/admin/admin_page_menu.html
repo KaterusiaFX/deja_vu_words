@@ -1,42 +1,42 @@
 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
     <div class="sidebar-sticky">
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="#">
-            <span data-feather="home"></span>
-            Профили пользователей <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="#">
-            <span data-feather="file"></span>
-            Настройка БД
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="{{ url_for('dictionary.engdict_index', username=current_user.username) }}">
-            <span data-feather="shopping-cart"></span>
-            Английский словарь
-          </a>
-        </li>
-        <li class="nav-item">
-         <a class="nav-link text-left text-info" href="{{ url_for('dictionary.frenchdict_index', username=current_user.username) }}">
-            <span data-feather="users"></span>
-            Французский словарь
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="#">
-            <span data-feather="bar-chart-2"></span>
-            Просмотр контента
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="{{ url_for('admin.admin_index', username=current_user.username) }}">
-            <span data-feather="layers"></span>
-            Мои настройки
-          </a>
-        </li>
-      </ul>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link text-left text-info" href="#">
+                    <span data-feather="home"></span>
+                    Профили пользователей <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-left text-info" href="#">
+                    <span data-feather="file"></span>
+                    Настройка БД
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-left text-info" href="{{ url_for('dictionary.engdict_index', username=current_user.username) }}">
+                    <span data-feather="shopping-cart"></span>
+                    Английский словарь
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-left text-info" href="{{ url_for('dictionary.frenchdict_index', username=current_user.username) }}">
+                    <span data-feather="users"></span>
+                    Французский словарь
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-left text-info" href="#">
+                    <span data-feather="bar-chart-2"></span>
+                    Просмотр контента
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-left text-info" href="{{ url_for('admin.admin_index', username=current_user.username) }}">
+                    <span data-feather="layers"></span>
+                    Мои настройки
+                </a>
+            </li>
+        </ul>
     </div>
 </nav>

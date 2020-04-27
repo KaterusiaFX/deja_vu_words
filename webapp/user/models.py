@@ -37,7 +37,9 @@ class User(db.Model, UserMixin):
 class Teacher(db.Model, UserMixin):
     __tablename__ = 'teachers'
     teacher_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), unique=True)
+
+    students = db.relationship('Student', secondary='teachers_students')
 
     def __repr__(self):
         return f'<Teacher "{self.teacher_id}" has user id {self.user_id}>'
@@ -49,7 +51,7 @@ class Teacher(db.Model, UserMixin):
 class Student(db.Model, UserMixin):
     __tablename__ = 'students'
     student_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), unique=True)
 
     def __repr__(self):
         return f'<Student "{self.student_id}" has user id {self.user_id}>'
@@ -58,11 +60,14 @@ class Student(db.Model, UserMixin):
         return set(self.student_id)
 
 
-class TeacherStudent(db.Model):
-    __tabename__ = 'teacher_student'
+class TeacherStudent(db.Model, UserMixin):
+    __tablename__ = 'teachers_students'
     id = db.Column(db.Integer, primary_key=True)
-    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.teacher_id'))
-    student_id = db.Column(db.Integer, db.ForeignKey('students.student_id'))
+    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.teacher_id', ondelete='CASCADE'), nullable=False)
+    student_id = db.Column(db.Integer, db.ForeignKey('students.student_id', ondelete='CASCADE'), nullable=False)
 
     teachers = db.relationship('Teacher', backref='teachers')
     students = db.relationship('Student', backref='students')
+
+    def __repr__(self):
+        return f'<Teacher "{self.teacher_id}" has student {self.student_id}>'

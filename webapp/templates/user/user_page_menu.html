@@ -1,48 +1,51 @@
 <nav class="col-md-2 d-none d-md-block sidebar" style="background:lightcyan">
     <div class="sidebar-sticky">
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="{{ url_for('user.select_tch_std', username=current_user.username) }}">
-            <span data-feather="file"></span>
-            Настройки
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="{{ url_for('user.user', username=current_user.username) }}">
-            <span data-feather="home"></span>
-            Профиль <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="{{ url_for('dictionary.user_engdict_index', username=current_user.username) }}">
-            <span data-feather="file"></span>
-            Мой английский словарь
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="{{ url_for('dictionary.user_frenchdict_index', username=current_user.username) }}">
-            <span data-feather="file"></span>
-            Мой французский словарь
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="#">
-            <span data-feather="shopping-cart"></span>
-            Моя страница
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="{{ url_for('exercises.choose_exercise', username=current_user.username) }}">
-            <span data-feather="bar-chart-2"></span>
-            Мои тренировки
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-left text-info" href="#">
-            <span data-feather="layers"></span>
-            Мой прогресс
-          </a>
-        </li>
-      </ul>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link text-left text-info" href="{{ url_for('user.select_tch_std', username=current_user.username) }}">
+                  <span data-feather="file"></span>
+                  Настройки
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-left text-info" href="{{ url_for('dictionary.user_engdict_index', username=current_user.username) }}">
+                  <span data-feather="file"></span>
+                  Мой английский словарь
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-left text-info" href="{{ url_for('dictionary.user_frenchdict_index', username=current_user.username) }}">
+                  <span data-feather="file"></span>
+                  Мой французский словарь
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-left text-info" href="{{ url_for('exercises.choose_exercise', username=current_user.username) }}">
+                  <span data-feather="bar-chart-2"></span>
+                  Мои тренировки
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-left text-info" href="#">
+                  <span data-feather="layers"></span>
+                  Мой прогресс
+                </a>
+            </li>
+            {% if user_status == 'Teacher' %}
+                <li class="nav-item">
+                    <a class="nav-link text-left text-info" href="{{ url_for('user.teacher_add_student', username=current_user.username) }}">
+                      <span data-feather="shopping-cart"></span>
+                      Мои ученики
+                    </a>
+                </li>
+            {% elif user_status == 'Student' %}
+                <li class="nav-item">
+                    <a class="nav-link text-left text-info" href="#">
+                      <span data-feather="bar-chart-2"></span>
+                      Мои учителя
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
     </div>
 </nav>
