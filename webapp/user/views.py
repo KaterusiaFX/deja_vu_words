@@ -70,6 +70,7 @@ def select_tch_std(username):
     page_title = "Настройки профиля"
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     if select_form.validate_on_submit():
         user_choice = select_form.select_tch_std.data
         if user_choice == 'value':
@@ -96,7 +97,8 @@ def select_tch_std(username):
                            select_form=select_form,
                            stop_teacher_form=stop_teacher_form,
                            stop_student_form=stop_student_form,
-                           title=page_title, user=username, user_status=user_status)
+                           title=page_title, user=username,
+                           user_status=user_status, image_file=image_file)
 
 
 @blueprint.route('/stop-teacher/<username>', methods=['GET', 'POST'])
