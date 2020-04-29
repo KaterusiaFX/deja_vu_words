@@ -22,3 +22,13 @@ def student_list(teacher):
         student_name = student_in_user.username
         list_of_students.append(student_name)
     return list_of_students
+
+
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(create_app.root_path, 'static/profile_pics', picture_fn)
+    form_picture.save(picture_path)
+    return picture_fn
+

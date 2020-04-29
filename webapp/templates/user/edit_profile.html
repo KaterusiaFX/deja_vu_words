@@ -6,23 +6,35 @@
             {% include 'user/user_page_menu.html' %}
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h1">{{ title }}</h1>
-                </div>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-9">
-                                <div class="content-section">
                     <div class="media">
-                      <img class="rounded-circle account-img" src="{{ image_file }}">
-                      <div class="media-body">
+                      <img class="rounded-circle align-self-end mr-3" width="80" height="80" src="{{ image_file }}">
+                      <div class="media-body align-self-end">
                         <h1 class="account-heading">{{ user.username }}</h1>
-                        <p class="text-secondary">{{ user.email }}</p>
                       </div>
                     </div>
-                  </div>
-                    <br />
+                </div>
+                <div class="col-5">
+                    <h4 class="h4">Внести изменения в профиль</h4>
+                    <form method="POST" action="{{ url_for('user.update_account', username=current_user.username) }}" enctype="multipart/form-data">
+                        {{ update_account_form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ update_account_form.email.label }}
+                            {{ update_account_form.email() }}
+                            {% for error in update_account_form.email.errors %}
+                            <span style="color: orange;">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ update_account_form.picture.label() }}
+                            {{ update_account_form.picture(class="form-control-file") }}
+                            {% for error in update_account_form.picture.errors %}
+                            <span style="color: orange;">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {{ update_account_form.submit() }}
+                    </form><br>
                     {% if user_status == 'Teacher' %}
-                        <form action="{{ url_for('user.stop_teacher', username=current_user.username) }}" method="post">
+                        <form action="{{ url_for('user.stop_teacher', username=current_user.username) }}" method="POST">
                             {{ stop_teacher_form.hidden_tag() }}
                             <div class="form-group form-check">
                                 {{ stop_teacher_form.stop_teacher() }}
@@ -31,7 +43,7 @@
                             {{ stop_teacher_form.submit() }}
                         </form>
                     {% elif user_status == 'Student' %}
-                        <form action="{{ url_for('user.stop_student', username=current_user.username) }}" method="post">
+                        <form action="{{ url_for('user.stop_student', username=current_user.username) }}" method="POST">
                             {{ stop_student_form.hidden_tag() }}
                             <div class="form-group form-check">
                                 {{ stop_student_form.stop_student() }}
@@ -41,7 +53,7 @@
                         </form>
                     {% else %}
                         <h4 class="h4">Стать учителем или учеником</h4>
-                        <form action="{{ url_for('user.select_tch_std', username=current_user.username) }}" method="post">
+                        <form action="{{ url_for('user.select_tch_std', username=current_user.username) }}" method="POST">
                             {{ select_form.hidden_tag() }}
                             {% for subfield in select_form.select_tch_std %}
                             <div>
@@ -52,9 +64,7 @@
                             {{ select_form.submit() }}
                         </form>
                     {% endif %}
-                            </div>
-                        </div>
-                    </div>
+                </div>
             </main>
         </div>
     </div>

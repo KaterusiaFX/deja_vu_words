@@ -1,15 +1,19 @@
-from flask import Blueprint, flash, render_template, redirect, url_for
+import os
+import secrets
+from flask import Blueprint, flash, render_template, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 
 from webapp.user.forms import LoginForm
-from webapp.user.forms import RegistrationForm
+from webapp.user.forms import RegistrationForm, UpdateAccountForm
 from webapp.user.forms import SelectTeacherStudentForm, StopTeacherForm, StopStudentForm, AddStudentForm
 from webapp.user.models import User, Teacher, Student, TeacherStudent
 
 from webapp.user.user_functions import check_teacher_student, student_list
 
-
 from webapp import db
+from webapp import create_app
+
+app = create_app()
 
 blueprint = Blueprint('user', __name__, url_prefix='/users')
 
@@ -66,8 +70,8 @@ def select_tch_std(username):
     select_form = SelectTeacherStudentForm()
     stop_teacher_form = StopTeacherForm()
     stop_student_form = StopStudentForm()
+    update_account_form = UpdateAccountForm()
     username = User.query.filter_by(username=username).first_or_404()
-    page_title = "Настройки профиля"
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
@@ -97,7 +101,47 @@ def select_tch_std(username):
                            select_form=select_form,
                            stop_teacher_form=stop_teacher_form,
                            stop_student_form=stop_student_form,
-                           title=page_title, user=username,
+                           update_account_form=update_account_form,
+                           user=username,
+                           user_status=user_status, image_file=image_file)
+
+
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+    form_picture.save(picture_path)
+    return picture_fn
+
+
+@blueprint.route('/update-account/<username>', methods=['GET', 'POST'])
+@login_required
+def update_account(username):
+    update_account_form = UpdateAccountForm()
+    select_form = SelectTeacherStudentForm()
+    stop_teacher_form = StopTeacherForm()
+    stop_student_form = StopStudentForm()
+    username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    if update_account_form.validate_on_submit():
+        if update_account_form.picture.data:
+            picture_file = save_picture(update_account_form.picture.data)
+            current_user.image_file = picture_file
+        current_user.email = update_account_form.email.data
+        db.session.commit()
+        flash('Изменения в настройках вашего профиля удачно сохранены!')
+        return redirect(url_for('user.update_account', username=current_user.username))
+    elif request.method == 'GET':
+        update_account_form.email.data = current_user.email
+    return render_template('user/edit_profile.html',
+                           select_form=select_form,
+                           stop_teacher_form=stop_teacher_form,
+                           stop_student_form=stop_student_form,
+                           update_account_form=update_account_form,
+                           user=username,
                            user_status=user_status, image_file=image_file)
 
 
@@ -108,7 +152,6 @@ def stop_teacher(username):
     stop_teacher_form = StopTeacherForm()
     stop_student_form = StopStudentForm()
     username = User.query.filter_by(username=username).first_or_404()
-    page_title = "Настройки профиля"
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     if stop_teacher_form.validate_on_submit():
@@ -123,7 +166,7 @@ def stop_teacher(username):
                            select_form=select_form,
                            stop_teacher_form=stop_teacher_form,
                            stop_student_form=stop_student_form,
-                           title=page_title, user=username, user_status=user_status)
+                           user=username, user_status=user_status)
 
 
 @blueprint.route('/stop-student/<username>', methods=['GET', 'POST'])
@@ -133,7 +176,6 @@ def stop_student(username):
     stop_teacher_form = StopTeacherForm()
     stop_student_form = StopStudentForm()
     username = User.query.filter_by(username=username).first_or_404()
-    page_title = "Настройки профиля"
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     if stop_student_form.validate_on_submit():
@@ -148,7 +190,7 @@ def stop_student(username):
                            select_form=select_form,
                            stop_teacher_form=stop_teacher_form,
                            stop_student_form=stop_student_form,
-                           title=page_title, user=username, user_status=user_status)
+                           user=username, user_status=user_status)
 
 
 @blueprint.route('/teacher-add-student/<username>', methods=['GET', 'POST'])
