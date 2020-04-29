@@ -12,6 +12,7 @@ config.py
 *.db
 webapp.db.sqbpro
 .vscode
+*.png
 
 # C extensions
 *.so
