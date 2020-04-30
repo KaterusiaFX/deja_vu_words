@@ -1,8 +1,50 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-        <h1>{{ page_title }}</h1>
-        Приветствуем вас на сайте Deja vu words
-    </div>
+    <main role="main">
+        <style>
+          .JumbotronImage{
+          background-image: url("{{ image_file }}");
+          background-size: cover;
+          padding-top: 10%;
+          padding-bottom: 10%;}
+        </style>
+        <div class="jumbotron jumbotron-fluid JumbotronImage text-center">
+          <div class="container">
+            <h1>Добро пожаловать<br> на сайт Deja vu words</h1>
+              <p class="lead text-muted">Здесь можно написать несколько красивых фраз<br>про наш самый прекрасный сайт для изучения иностранных слов</p>
+              <p>
+                <a href="#" class="btn btn-info my-2">Французский язык</a>
+                <a href="#" class="btn btn-info my-2">Английский язык</a>
+              </p>
+            </div>
+        </div>
+        <div class="container">
+        <div class="row">
+          <div class="col-lg-4">
+             <img class="rounded-circle align-self-end mr-3" width="140" height="140" src="{{ image_file_learn }}">
+              <h2>Изучайте слова</h2>
+            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+            <p><a class="btn btn-secondary" href="#" role="button">Подробнее &raquo;</a></p>
+          </div>
+          <div class="col-lg-4">
+            <img class="rounded-circle align-self-end mr-3" width="140" height="140" src="{{ image_file_teacher }}">
+            <h2>Функционал для учителя</h2>
+            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+            <p><a class="btn btn-secondary" href="#" role="button">Подробнее &raquo;</a></p>
+          </div>
+          <div class="col-lg-4">
+            <img class="rounded-circle align-self-end mr-3" width="140" height="140" src="{{ image_file_student }}">
+            <h2>Функционал для ученика</h2>
+            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+            <p><a class="btn btn-secondary" href="#" role="button">Подробнее &raquo;</a></p>
+          </div>
+        </div>
+        <hr>
+        </div>
+        </section>
+    </main>
+    <footer class="container">
+        <p>&copy; Галина Волкова и Екатерина Маркова 2020</p>
+    </footer>
 {% endblock %}

@@ -14,8 +14,16 @@
                             {% if student_list_len > 0 %}
                                 <h4>Количество моих учеников: {{ student_list_len }}</h4>
                                 {% for student in list_of_students %}
-                                    <ul class="list-group">
-                                        <li class="list-group-item">{{ student }}</li>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="media">
+                                              <img class="rounded-circle align-self-end mr-3" width="30" height="30" src="/static/profile_pics/{{student[1]}}">
+
+                                              <div class="media-body align-self-end">
+                                                <h5 class="account-heading">{{ student[0] }}</h5>
+                                              </div>
+                                            </div>
+                                        </li>
                                     </ul>
                                 {% endfor %}
                             {% else %}

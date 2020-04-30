@@ -42,7 +42,7 @@
             {% if current_user.is_authenticated %}
                 <li class="nav-item">
                     <a class="navbar-brand" href="{{ url_for('exercises.choose_exercise', username=current_user.username) }}">
-                      <img class="rounded-circle ml-3" width="35" height="35" src="{{url_for('static', filename='profile_pics/' + current_user.image_file)}}">
+                      <img class="rounded-circle ml-3" width="30" height="30" src="{{url_for('static', filename='profile_pics/' + current_user.image_file)}}">
                     </a>
                 </li>
                 <li class="nav-item active">

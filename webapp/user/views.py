@@ -1,5 +1,3 @@
-import os
-import secrets
 from flask import Blueprint, flash, render_template, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 
@@ -8,12 +6,10 @@ from webapp.user.forms import RegistrationForm, UpdateAccountForm
 from webapp.user.forms import SelectTeacherStudentForm, StopTeacherForm, StopStudentForm, AddStudentForm
 from webapp.user.models import User, Teacher, Student, TeacherStudent
 
-from webapp.user.user_functions import check_teacher_student, student_list
+from webapp.user.user_functions import check_teacher_student, student_list, save_picture
 
 from webapp import db
-from webapp import create_app
 
-app = create_app()
 
 blueprint = Blueprint('user', __name__, url_prefix='/users')
 
@@ -104,15 +100,6 @@ def select_tch_std(username):
                            update_account_form=update_account_form,
                            user=username,
                            user_status=user_status, image_file=image_file)
-
-
-def save_picture(form_picture):
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_fn = random_hex + f_ext
-    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
-    form_picture.save(picture_path)
-    return picture_fn
 
 
 @blueprint.route('/update-account/<username>', methods=['GET', 'POST'])
