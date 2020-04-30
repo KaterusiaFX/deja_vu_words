@@ -17,5 +17,4 @@ else:
 def choose_diagram(username):
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
-    return render_template('diagram/choose_diagram.html', user_status=user_status)
-    # сделать шаблон для выбора
+    return render_template('progress/choose_diagram.html', user_status=user_status)

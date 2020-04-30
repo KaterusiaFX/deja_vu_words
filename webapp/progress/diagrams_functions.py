@@ -48,4 +48,4 @@ def new_engwords_accumulated(username):
         )
     new_engwords_accumulation.fig.autofmt_xdate()
     new_engwords_accumulation.set_xticklabels(rotation=90, horizontalalignment='right')
-    plt.savefig('webapp/static/progress/new_engwords_accumulated.png')
+    plt.savefig('webapp/media/progress/new_engwords_accumulated.png')
