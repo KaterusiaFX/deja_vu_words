@@ -92,7 +92,11 @@
                                                 <br />
                                                 <div class="row">
                                                     <div class="col">
-                                                        <a href='#' class="btn btn-squared-default btn-info">
+                                                        <a href='{{ url_for(
+                                                            '.new_frenchwords',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
                                                             <br />
                                                             <br />
                                                             Новые
@@ -102,7 +106,11 @@
                                                         </a>
                                                     </div>
                                                     <div class="col">
-                                                        <a href='#' class="btn btn-squared-default btn-info">
+                                                        <a href='{{ url_for(
+                                                            '.familiar_frenchwords',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
                                                             <br />
                                                             <br />
                                                             Изученные
@@ -112,7 +120,11 @@
                                                         </a>
                                                     </div>
                                                     <div class="col">
-                                                        <a href='#' class="btn btn-squared-default btn-info">
+                                                        <a href='{{ url_for(
+                                                            '.difficult_frenchwords',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
                                                             <br />
                                                             <br />
                                                             Сложные
