@@ -7,7 +7,6 @@
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <div class="container">
-                        <h1>{{ page_title }}</h1>
                         <div class='row'>
                             <div class='col-12'>
                                 <div id="carouselExampleCaptions" class="carousel slide" data-interval="false">
@@ -19,7 +18,7 @@
                                         <div class="carousel-item active">
                                             <img src="{{url_for('static', filename='London_pale.jpg')}}" class="d-block w-100" height=650 alt="...">
                                             <div class="carousel-caption d-none d-md-block text-top">
-                                                <h1><font color="lightseagreen" align='top'>Английские слова: графики прогресса</font></h1>
+                                                <h1><font color="lightseagreen" align='top'>Английские слова: графики</font></h1>
                                                 <br />
                                                 <br />
                                                 <br />
@@ -29,7 +28,11 @@
                                                 <br />
                                                 <div class="row">
                                                     <div class="col">
-                                                        <a href='#' class="btn btn-squared-default btn-info">
+                                                        <a href='{{ url_for(
+                                                            '.new_engwords',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
                                                             <br />
                                                             <br />
                                                             Новые
@@ -39,7 +42,11 @@
                                                         </a>
                                                     </div>
                                                     <div class="col">
-                                                        <a href='#' class="btn btn-squared-default btn-info">
+                                                        <a href='{{ url_for(
+                                                            '.familiar_engwords',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
                                                             <br />
                                                             <br />
                                                             Изученные
@@ -49,7 +56,11 @@
                                                         </a>
                                                     </div>
                                                     <div class="col">
-                                                        <a href='#' class="btn btn-squared-default btn-info">
+                                                        <a href='{{ url_for(
+                                                            '.difficult_engwords',
+                                                            username=current_user.username
+                                                            ) }}'
+                                                        class="btn btn-squared-default btn-info">
                                                             <br />
                                                             <br />
                                                             Сложные
@@ -71,7 +82,7 @@
                                         <div class="carousel-item">
                                             <img src="{{url_for('static', filename='Paris_pale.jpg')}}" class="d-block w-100" height=650 alt="...">
                                             <div class="carousel-caption d-none d-md-block">
-                                                <h1><font color="teal" align='top'>Французские слова: графики прогресса</font></h1>
+                                                <h1><font color="teal" align='top'>Французские слова: графики</font></h1>
                                                 <br />
                                                 <br />
                                                 <br />
