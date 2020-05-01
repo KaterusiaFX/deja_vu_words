@@ -10,6 +10,8 @@ from webapp.user.models import User
 
 if platform.system() == 'Windows':
     locale.setlocale(locale.LC_ALL, 'russian')
+elif platform.system() == 'Linux':
+    locale.setlocale(locale.LC_TIME, 'ru_RU.UTF8')
 else:
     locale.setlocale(locale.LC_TIME, 'ru_RU')
 
