@@ -72,4 +72,3 @@ class TeacherStudent(db.Model, UserMixin):
 
     def __repr__(self):
         return f'<Teacher "{self.teacher_id}" has student {self.student_id}>'
-

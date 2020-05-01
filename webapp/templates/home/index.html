@@ -10,39 +10,71 @@
           padding-bottom: 10%;}
         </style>
         <div class="jumbotron jumbotron-fluid JumbotronImage text-center">
-          <div class="container">
-            <h1>Добро пожаловать<br> на сайт Deja vu words</h1>
-              <p class="lead text-muted">Здесь можно написать несколько красивых фраз<br>про наш самый прекрасный сайт для изучения иностранных слов</p>
-              <p>
-                <a href="#" class="btn btn-info my-2">Французский язык</a>
-                <a href="#" class="btn btn-info my-2">Английский язык</a>
-              </p>
+            <div class="container">
+                <h1>Добро пожаловать<br> на Deja vu words!</h1>
+                <p class="lead text-muted">
+                    Здесь вы можете выучить новые иностранные слова,
+                    <br />
+                    заниматься со своими учителями или учениками,
+                    <br />
+                    а также следить за своим прогрессом.
+                </p>
+                <p>
+                    <a href="{{ url_for(
+                      'dictionary.user_frenchdict_index',
+                      username=current_user.username) }}"
+                    class="btn btn-info my-2">
+                        Французский язык
+                    </a>
+                    <a href="{{ url_for(
+                      'dictionary.user_engdict_index',
+                      username=current_user.username) }}"
+                    class="btn btn-info my-2">
+                        Английский язык
+                    </a>
+                </p>
             </div>
         </div>
         <div class="container">
-        <div class="row">
-          <div class="col-lg-4">
-             <img class="rounded-circle align-self-end mr-3" width="140" height="140" src="{{ image_file_learn }}">
-              <h2>Изучайте слова</h2>
-            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">Подробнее &raquo;</a></p>
-          </div>
-          <div class="col-lg-4">
-            <img class="rounded-circle align-self-end mr-3" width="140" height="140" src="{{ image_file_teacher }}">
-            <h2>Функционал для учителя</h2>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">Подробнее &raquo;</a></p>
-          </div>
-          <div class="col-lg-4">
-            <img class="rounded-circle align-self-end mr-3" width="140" height="140" src="{{ image_file_student }}">
-            <h2>Функционал для ученика</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">Подробнее &raquo;</a></p>
-          </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <img class="rounded-circle align-self-end mr-3" width="140" height="140" src="{{ image_file_learn }}">
+                    <h2>Изучайте новые слова</h2>
+                    <p align="justify">Добавляйте новые слова в свои словари на сайте и учите их с помощью словарных тренировок. 
+                    Вам будет доступно 5 видов тренировок с каждым словом. 
+                    Как только все эти тренировки со словом будут успешно пройдены, его статус в вашем словаре 
+                    изменится на изученное, и с ним нельзя будет проходить тренировки. 
+                    Однако по истечении выбранного вами срока изученные слова попадут в забытые, 
+                    и с ними снова будет можно тренироваться. 
+                    Также любому слову по вашему выбору можно запретить переход из изученных в забытые.</p>
+                    <p><a class="btn btn-secondary" href="#" role="button">Подробнее &raquo;</a></p>
+                </div>
+                <div class="col-lg-3">
+                    <img class="rounded-circle align-self-end mr-3" width="140" height="140" src="{{ image_file_progress }}">
+                    <h2>Отслеживайте прогресс</h2>
+                    <p align="justify">Следите при помощи графиков прогресса за добавлением новых слов в ваши словари, а также 
+                    за скоростью их изучения. Кроме того, вы можете увидеть на графиках 20 самых сложных 
+                    для вас слов, с которыми у вас было больше всего неверных ответов во время словарных тренировок.</p>
+                    <p><a class="btn btn-secondary" href="#" role="button">Подробнее &raquo;</a></p>
+                </div>
+                <div class="col-lg-3">
+                    <img class="rounded-circle align-self-end mr-3" width="140" height="140" src="{{ image_file_teacher }}">
+                    <h2>Функционал для учителя</h2>
+                    <p align="justify">Зарегистрируйтесь в качестве учителя через Настройки и добавьте себе одного или нескольких учеников 
+                    из числа пользователей Deja vu words. Сформируйте для каждого ученика набор слов для изучения, 
+                    отправьте его ученику и наблюдайте за его прогрессом в изучении слов из набора.</p>
+                    <p><a class="btn btn-secondary" href="#" role="button">Подробнее &raquo;</a></p>
+                </div>
+                <div class="col-lg-3">
+                    <img class="rounded-circle align-self-end mr-3" width="140" height="140" src="{{ image_file_student }}">
+                    <h2>Функционал для ученика</h2>
+                    <p align="justify">Зарегистрируйтесь в качестве ученика через Настройки, и после этого ваш учитель сможет вас . Сформируйте для каждого ученика набор слов для изучения, 
+                    отправьте его ученику и наблюдайте за его прогрессом в изучении слов из набора.</p>
+                    <p><a class="btn btn-secondary" href="#" role="button">Подробнее &raquo;</a></p>
+                </div>
+            </div>
+            <hr>
         </div>
-        <hr>
-        </div>
-        </section>
     </main>
     <footer class="container">
         <p>&copy; Галина Волкова и Екатерина Маркова 2020</p>

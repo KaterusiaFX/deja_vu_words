@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            {% include 'user/user_page_menu.html' %}
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <div class="container">
+                        <h1>{{ page_title }}</h1>
+                        <div class='row'>
+                            <div class='col-12'>
+                                {% if diagram %}
+                                    <img src="{{url_for('static', filename=diagram)}}" class="NO-CACHE" alt="...">
+                                {% else %}
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <p>У вас нет английских слов в словаре</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+{% endblock %}

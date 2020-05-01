@@ -2,14 +2,15 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
-from webapp.db import db
 from webapp.admin.views import blueprint as admin_blueprint
+from webapp.config import Config
+from webapp.db import db
 from webapp.dictionary.views import blueprint as dictionary_blueprint
 from webapp.exercises.views import blueprint as exercises_blueprint
 from webapp.home.views import blueprint as home_blueprint
+from webapp.progress.views import blueprint as progress_blueprint
 from webapp.user.models import User
 from webapp.user.views import blueprint as user_blueprint
-from webapp.config import Config
 
 
 def create_app():
@@ -26,6 +27,7 @@ def create_app():
     app.register_blueprint(dictionary_blueprint)
     app.register_blueprint(exercises_blueprint)
     app.register_blueprint(home_blueprint)
+    app.register_blueprint(progress_blueprint)
     app.register_blueprint(user_blueprint)
 
     # ф-я загрузчика пользователя для работы с БД по идентификатору польз-ля

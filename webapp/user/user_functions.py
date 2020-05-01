@@ -33,25 +33,25 @@ def student_list(teacher):
 
 
 def teacher_list(student):
-        teachers_students = TeacherStudent.query.filter(TeacherStudent.student_id == student).all()
+    teachers_students = TeacherStudent.query.filter(TeacherStudent.student_id == student).all()
+    teacher_data = []
+    list_of_teachers = []
+    for teacher_student in teachers_students:
+        teacher_id = teacher_student.teacher_id
+        teacher_in_teacher = Teacher.query.filter(Teacher.teacher_id == teacher_id).first()
+        teacher_user_id = teacher_in_teacher.user_id
+        teacher_in_user = User.query.filter(User.id == teacher_user_id).first()
+        teacher_name = teacher_in_user.username
+        teacher_avatar = teacher_in_user.image_file
+        teacher_data.append(teacher_name)
+        teacher_data.append(teacher_avatar)
+        list_of_teachers.append(teacher_data)
         teacher_data = []
-        list_of_teachers = []
-        for teacher_student in teachers_students:
-            teacher_id = teacher_student.teacher_id
-            teacher_in_teacher = Teacher.query.filter(Teacher.teacher_id == teacher_id).first()
-            teacher_user_id = teacher_in_teacher.user_id
-            teacher_in_user = User.query.filter(User.id == teacher_user_id).first()
-            teacher_name = teacher_in_user.username
-            teacher_avatar = teacher_in_user.image_file
-            teacher_data.append(teacher_name)
-            teacher_data.append(teacher_avatar)
-            list_of_teachers.append(teacher_data)
-            teacher_data = []
-        return list_of_teachers
+    return list_of_teachers
 
 
 def save_picture(form_picture):
-    way_upload = "/home/redfox/LearnPython/projects/deja_vu_words/webapp/static/profile_pics"
+    way_upload = "webapp/static/profile_pics"
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
@@ -61,4 +61,3 @@ def save_picture(form_picture):
     i.thumbnail(output_size)
     i.save(picture_path)
     return picture_fn
-
