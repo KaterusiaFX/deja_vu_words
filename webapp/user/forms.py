@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, RadioField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from flask_login import current_user
 
 from webapp.user.models import User
 
@@ -31,6 +33,19 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Такой email адрес уже существует')
+
+
+class UpdateAccountForm(FlaskForm):
+
+    email = StringField('Изменить e-mail', validators=[DataRequired(), Email()], render_kw={"class": "form-control"})
+    picture = FileField('Изменить аватар', validators=[FileAllowed(['jpg', 'png'])])
+    submit = SubmitField('Сохранить', render_kw={"class": "btn btn-info"})
+
+    def validate_email(self, email):
+        if email.data != current_user.email:
+            user = User.query.filter_by(email=email.data).first()
+            if user is not None:
+                raise ValidationError('Такой email адрес уже существует')
 
 
 class AddStudentForm(FlaskForm):

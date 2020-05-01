@@ -1,15 +1,15 @@
-from flask import Blueprint, flash, render_template, redirect, url_for
+from flask import Blueprint, flash, render_template, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 
 from webapp.user.forms import LoginForm
-from webapp.user.forms import RegistrationForm
+from webapp.user.forms import RegistrationForm, UpdateAccountForm
 from webapp.user.forms import SelectTeacherStudentForm, StopTeacherForm, StopStudentForm, AddStudentForm
 from webapp.user.models import User, Teacher, Student, TeacherStudent
 
-from webapp.user.user_functions import check_teacher_student, student_list
-
+from webapp.user.user_functions import check_teacher_student, student_list, teacher_list, save_picture
 
 from webapp import db
+
 
 blueprint = Blueprint('user', __name__, url_prefix='/users')
 
@@ -66,10 +66,11 @@ def select_tch_std(username):
     select_form = SelectTeacherStudentForm()
     stop_teacher_form = StopTeacherForm()
     stop_student_form = StopStudentForm()
+    update_account_form = UpdateAccountForm()
     username = User.query.filter_by(username=username).first_or_404()
-    page_title = "Настройки профиля"
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     if select_form.validate_on_submit():
         user_choice = select_form.select_tch_std.data
         if user_choice == 'value':
@@ -96,7 +97,39 @@ def select_tch_std(username):
                            select_form=select_form,
                            stop_teacher_form=stop_teacher_form,
                            stop_student_form=stop_student_form,
-                           title=page_title, user=username, user_status=user_status)
+                           update_account_form=update_account_form,
+                           user=username,
+                           user_status=user_status, image_file=image_file)
+
+
+@blueprint.route('/update-account/<username>', methods=['GET', 'POST'])
+@login_required
+def update_account(username):
+    update_account_form = UpdateAccountForm()
+    select_form = SelectTeacherStudentForm()
+    stop_teacher_form = StopTeacherForm()
+    stop_student_form = StopStudentForm()
+    username = User.query.filter_by(username=username).first_or_404()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
+    if update_account_form.validate_on_submit():
+        if update_account_form.picture.data:
+            picture_file = save_picture(update_account_form.picture.data)
+            current_user.image_file = picture_file
+        current_user.email = update_account_form.email.data
+        db.session.commit()
+        flash('Изменения в настройках вашего профиля удачно сохранены!')
+        return redirect(url_for('user.update_account', username=current_user.username))
+    elif request.method == 'GET':
+        update_account_form.email.data = current_user.email
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('user/edit_profile.html',
+                           select_form=select_form,
+                           stop_teacher_form=stop_teacher_form,
+                           stop_student_form=stop_student_form,
+                           update_account_form=update_account_form,
+                           user=username,
+                           user_status=user_status, image_file=image_file)
 
 
 @blueprint.route('/stop-teacher/<username>', methods=['GET', 'POST'])
@@ -106,7 +139,6 @@ def stop_teacher(username):
     stop_teacher_form = StopTeacherForm()
     stop_student_form = StopStudentForm()
     username = User.query.filter_by(username=username).first_or_404()
-    page_title = "Настройки профиля"
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     if stop_teacher_form.validate_on_submit():
@@ -121,7 +153,7 @@ def stop_teacher(username):
                            select_form=select_form,
                            stop_teacher_form=stop_teacher_form,
                            stop_student_form=stop_student_form,
-                           title=page_title, user=username, user_status=user_status)
+                           user=username, user_status=user_status)
 
 
 @blueprint.route('/stop-student/<username>', methods=['GET', 'POST'])
@@ -131,7 +163,6 @@ def stop_student(username):
     stop_teacher_form = StopTeacherForm()
     stop_student_form = StopStudentForm()
     username = User.query.filter_by(username=username).first_or_404()
-    page_title = "Настройки профиля"
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     if stop_student_form.validate_on_submit():
@@ -146,7 +177,7 @@ def stop_student(username):
                            select_form=select_form,
                            stop_teacher_form=stop_teacher_form,
                            stop_student_form=stop_student_form,
-                           title=page_title, user=username, user_status=user_status)
+                           user=username, user_status=user_status)
 
 
 @blueprint.route('/teacher-add-student/<username>', methods=['GET', 'POST'])
@@ -187,7 +218,7 @@ def teacher_add_student(username):
                 teacher_in_record = teacher_student.teacher_id
                 if teacher_in_record == teacher_id:
                     flash('Этот студент уже добавлен в ваш список учеников и не может быть добавлен повторно!')
-                    return redirect(url_for('user.select_tch_std', username=current_user.username))
+                    return redirect(url_for('user.teacher_add_student', username=current_user.username))
             teacher_student = TeacherStudent(teacher_id=teacher_id, student_id=student_id_student)
             db.session.add(teacher_student)
             db.session.commit()
@@ -196,3 +227,18 @@ def teacher_add_student(username):
     return render_template('user/teacher_add_student.html',
                            form=form, title=title, user=username, user_status=user_status,
                            list_of_students=list_of_students, student_list_len=student_list_len)
+
+
+@blueprint.route('/show-teachers/<username>')
+def show_teachers(username):
+    username = User.query.filter_by(username=username).first_or_404()
+    title = 'Мои учителя'
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
+    student = Student.query.filter(Student.user_id == user_id).first()
+    student_id = student.student_id
+    list_of_teachers = teacher_list(student_id)
+    teacher_list_len = len(list_of_teachers)
+    return render_template('user/teacher_list.html',
+                           title=title, user=username, user_status=user_status,
+                           list_of_teachers=list_of_teachers, teacher_list_len=teacher_list_len)

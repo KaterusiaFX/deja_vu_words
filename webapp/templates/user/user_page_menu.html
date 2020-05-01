@@ -4,7 +4,7 @@
             <li class="nav-item">
                 <a class="nav-link text-left text-info" href="{{ url_for('user.select_tch_std', username=current_user.username) }}">
                   <span data-feather="file"></span>
-                  Настройки
+                  Настройки профиля
                 </a>
             </li>
             <li class="nav-item">
@@ -40,7 +40,7 @@
                 </li>
             {% elif user_status == 'Student' %}
                 <li class="nav-item">
-                    <a class="nav-link text-left text-info" href="#">
+                    <a class="nav-link text-left text-info" href="{{ url_for('user.show_teachers', username=current_user.username) }}">
                       <span data-feather="bar-chart-2"></span>
                       Мои учителя
                     </a>

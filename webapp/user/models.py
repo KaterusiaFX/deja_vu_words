@@ -10,6 +10,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password = db.Column(db.String(128))
+    image_file = db.Column(db.String(20), nullable=True, default='default.jpg')
     role = db.Column(db.String(10), index=True)
 
     english_words = db.relationship('EnglishWord', secondary='users_words')
@@ -71,3 +72,4 @@ class TeacherStudent(db.Model, UserMixin):
 
     def __repr__(self):
         return f'<Teacher "{self.teacher_id}" has student {self.student_id}>'
+
