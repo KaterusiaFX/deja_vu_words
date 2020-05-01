@@ -40,7 +40,7 @@
                 </li>
             {% elif user_status == 'Student' %}
                 <li class="nav-item">
-                    <a class="nav-link text-left text-info" href="#">
+                    <a class="nav-link text-left text-info" href="{{ url_for('user.show_teachers', username=current_user.username) }}">
                       <span data-feather="bar-chart-2"></span>
                       Мои учителя
                     </a>

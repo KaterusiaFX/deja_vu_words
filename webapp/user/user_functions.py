@@ -28,9 +28,26 @@ def student_list(teacher):
         student_data.append(student_name)
         student_data.append(student_avatar)
         list_of_students.append(student_data)
-        print(student_data)
         student_data = []
     return list_of_students
+
+
+def teacher_list(student):
+        teachers_students = TeacherStudent.query.filter(TeacherStudent.student_id == student).all()
+        teacher_data = []
+        list_of_teachers = []
+        for teacher_student in teachers_students:
+            teacher_id = teacher_student.teacher_id
+            teacher_in_teacher = Teacher.query.filter(Teacher.teacher_id == teacher_id).first()
+            teacher_user_id = teacher_in_teacher.user_id
+            teacher_in_user = User.query.filter(User.id == teacher_user_id).first()
+            teacher_name = teacher_in_user.username
+            teacher_avatar = teacher_in_user.image_file
+            teacher_data.append(teacher_name)
+            teacher_data.append(teacher_avatar)
+            list_of_teachers.append(teacher_data)
+            teacher_data = []
+        return list_of_teachers
 
 
 def save_picture(form_picture):
