@@ -1,10 +1,9 @@
-# Cкрипт для создания пользователей
-
-from getpass import getpass
+# Script for creating admin users
 import sys
 
-from webapp import create_app
+from getpass import getpass
 
+from webapp import create_app
 from webapp.db import db
 from webapp.user.models import User
 

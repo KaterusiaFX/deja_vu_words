@@ -1,15 +1,12 @@
 from flask import Blueprint, flash, render_template, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 
+from webapp import db
 from webapp.user.forms import LoginForm
 from webapp.user.forms import RegistrationForm, UpdateAccountForm
 from webapp.user.forms import SelectTeacherStudentForm, StopTeacherForm, StopStudentForm, AddStudentForm
 from webapp.user.models import User, Teacher, Student, TeacherStudent
-
 from webapp.user.user_functions import check_teacher_student, student_list, teacher_list, save_picture
-
-from webapp import db
-
 
 blueprint = Blueprint('user', __name__, url_prefix='/users')
 

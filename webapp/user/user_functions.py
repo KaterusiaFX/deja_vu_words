@@ -1,6 +1,8 @@
 import os
 import secrets
+
 from PIL import Image
+
 from webapp.user.models import User, Teacher, Student, TeacherStudent
 
 

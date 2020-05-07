@@ -1,11 +1,11 @@
 import re
-from translate import Translator
 
+from translate import Translator
 from open_french_textfile import french_words_to_translate
 from webapp.dictionary.models import FrenchWord
 from webapp import create_app
 
-translator = Translator(from_lang='fr', to_lang='ru')  # переводим всегда на русский
+translator = Translator(from_lang='fr', to_lang='ru')  # always translate into Russian
 app = create_app()
 
 
@@ -22,8 +22,8 @@ def french_dict_generator():
                 if not word_exist:
                     try:
                         translated = translator.translate(word)
-                        # далее проверяем, что перевод состоит из слов, а не значков и цифр
-                        # например, перевод типа {'is': '-'} будет считаться неверным
+                        # then we check that the translation consists of words, not icons and numbers
+                        # for example, translation type  {'is': '-'} will be considered incorrect
                         letters_and_hyphens_in_translated = re.findall('[а-яА-Я-]+', translated)
                         not_only_hyphens_in_translated = re.findall('[а-яА-Я]+', translated)
                         if letters_and_hyphens_in_translated and not_only_hyphens_in_translated:

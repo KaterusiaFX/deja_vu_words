@@ -1,5 +1,6 @@
-from datetime import datetime
 import re
+
+from datetime import datetime
 from translate import Translator
 
 from webapp.db import db
@@ -48,7 +49,7 @@ def process_user_engdict_index(username):
         word_write,
         translation_write,
         remember_word
-        ))
+    ))
     result_sorted_by_date = sorted(result, key=lambda word_date: word_date[2], reverse=True)
     return result_sorted_by_date
 
@@ -129,7 +130,7 @@ def alternative_engdict_supplement(word, user, translation):
         translation_rus=translation,
         transcription=get_transcription(word),
         imported_time=datetime.now()
-        )
+    )
     db.session.add(user_new_word)
     db.session.commit()
     return user_new_word
@@ -212,7 +213,7 @@ def process_user_frenchdict_index(username):
         word_write,
         translation_write,
         remember_word
-        ))
+    ))
     result_sorted_by_date = sorted(result, key=lambda word_date: word_date[2], reverse=True)
     return result_sorted_by_date
 
@@ -292,7 +293,7 @@ def alternative_frenchdict_supplement(word, user, translation):
         user=user.username,
         translation_rus=translation,
         imported_time=datetime.now()
-        )
+    )
     db.session.add(user_new_word)
     db.session.commit()
     return user_new_word
