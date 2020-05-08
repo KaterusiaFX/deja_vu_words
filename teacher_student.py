@@ -6,9 +6,9 @@ app = create_app()
 
 def teacher_student(student_username, user_id):
     with app.app_context():
-        student = User.query.filter(User.username == student_username).first()  # запись из User по имени студента
+        student = User.query.filter(User.username == student_username).first()
         student_username = student.username
-        student_user_id = student.id  # id студента из User
+        student_user_id = student.id
         check_student = Student.query.filter(Student.user_id == student_user_id).first()
         student_id_student = check_student.student_id
         teacher = Teacher.query.filter(Teacher.user_id == user_id).first()

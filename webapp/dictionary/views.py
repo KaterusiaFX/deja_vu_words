@@ -1,5 +1,6 @@
-from flask import Blueprint, flash, redirect, render_template, session, url_for
 import re
+
+from flask import Blueprint, flash, redirect, render_template, session, url_for
 from flask_login import current_user
 
 from webapp.dictionary.dict_functions import process_user_engdict_index, process_user_frenchdict_index
@@ -36,7 +37,8 @@ def engdict_index(username):
         )
 
 
-# проблема с поиском русских слов, если два слова или через запятую, поиска по первым буквам (подсказки) тоже нет
+# проблема с поиском русских слов, если два слова или через запятую,
+# поиска по первым буквам (подсказки) тоже нет
 @blueprint.route('/process-engdict-search/<username>', methods=['POST'])
 @admin_required
 def process_engdict_search(username):
@@ -85,7 +87,8 @@ def frenchdict_index(username):
         )
 
 
-# проблема с поиском русских слов, если два слова или через запятую, поиска по первым буквам (подсказки) тоже нет
+# проблема с поиском русских слов, если два слова или через запятую,
+# поиска по первым буквам (подсказки) тоже нет
 @blueprint.route('/process-frenchdict-search/<username>', methods=['POST'])
 @admin_required
 def process_frenchdict_search(username):

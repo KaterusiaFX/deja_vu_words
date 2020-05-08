@@ -1,9 +1,11 @@
+import locale
+import platform
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+
 from datetime import datetime, timedelta
-import locale
-import platform
 
 from webapp.dictionary.dict_functions import process_user_engdict_index, process_user_frenchdict_index
 from webapp.user.models import User

@@ -1,11 +1,11 @@
 import re
-from translate import Translator
 
+from translate import Translator
 from open_french_textfile import french_words_to_translate
 from webapp.dictionary.models import FrenchWord
 from webapp import create_app
 
-translator = Translator(from_lang='fr', to_lang='ru')  # переводим всегда на русский
+translator = Translator(from_lang='fr', to_lang='ru')  # переводим всегда на русскийv
 app = create_app()
 
 

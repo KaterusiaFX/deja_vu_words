@@ -1,7 +1,8 @@
+import re
+
 from flask import Blueprint, redirect, render_template, url_for
 from flask_login import current_user
 from random import choice, random, sample
-import re
 
 from webapp.dictionary.dict_functions import process_user_engdict_index, process_user_frenchdict_index
 from webapp.exercises.forms import InsertWordForm

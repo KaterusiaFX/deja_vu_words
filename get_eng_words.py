@@ -1,9 +1,10 @@
-from get_transcription import get_transcription
-from english_dict_generator import eng_dict_generator
 from datetime import datetime
+
+from english_dict_generator import eng_dict_generator
 from webapp import create_app
 from webapp.db import db
 from webapp.dictionary.models import EnglishWord
+from webapp.dictionary.get_transcription import get_transcription
 
 app = create_app()
 

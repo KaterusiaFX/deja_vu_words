@@ -1,5 +1,6 @@
-from french_dict_generator import french_dict_generator
 from datetime import datetime
+
+from french_dict_generator import french_dict_generator
 from webapp import create_app
 from webapp.db import db
 from webapp.dictionary.models import FrenchWord
