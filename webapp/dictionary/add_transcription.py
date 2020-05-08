@@ -5,7 +5,7 @@ from webapp.dictionary.get_transcription import get_transcription
 
 app = create_app()
 
-# adding transcriptions for English words from the database that did not have transcriptions
+# добавление транскрипций для английских слов из БД, у которых не было транскрипций
 with app.app_context():
     all_eng_words_in_db = EnglishWord.query.order_by(EnglishWord.id).all()
     for engword in all_eng_words_in_db:

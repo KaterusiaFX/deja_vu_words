@@ -37,8 +37,8 @@ def engdict_index(username):
         )
 
 
-# a problem with the search for Russian words, if two words or separated by commas,
-# there is no search in the first letters (hints) either
+# проблема с поиском русских слов, если два слова или через запятую,
+# поиска по первым буквам (подсказки) тоже нет
 @blueprint.route('/process-engdict-search/<username>', methods=['POST'])
 @admin_required
 def process_engdict_search(username):
@@ -87,8 +87,8 @@ def frenchdict_index(username):
         )
 
 
-# a problem with the search for Russian words, if two words or separated by commas,
-# there is no search in the first letters (hints) either
+# проблема с поиском русских слов, если два слова или через запятую,
+# поиска по первым буквам (подсказки) тоже нет
 @blueprint.route('/process-frenchdict-search/<username>', methods=['POST'])
 @admin_required
 def process_frenchdict_search(username):
