@@ -5,7 +5,13 @@ A web application written on Python and created for Russian speakers to study En
 ## Installation
 
 * Clone the repository to your computer
-* Create virtualenv: '<python3 -m venv env>' and '<source env/bin/activate>' (for Linux) or '<python -m venv env>' and '<env\Scripts\activate>' (for Windows)
+* Create virtualenv:
+> for Linux
+    $ python3 -m venv env
+    $ source env/bin/activate
+> for Windows
+    python -m venv env
+    env\Scripts\activate
 * Install requirements:
 > pip install -r requirements.txt
 
