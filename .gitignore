@@ -13,6 +13,7 @@ config.py
 webapp.db.sqbpro
 .vscode
 *.png
+to_do_list.txt
 
 # C extensions
 *.so
