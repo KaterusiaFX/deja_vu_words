@@ -102,7 +102,6 @@ def difficult_engwords_catplot(username):
     if userdict:
         for word in userdict:
             failures = 0
-            # убрать повторения, рефакторинг
             if word[5]:
                 failures += word[5]
             if word[6]:
@@ -119,7 +118,6 @@ def difficult_engwords_catplot(username):
         df = pd.DataFrame(failure_dict)
         df = df.sort_values('неудачные попытки')
         df = df.tail(20)
-        # когда слов станет много, надо будет выводить не все, а, например, первые 20
         sns.set(style="ticks", palette="colorblind", font="Arial")
         difficult_engwords = sns.catplot(
                 x="слова",
@@ -220,7 +218,6 @@ def difficult_frenchwords_catplot(username):
     if userdict:
         for word in userdict:
             failures = 0
-            # убрать повторения, рефакторинг
             if word[5]:
                 failures += word[5]
             if word[6]:
@@ -237,7 +234,6 @@ def difficult_frenchwords_catplot(username):
         df = pd.DataFrame(failure_dict)
         df = df.sort_values('неудачные попытки')
         df = df.tail(20)
-        # когда слов станет много, надо будет выводить не все, а, например, первые 20
         sns.set(style="ticks", palette="colorblind", font="Arial")
         difficult_frenchwords = sns.catplot(
                 x="слова",

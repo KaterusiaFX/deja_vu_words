@@ -5,7 +5,7 @@ from open_eng_textfile import eng_words_to_translate
 from webapp.dictionary.models import EnglishWord
 from webapp import create_app
 
-translator = Translator(to_lang="ru")  # переводим всегда на русский
+translator = Translator(to_lang="ru")
 app = create_app()
 
 
@@ -22,8 +22,8 @@ def eng_dict_generator():
                 if not word_exist:
                     try:
                         translated = translator.translate(word)
-                        # далее проверяем, что перевод состоит из слов, а не значков и цифр
-                        # например, перевод типа {'is': '-'} будет считаться неверным
+                        # check if the translation consists of words without figures and typographical symbols
+                        # example: translation {'is': '-'} is wrong
                         letters_and_hyphens_in_translated = re.findall('[а-яА-Я-]+', translated)
                         not_only_hyphens_in_translated = re.findall('[а-яА-Я]+', translated)
                         if letters_and_hyphens_in_translated and not_only_hyphens_in_translated:
