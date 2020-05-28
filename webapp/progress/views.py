@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template
-from flask_login import current_user
 import locale
 import platform
+
+from flask import Blueprint, render_template
+from flask_login import current_user
 
 from webapp.progress.diagrams_functions import difficult_engwords_catplot, difficult_frenchwords_catplot
 from webapp.progress.diagrams_functions import familiar_engwords_accumulated, familiar_frenchwords_accumulated

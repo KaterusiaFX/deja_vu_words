@@ -30,7 +30,7 @@ def create_app():
     app.register_blueprint(progress_blueprint)
     app.register_blueprint(user_blueprint)
 
-    # ф-я загрузчика пользователя для работы с БД по идентификатору польз-ля
+    # user loader function for working with the database by user ID
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(user_id)
