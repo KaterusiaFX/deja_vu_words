@@ -22,7 +22,19 @@
                                         </div>
                                     </div>
                                 </form>
-                                <p>Всего французских слов: {{ french_list_len }}</p>
+                                <div class='row'>
+                                    <div class='col-6'>
+                                        <p>Всего французских слов: {{ french_list_len }}</p>
+                                    </div>
+                                    <div class='col-6' align='right'>
+                                        <a href="{{ url_for(
+                                        'dict_supplement_and_parsers.admin_frenchdict_supplement',
+                                        username=current_user.username) }}"
+                                        class="btn btn-outline-info">
+                                            Пополнить французский словарь словами из текстового файла
+                                        </a>
+                                    </div>
+                                </div>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
