@@ -16,7 +16,7 @@ def admin_engdict_supplement(username):
     username = User.query.filter_by(username=username).first_or_404()
     engword_dict = eng_dict_generator()
     save_engwords_in_db(engword_dict)
-    flash('Сделано!')
+    flash('Сделано! Подробности в командной строке.')
     return redirect(url_for('dictionary.engdict_index', username=username.username))
 
 
@@ -27,5 +27,5 @@ def admin_frenchdict_supplement(username):
     username = User.query.filter_by(username=username).first_or_404()
     frenchword_dict = french_dict_generator()
     save_frenchwords_in_db(frenchword_dict)
-    flash('Сделано!')
+    flash('Сделано! Подробности в командной строке.')
     return redirect(url_for('dictionary.frenchdict_index', username=username.username))
