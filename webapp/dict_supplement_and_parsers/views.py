@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for
+from flask import Blueprint, flash, redirect, url_for
 from flask_login import login_required
 
 from webapp.dict_supplement_and_parsers.get_eng_words import eng_dict_generator, save_engwords_in_db
@@ -16,6 +16,7 @@ def admin_engdict_supplement(username):
     username = User.query.filter_by(username=username).first_or_404()
     engword_dict = eng_dict_generator()
     save_engwords_in_db(engword_dict)
+    flash('Сделано!')
     return redirect(url_for('dictionary.engdict_index', username=username.username))
 
 
@@ -26,4 +27,5 @@ def admin_frenchdict_supplement(username):
     username = User.query.filter_by(username=username).first_or_404()
     frenchword_dict = french_dict_generator()
     save_frenchwords_in_db(frenchword_dict)
+    flash('Сделано!')
     return redirect(url_for('dictionary.frenchdict_index', username=username.username))

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            {% include 'admin/admin_page_menu.html' %}
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <div class="container">
+                        <h1>{{ page_title }}</h1>
+                        <div class='row'>
+                            <div class='col-12'>
+                                <a href="{{ url_for(
+                                'admin.register_admin',
+                                username=current_user.username) }}"
+                                class="btn btn-outline-info">
+                                    Зарегистрировать нового админа
+                                </a>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">id</th>
+                                        <th scope="col">username</th>
+                                        <th scope="col">email</th>
+                                        <th scope="col">role</th>
+                                        <th scope="col">image_file</th>
+                                        </tr>
+                                    </thead>
+                                    {% for user in all_users %}
+                                    <tbody>
+                                        <tr>
+                                        <th scope="row">{{ user.id }}</th>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.role }}</td>
+                                        <td>{{ user.image_file }}</td>
+                                        </tr>
+                                    </tbody>
+                                {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+{% endblock %}
