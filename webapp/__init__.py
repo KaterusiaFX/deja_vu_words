@@ -6,6 +6,7 @@ from webapp.admin.views import blueprint as admin_blueprint
 from webapp.config import Config
 from webapp.db import db
 from webapp.dictionary.views import blueprint as dictionary_blueprint
+from webapp.dict_supplement_and_parsers.views import blueprint as dict_supplement_and_parsers_blueprint
 from webapp.exercises.views import blueprint as exercises_blueprint
 from webapp.home.views import blueprint as home_blueprint
 from webapp.progress.views import blueprint as progress_blueprint
@@ -25,6 +26,7 @@ def create_app():
 
     app.register_blueprint(admin_blueprint)
     app.register_blueprint(dictionary_blueprint)
+    app.register_blueprint(dict_supplement_and_parsers_blueprint)
     app.register_blueprint(exercises_blueprint)
     app.register_blueprint(home_blueprint)
     app.register_blueprint(progress_blueprint)
