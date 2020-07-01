@@ -20,18 +20,27 @@
                     а также следить за своим прогрессом.
                 </p>
                 <p>
-                    <a href="{{ url_for(
-                      'dictionary.user_frenchdict_index',
-                      username=current_user.username) }}"
-                    class="btn btn-info my-2">
-                        Французский язык
-                    </a>
-                    <a href="{{ url_for(
-                      'dictionary.user_engdict_index',
-                      username=current_user.username) }}"
-                    class="btn btn-info my-2">
-                        Английский язык
-                    </a>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for(
+                        'dictionary.user_frenchdict_index',
+                        username=current_user.username) }}"
+                        class="btn btn-info my-2">
+                            Французский язык
+                        </a>
+                        <a href="{{ url_for(
+                        'dictionary.user_engdict_index',
+                        username=current_user.username) }}"
+                        class="btn btn-info my-2">
+                            Английский язык
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('user.login') }}" class="btn btn-info my-2">
+                            Французский язык
+                        </a>
+                        <a href="{{ url_for('user.login') }}" class="btn btn-info my-2">
+                            Английский язык
+                        </a>
+                    {% endif %}
                 </p>
             </div>
         </div>
