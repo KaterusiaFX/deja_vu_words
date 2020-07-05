@@ -37,7 +37,15 @@
                                         <td>{{ english_word.word_itself }}</td>
                                         <td>{{ english_word.translation_rus }}</td>
                                         <td>{{ english_word.transcription }}</td>
-                                        <td>{{ english_word_status }}</td>
+                                        <td>
+                                            {% if english_word_status == 'new' %}
+                                                    новое
+                                            {% elif english_word_status == 'familiar' %}
+                                                изученное
+                                            {% elif english_word_status == 'forgotten' %}
+                                                забытое
+                                            {% endif %}
+                                        </td>
                                         <td>{{ english_word_date.strftime('%d.%m.%Y') }}</td>
                                         </tr>
                                     </tbody>

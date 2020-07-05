@@ -35,7 +35,15 @@
                                         <tr>
                                         <td>{{ french_word.word_itself }}</td>
                                         <td>{{ french_word.translation_rus }}</td>
-                                        <td>{{ french_word_status }}</td>
+                                        <td>
+                                            {% if french_word_status == 'new' %}
+                                                    новое
+                                            {% elif french_word_status == 'familiar' %}
+                                                изученное
+                                            {% elif french_word_status == 'forgotten' %}
+                                                забытое
+                                            {% endif %}
+                                        </td>
                                         <td>{{ french_word_date.strftime('%d.%m.%Y') }}</td>
                                         </tr>
                                     </tbody>
