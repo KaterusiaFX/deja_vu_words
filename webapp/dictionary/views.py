@@ -280,6 +280,14 @@ def user_delete_engword(username):
     return redirect(url_for('.user_engdict_index', username=username.username))
 
 
+@blueprint.route('/user-delete-engword-button/<username>/<word_to_delete>')
+def user_delete_engword_button(username, word_to_delete):
+    username = User.query.filter_by(username=username).first_or_404()
+    deleted_word = user_engdict_delete_word(word_to_delete, username)
+    flash(f'Слово {deleted_word.word_itself} удалено из вашего английского словаря')
+    return redirect(url_for('.user_engdict_index', username=username.username))
+
+
 @blueprint.route('/user-engdict-back/<username>', methods=['POST'])
 def user_engdict_back(username):
     username = User.query.filter_by(username=username).first_or_404()
@@ -448,6 +456,14 @@ def user_delete_frenchword(username):
     word = session.get('word')
     deleted_word = user_frenchdict_delete_word(word, username)
     flash(f'Слово {deleted_word.word_itself} удалено из вашего французского словаря')
+    return redirect(url_for('.user_frenchdict_index', username=username.username))
+
+
+@blueprint.route('/user-delete-frenchword-button/<username>/<word_to_delete>')
+def user_delete_frenchword_button(username, word_to_delete):
+    username = User.query.filter_by(username=username).first_or_404()
+    deleted_word = user_frenchdict_delete_word(word_to_delete, username)
+    flash(f'Слово {deleted_word.word_itself} удалено из вашего английского словаря')
     return redirect(url_for('.user_frenchdict_index', username=username.username))
 
 
