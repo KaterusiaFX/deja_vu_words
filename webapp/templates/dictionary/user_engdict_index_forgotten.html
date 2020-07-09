@@ -65,7 +65,13 @@
                                             <tr>
                                             <td>{{ word_tuple[0].word_itself }}</td>
                                             <td>{{ word_tuple[0].translation_rus }}</td>
-                                            <td>{{ word_tuple[0].transcription }}</td>
+                                            <td>
+                                                {% if word_tuple[0].transcription %}
+                                                    {{ word_tuple[0].transcription }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </td>
                                             <td>забытое</td>
                                             <td>{{ word_tuple[2].strftime('%d.%m.%Y') }}</td>
                                             </tr>

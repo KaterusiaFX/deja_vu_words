@@ -25,7 +25,9 @@ def get_transcription(word):
         return False
     soup = BeautifulSoup(html, 'html.parser')
     word_info = soup.findAll('table')[1].findAll('td')[1]
-    transcription = word_info.find('span').text
+    transcription = word_info.find('span')
+    if transcription:
+        transcription = transcription.text
     return transcription
 
 
