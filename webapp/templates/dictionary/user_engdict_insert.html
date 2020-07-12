@@ -37,9 +37,12 @@
                                     <div class="btn-group" role="group" aria-label="First group">
                                         {{ translation_form.add() }}
                                     </div>
-                                </form>
-                                <form action="{{ url_for('dictionary.user_engdict_back', username=current_user.username) }}" method="post">
-                                    {{ back_form.back_eng() }}
+                                    <a href='{{ url_for(
+                                        '.user_engdict_index',
+                                        username=current_user.username) }}'
+                                    class="btn btn-outline-info">
+                                        Назад в английский словарь
+                                    </a>
                                 </form>
                             </div>
                         </div>

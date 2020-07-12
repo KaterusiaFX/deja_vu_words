@@ -8,7 +8,6 @@ from webapp.dictionary.dict_functions import user_engdict_search, user_frenchdic
 from webapp.dictionary.dict_functions import user_engdict_translate, user_frenchdict_translate
 from webapp.dictionary.dict_functions import user_engdict_add_word, user_frenchdict_add_word
 from webapp.dictionary.dict_functions import user_engdict_delete_word, user_frenchdict_delete_word
-from webapp.dictionary.forms import BackToEngDictionary, BackToFrenchDictionary
 from webapp.dictionary.forms import DeleteEngWordButton, DeleteFrenchWordButton
 from webapp.dictionary.forms import EngDictionarySearchForm, FrenchDictionarySearchForm, WordInsertForm
 from webapp.dictionary.models import EnglishWord, FrenchWord
@@ -204,7 +203,6 @@ def user_process_engdict_search(username):
     title = 'Ваш английский словарь'
     search_form = EngDictionarySearchForm()
     delete_form = DeleteEngWordButton()
-    back_form = BackToEngDictionary()
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     if search_form.validate_on_submit():
@@ -224,7 +222,6 @@ def user_process_engdict_search(username):
                 english_word_date=user_english_word_date,
                 form=search_form,
                 delete_form=delete_form,
-                back_form=back_form,
                 user=username.username,
                 user_status=user_status
                 )
@@ -239,7 +236,6 @@ def user_process_engdict_search(username):
                 english_word=word_in_form,
                 translation=translation,
                 form=search_form,
-                back_form=back_form,
                 translation_form=translation_form,
                 user=username.username,
                 user_status=user_status
@@ -256,7 +252,6 @@ def user_process_engdict_insert(username):
     word_in_form = form.insert.data
     word = session.get('word')
     english_word, translation = user_engdict_add_word(word_in_form, word, username)
-    back_form = BackToEngDictionary()
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     return render_template(
@@ -265,7 +260,6 @@ def user_process_engdict_insert(username):
         english_word=english_word,
         translation=translation,
         form=search_form,
-        back_form=back_form,
         user=username.username,
         user_status=user_status
         )
@@ -296,7 +290,6 @@ def user_edit_engword(username, word_to_edit):
     translation_form = WordInsertForm()
     title = 'Ваш английский словарь'
     search_form = EngDictionarySearchForm()
-    back_form = BackToEngDictionary()
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     return render_template(
@@ -305,7 +298,6 @@ def user_edit_engword(username, word_to_edit):
         english_word=word_to_edit.word_itself,
         translation=translation,
         form=search_form,
-        back_form=back_form,
         translation_form=translation_form,
         user=username.username,
         user_status=user_status
@@ -320,7 +312,6 @@ def user_process_engdict_edit(username, engword):
     form = WordInsertForm()
     word_in_form = form.insert.data
     english_word, translation = user_engdict_add_word(word_in_form, engword, username)
-    back_form = BackToEngDictionary()
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     return render_template(
@@ -329,16 +320,9 @@ def user_process_engdict_edit(username, engword):
         english_word=english_word,
         translation=translation,
         form=search_form,
-        back_form=back_form,
         user=username.username,
         user_status=user_status
         )
-
-
-@blueprint.route('/user-engdict-back/<username>', methods=['POST'])
-def user_engdict_back(username):
-    username = User.query.filter_by(username=username).first_or_404()
-    return redirect(url_for('.user_engdict_index', username=username.username))
 
 
 @blueprint.route('/user_frenchdict/<username>')
@@ -430,7 +414,6 @@ def user_process_frenchdict_search(username):
     title = 'Ваш французский словарь'
     search_form = FrenchDictionarySearchForm()
     delete_form = DeleteFrenchWordButton()
-    back_form = BackToFrenchDictionary()
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     if search_form.validate_on_submit():
@@ -450,7 +433,6 @@ def user_process_frenchdict_search(username):
                 french_word_date=user_french_word_date,
                 form=search_form,
                 delete_form=delete_form,
-                back_form=back_form,
                 user=username.username,
                 user_status=user_status
                 )
@@ -465,7 +447,6 @@ def user_process_frenchdict_search(username):
                 french_word=word_in_form,
                 translation=translation,
                 form=search_form,
-                back_form=back_form,
                 translation_form=translation_form,
                 user=username.username,
                 user_status=user_status
@@ -479,11 +460,9 @@ def user_process_frenchdict_insert(username):
     title = 'Ваш французский словарь'
     search_form = FrenchDictionarySearchForm()
     form = WordInsertForm()
-    back_form = BackToFrenchDictionary()
     word_in_form = form.insert.data
     word = session.get('word')
     french_word, translation = user_frenchdict_add_word(word_in_form, word, username)
-    back_form = BackToFrenchDictionary()
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     return render_template(
@@ -492,7 +471,6 @@ def user_process_frenchdict_insert(username):
         french_word=french_word,
         translation=translation,
         form=search_form,
-        back_form=back_form,
         user_status=user_status
         )
 
@@ -522,7 +500,6 @@ def user_edit_frenchword(username, word_to_edit):
     translation_form = WordInsertForm()
     title = 'Ваш английский словарь'
     search_form = FrenchDictionarySearchForm()
-    back_form = BackToFrenchDictionary()
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     return render_template(
@@ -531,7 +508,6 @@ def user_edit_frenchword(username, word_to_edit):
         french_word=word_to_edit.word_itself,
         translation=translation,
         form=search_form,
-        back_form=back_form,
         translation_form=translation_form,
         user=username.username,
         user_status=user_status
@@ -546,7 +522,6 @@ def user_process_frenchdict_edit(username, frenchword):
     form = WordInsertForm()
     word_in_form = form.insert.data
     french_word, translation = user_frenchdict_add_word(word_in_form, frenchword, username)
-    back_form = BackToFrenchDictionary()
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
     return render_template(
@@ -555,13 +530,6 @@ def user_process_frenchdict_edit(username, frenchword):
         french_word=french_word,
         translation=translation,
         form=search_form,
-        back_form=back_form,
         user=username.username,
         user_status=user_status
         )
-
-
-@blueprint.route('/user-frenchdict-back/<username>', methods=['POST'])
-def user_frenchdict_back(username):
-    username = User.query.filter_by(username=username).first_or_404()
-    return redirect(url_for('.user_frenchdict_index', username=username.username))

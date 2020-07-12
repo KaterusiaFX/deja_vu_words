@@ -29,14 +29,6 @@ class DeleteFrenchWordButton(FlaskForm):
     delete = SubmitField('Удалить слово', render_kw={"class": "btn btn-outline-danger"})
 
 
-class BackToEngDictionary(FlaskForm):
-    back_eng = SubmitField('Назад в английский словарь', render_kw={"class": "btn btn-outline-info"})
-
-
-class BackToFrenchDictionary(FlaskForm):
-    back_french = SubmitField('Назад во французский словарь', render_kw={"class": "btn btn-outline-info"})
-
-
 class WordInsertForm(FlaskForm):
     insert = StringField(
         'Ввести собственный вариант перевода:',

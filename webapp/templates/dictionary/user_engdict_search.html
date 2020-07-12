@@ -58,9 +58,12 @@
                                     </div>
                                     <font color="white">...</font>
                                     <div class="btn-group" role="group" aria-label="Second group">
-                                        <form action="{{ url_for('dictionary.user_engdict_back', username=current_user.username) }}" method="post">
-                                            {{ back_form.back_eng() }}
-                                        </form>
+                                        <a href='{{ url_for(
+                                            '.user_engdict_index',
+                                            username=current_user.username) }}'
+                                        class="btn btn-outline-info">
+                                            Назад в английский словарь
+                                        </a>
                                     </div>
                                 </div>    
                             </div>
