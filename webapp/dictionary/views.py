@@ -325,6 +325,31 @@ def user_process_engdict_edit(username, engword):
         )
 
 
+@blueprint.route('/user-search-engword-button/<username>/<word_to_search>')
+def user_search_engword_button(username, word_to_search):
+    username = User.query.filter_by(username=username).first_or_404()
+    title = 'Ваш английский словарь'
+    search_form = EngDictionarySearchForm()
+    delete_form = DeleteEngWordButton()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
+    word, user_english_word_status, user_english_word_date, userword_id = user_engdict_search(
+        word_to_search,
+        username
+        )
+    return render_template(
+        'dictionary/user_engdict_search.html',
+        page_title=title,
+        english_word=word,
+        english_word_status=user_english_word_status,
+        english_word_date=user_english_word_date,
+        form=search_form,
+        delete_form=delete_form,
+        user=username.username,
+        user_status=user_status
+        )
+
+
 @blueprint.route('/user_frenchdict/<username>')
 def user_frenchdict_index(username):
     username = User.query.filter_by(username=username).first_or_404()
@@ -530,6 +555,31 @@ def user_process_frenchdict_edit(username, frenchword):
         french_word=french_word,
         translation=translation,
         form=search_form,
+        user=username.username,
+        user_status=user_status
+        )
+
+
+@blueprint.route('/user-search-frenchword-button/<username>/<word_to_search>')
+def user_search_frenchword_button(username, word_to_search):
+    username = User.query.filter_by(username=username).first_or_404()
+    title = 'Ваш английский словарь'
+    search_form = FrenchDictionarySearchForm()
+    delete_form = DeleteFrenchWordButton()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
+    word, user_french_word_status, user_french_word_date, userword_id = user_frenchdict_search(
+        word_to_search,
+        username
+        )
+    return render_template(
+        'dictionary/user_frenchdict_search.html',
+        page_title=title,
+        french_word=word,
+        french_word_status=user_french_word_status,
+        french_word_date=user_french_word_date,
+        form=search_form,
+        delete_form=delete_form,
         user=username.username,
         user_status=user_status
         )

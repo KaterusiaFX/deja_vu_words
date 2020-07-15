@@ -36,7 +36,13 @@
                                         <tr>
                                         <td>{{ english_word.word_itself }}</td>
                                         <td>{{ english_word.translation_rus }}</td>
-                                        <td>{{ english_word.transcription }}</td>
+                                        <td>
+                                            {% if english_word.transcription %}
+                                                {{ english_word.transcription }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
                                         <td>
                                             {% if english_word_status == 'new' %}
                                                     новое
