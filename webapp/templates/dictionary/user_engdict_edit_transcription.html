@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            {% include 'user/user_page_menu.html' %}
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <div class="container">
+                        <h1>{{ page_title }}</h1>
+                        <div class='row'>
+                            <div class='col-12'>
+                                <form action="{{ url_for('dictionary.user_process_engdict_search', username=current_user.username) }}" method="post">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlInput1">{{ form.word.label }}</label>
+                                        <div class="input-group">
+                                            {{ form.word() }}
+                                            {{ form.csrf_token }}
+                                            <div class="input-group-append">
+                                                {{ form.search() }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <p>Изменение транскрипции для слова "{{ english_word }}".</p>
+                            </div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-6'>
+                                <form action="{{ url_for('dictionary.user_process_edit_engword_transcription', username=current_user.username, engword=english_word) }}" method="post">
+                                    <label for="exampleFormControlInput1">{{ transcription_form.insert.label }}</label>
+                                    <div class="input-group">
+                                        {{ transcription_form.insert() }}
+                                        {{ transcription_form.csrf_token }}
+                                    </div>
+                                    <p></p>
+                                        {{ transcription_form.add() }}
+                                        <a href='{{ url_for(
+                                            '.user_engdict_index',
+                                            username=current_user.username) }}'
+                                        class="btn btn-outline-info">
+                                            Назад в английский словарь
+                                        </a>
+                                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+{% endblock %}

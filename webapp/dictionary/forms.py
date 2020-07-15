@@ -31,7 +31,15 @@ class DeleteFrenchWordButton(FlaskForm):
 
 class WordInsertForm(FlaskForm):
     insert = StringField(
-        'Ввести собственный вариант перевода:',
+        'Введите собственный вариант перевода:',
         render_kw={"class": "form-control"}
         )
     add = SubmitField('Добавить слово', render_kw={"class": "btn btn-outline-success"})
+
+
+class TranscriptionInsertForm(FlaskForm):
+    insert = StringField(
+        'Введите транскрипцию в квадратных скобках:',
+        render_kw={"class": "form-control"}
+        )
+    add = SubmitField('Изменить транскрипцию', render_kw={"class": "btn btn-outline-success"})

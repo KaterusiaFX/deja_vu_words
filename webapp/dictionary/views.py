@@ -8,8 +8,10 @@ from webapp.dictionary.dict_functions import user_engdict_search, user_frenchdic
 from webapp.dictionary.dict_functions import user_engdict_translate, user_frenchdict_translate
 from webapp.dictionary.dict_functions import user_engdict_add_word, user_frenchdict_add_word
 from webapp.dictionary.dict_functions import user_engdict_delete_word, user_frenchdict_delete_word
+from webapp.dictionary.dict_functions import user_engdict_edit_transcription
 from webapp.dictionary.forms import DeleteEngWordButton, DeleteFrenchWordButton
-from webapp.dictionary.forms import EngDictionarySearchForm, FrenchDictionarySearchForm, WordInsertForm
+from webapp.dictionary.forms import EngDictionarySearchForm, FrenchDictionarySearchForm
+from webapp.dictionary.forms import WordInsertForm, TranscriptionInsertForm
 from webapp.dictionary.models import EnglishWord, FrenchWord
 from webapp.user.decorators import admin_required
 from webapp.user.models import User
@@ -348,6 +350,35 @@ def user_search_engword_button(username, word_to_search):
         user=username.username,
         user_status=user_status
         )
+
+
+@blueprint.route('/user-edit-engword-transcription/<username>/<word_to_edit>')
+def user_edit_engword_transcription(username, word_to_edit):
+    username = User.query.filter_by(username=username).first_or_404()
+    transcription_form = TranscriptionInsertForm()
+    title = 'Ваш английский словарь'
+    search_form = EngDictionarySearchForm()
+    user_id = current_user.get_id()
+    user_status = check_teacher_student(user_id)
+    return render_template(
+        'dictionary/user_engdict_edit_transcription.html',
+        page_title=title,
+        english_word=word_to_edit,
+        form=search_form,
+        transcription_form=transcription_form,
+        user=username.username,
+        user_status=user_status
+        )
+
+
+@blueprint.route('/user-process-edit-engword-transcription/<username>/<engword>', methods=['POST'])
+def user_process_edit_engword_transcription(username, engword):
+    username = User.query.filter_by(username=username).first_or_404()
+    form = TranscriptionInsertForm()
+    transcription = form.insert.data
+    user_engdict_edit_transcription(engword, transcription, username)
+    flash(f'Транскрипция слова {engword} изменена')
+    return redirect(url_for('.user_engdict_index', username=username.username))
 
 
 @blueprint.route('/user_frenchdict/<username>')

@@ -57,20 +57,32 @@
                                     </tbody>
                                 </table>
                                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                                    <div class="btn-group" role="group" aria-label="First group">
-                                        <form action="{{ url_for('dictionary.user_delete_engword', username=current_user.username) }}" method="post">
-                                            {{ delete_form.delete() }}
-                                        </form>
-                                    </div>
+                                    <form action="{{ url_for('dictionary.user_delete_engword', username=current_user.username) }}" method="post">
+                                        {{ delete_form.delete() }}
+                                    </form>
                                     <font color="white">...</font>
-                                    <div class="btn-group" role="group" aria-label="Second group">
-                                        <a href='{{ url_for(
-                                            '.user_engdict_index',
-                                            username=current_user.username) }}'
-                                        class="btn btn-outline-info">
-                                            Назад в английский словарь
-                                        </a>
-                                    </div>
+                                    <a href='{{ url_for(
+                                        '.user_edit_engword',
+                                        username=current_user.username,
+                                        word_to_edit=english_word.word_itself) }}'
+                                    class="btn btn-outline-primary">
+                                        Изменить перевод
+                                    </a>
+                                    <font color="white">...</font>
+                                    <a href='{{ url_for(
+                                        '.user_edit_engword_transcription',
+                                        username=current_user.username,
+                                        word_to_edit=english_word.word_itself) }}'
+                                    class="btn btn-outline-secondary">
+                                        Изменить транскрипцию
+                                    </a>
+                                    <font color="white">...</font>
+                                    <a href='{{ url_for(
+                                        '.user_engdict_index',
+                                        username=current_user.username) }}'
+                                    class="btn btn-outline-info">
+                                        Назад в английский словарь
+                                    </a>
                                 </div>    
                             </div>
                         </div>
