@@ -52,6 +52,12 @@
                                 {% endif %}
                                 <br />
                                 <br />
+                                <a href='https://context.reverso.net/перевод/русский-французский/{{ guess_word }}'
+                                target="_blank"
+                                class="btn btn-outline-warning">
+                                    Посмотреть контекст на Reverso
+                                </a>
+                                <font color="white">...</font>
                                 <a href="{{ url_for(
                                 '.choose_exercise',
                                 username=current_user.username) }}"

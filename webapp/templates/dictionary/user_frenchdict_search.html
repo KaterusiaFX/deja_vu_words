@@ -61,6 +61,12 @@
                                         Изменить перевод
                                     </a>
                                     <font color="white">...</font>
+                                    <a href='https://context.reverso.net/перевод/русский-французский/{{ french_word.word_itself }}'
+                                    target="_blank"
+                                    class="btn btn-outline-warning">
+                                        Посмотреть контекст на Reverso
+                                    </a>
+                                    <font color="white">...</font>
                                     <a href='{{ url_for(
                                         '.user_frenchdict_index',
                                         username=current_user.username) }}'

@@ -77,6 +77,12 @@
                                         Изменить транскрипцию
                                     </a>
                                     <font color="white">...</font>
+                                    <a href='https://context.reverso.net/перевод/английский-русский/{{ english_word.word_itself }}'
+                                    target="_blank"
+                                    class="btn btn-outline-warning">
+                                        Посмотреть контекст на Reverso
+                                    </a>
+                                    <font color="white">...</font>
                                     <a href='{{ url_for(
                                         '.user_engdict_index',
                                         username=current_user.username) }}'

@@ -248,23 +248,12 @@ def user_process_engdict_search(username):
 @blueprint.route('/user-process-engdict-insert/<username>', methods=['POST'])
 def user_process_engdict_insert(username):
     username = User.query.filter_by(username=username).first_or_404()
-    title = 'Ваш английский словарь'
-    search_form = EngDictionarySearchForm()
     form = WordInsertForm()
     word_in_form = form.insert.data
     word = session.get('word')
     english_word, translation = user_engdict_add_word(word_in_form, word, username)
-    user_id = current_user.get_id()
-    user_status = check_teacher_student(user_id)
-    return render_template(
-        'dictionary/user_engdict_insert_completed.html',
-        page_title=title,
-        english_word=english_word,
-        translation=translation,
-        form=search_form,
-        user=username.username,
-        user_status=user_status
-        )
+    flash(f'Cлово "{english_word}" добавлено в ваш английский словарь, перевод: "{translation}".')
+    return redirect(url_for('.user_engdict_index', username=username.username))
 
 
 @blueprint.route('/user-delete-engword/<username>', methods=['POST'])
@@ -309,22 +298,11 @@ def user_edit_engword(username, word_to_edit):
 @blueprint.route('/user-process-engdict-edit/<username>/<engword>', methods=['POST'])
 def user_process_engdict_edit(username, engword):
     username = User.query.filter_by(username=username).first_or_404()
-    title = 'Ваш английский словарь'
-    search_form = EngDictionarySearchForm()
     form = WordInsertForm()
     word_in_form = form.insert.data
     english_word, translation = user_engdict_add_word(word_in_form, engword, username)
-    user_id = current_user.get_id()
-    user_status = check_teacher_student(user_id)
-    return render_template(
-        'dictionary/user_engdict_insert_completed.html',
-        page_title=title,
-        english_word=english_word,
-        translation=translation,
-        form=search_form,
-        user=username.username,
-        user_status=user_status
-        )
+    flash(f'Cлово "{english_word}" добавлено в ваш английский словарь, перевод: "{translation}".')
+    return redirect(url_for('.user_engdict_index', username=username.username))
 
 
 @blueprint.route('/user-search-engword-button/<username>/<word_to_search>')
@@ -513,22 +491,12 @@ def user_process_frenchdict_search(username):
 @blueprint.route('/user-process-frenchdict-insert/<username>', methods=['POST'])
 def user_process_frenchdict_insert(username):
     username = User.query.filter_by(username=username).first_or_404()
-    title = 'Ваш французский словарь'
-    search_form = FrenchDictionarySearchForm()
     form = WordInsertForm()
     word_in_form = form.insert.data
     word = session.get('word')
     french_word, translation = user_frenchdict_add_word(word_in_form, word, username)
-    user_id = current_user.get_id()
-    user_status = check_teacher_student(user_id)
-    return render_template(
-        'dictionary/user_frenchdict_insert_completed.html',
-        page_title=title,
-        french_word=french_word,
-        translation=translation,
-        form=search_form,
-        user_status=user_status
-        )
+    flash(f'Cлово "{french_word}" добавлено в ваш французский словарь, перевод: "{translation}".')
+    return redirect(url_for('.user_frenchdict_index', username=username.username))
 
 
 @blueprint.route('/user-delete-frenchword/<username>', methods=['POST'])
@@ -544,7 +512,7 @@ def user_delete_frenchword(username):
 def user_delete_frenchword_button(username, word_to_delete):
     username = User.query.filter_by(username=username).first_or_404()
     deleted_word = user_frenchdict_delete_word(word_to_delete, username)
-    flash(f'Слово {deleted_word.word_itself} удалено из вашего английского словаря')
+    flash(f'Слово {deleted_word.word_itself} удалено из вашего французского словаря')
     return redirect(url_for('.user_frenchdict_index', username=username.username))
 
 
@@ -554,7 +522,7 @@ def user_edit_frenchword(username, word_to_edit):
     word_to_edit = user_frenchdict_delete_word(word_to_edit, username)
     translation = user_frenchdict_translate(word_to_edit.word_itself)
     translation_form = WordInsertForm()
-    title = 'Ваш английский словарь'
+    title = 'Ваш французский словарь'
     search_form = FrenchDictionarySearchForm()
     user_id = current_user.get_id()
     user_status = check_teacher_student(user_id)
@@ -573,28 +541,17 @@ def user_edit_frenchword(username, word_to_edit):
 @blueprint.route('/user-process-frenchdict-edit/<username>/<frenchword>', methods=['POST'])
 def user_process_frenchdict_edit(username, frenchword):
     username = User.query.filter_by(username=username).first_or_404()
-    title = 'Ваш английский словарь'
-    search_form = FrenchDictionarySearchForm()
     form = WordInsertForm()
     word_in_form = form.insert.data
     french_word, translation = user_frenchdict_add_word(word_in_form, frenchword, username)
-    user_id = current_user.get_id()
-    user_status = check_teacher_student(user_id)
-    return render_template(
-        'dictionary/user_frenchdict_insert_completed.html',
-        page_title=title,
-        french_word=french_word,
-        translation=translation,
-        form=search_form,
-        user=username.username,
-        user_status=user_status
-        )
+    flash(f'Cлово "{french_word}" добавлено в ваш французский словарь, перевод: "{translation}".')
+    return redirect(url_for('.user_frenchdict_index', username=username.username))
 
 
 @blueprint.route('/user-search-frenchword-button/<username>/<word_to_search>')
 def user_search_frenchword_button(username, word_to_search):
     username = User.query.filter_by(username=username).first_or_404()
-    title = 'Ваш английский словарь'
+    title = 'Ваш французский словарь'
     search_form = FrenchDictionarySearchForm()
     delete_form = DeleteFrenchWordButton()
     user_id = current_user.get_id()
