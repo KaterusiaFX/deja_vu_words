@@ -22,12 +22,13 @@
                                         </div>
                                     </div>
                                 </form>
-                                <p>Добавить в английский словарь слово "{{ english_word }}" с переводом "{{ translation }}".</p>
+                                <p>Для изменения перевода слова нажмите на кнопку "Добавить слово", иначе слово "{{ english_word }}" будет удалено из вашего словаря.</p>
+                                <p>Изменить перевод слова "{{ english_word }}" на "{{ translation }}"?</p>
                             </div>
                         </div>
                         <div class='row'>
                             <div class='col-5'>
-                                <form action="{{ url_for('dictionary.user_process_engdict_insert', username=current_user.username) }}" method="post">
+                                <form action="{{ url_for('dictionary.user_process_engdict_edit', username=current_user.username, engword=english_word) }}" method="post">
                                     <label for="exampleFormControlInput1">{{ translation_form.insert.label }}</label>
                                     <div class="input-group">
                                         {{ translation_form.insert() }}

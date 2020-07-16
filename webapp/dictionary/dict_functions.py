@@ -181,6 +181,24 @@ def user_engdict_delete_word(word_in_form, username):
     return word
 
 
+def user_engdict_edit_transcription(word_to_edit, transcription, username):
+    user_words = UsersWords.query.filter_by(user_id=username.id).all()
+    word_exist_userdict = EnglishWordOfUser.query.filter_by(word_itself=word_to_edit).all()
+    word_exist = EnglishWord.query.filter_by(word_itself=word_to_edit).first()
+    for userword in user_words:
+        if word_exist and userword.engword_id == word_exist.id:
+            translation = word_exist.translation_rus
+            user_engdict_delete_word(word_to_edit, username)
+            user_engdict_add_word(translation, word_to_edit, username)
+            user_engdict_edit_transcription(word_to_edit, transcription, username)
+        elif word_exist_userdict:
+            for every_word in word_exist_userdict:
+                if every_word.user == username.username and every_word.id == userword.user_engword_id:
+                    every_word.transcription = transcription
+                    db.session.commit()
+                    return
+
+
 def process_user_frenchdict_index(username):
     user_words = UsersWords.query.filter_by(user_id=username.id).all()
     french_words, french_words_status, french_words_date, userword_id, memorizing_date = [], [], [], [], []

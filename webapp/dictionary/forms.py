@@ -29,17 +29,17 @@ class DeleteFrenchWordButton(FlaskForm):
     delete = SubmitField('Удалить слово', render_kw={"class": "btn btn-outline-danger"})
 
 
-class BackToEngDictionary(FlaskForm):
-    back_eng = SubmitField('Назад в английский словарь', render_kw={"class": "btn btn-outline-info"})
-
-
-class BackToFrenchDictionary(FlaskForm):
-    back_french = SubmitField('Назад во французский словарь', render_kw={"class": "btn btn-outline-info"})
-
-
 class WordInsertForm(FlaskForm):
     insert = StringField(
-        'Ввести собственный вариант перевода:',
+        'Введите собственный вариант перевода:',
         render_kw={"class": "form-control"}
         )
     add = SubmitField('Добавить слово', render_kw={"class": "btn btn-outline-success"})
+
+
+class TranscriptionInsertForm(FlaskForm):
+    insert = StringField(
+        'Введите транскрипцию в квадратных скобках:',
+        render_kw={"class": "form-control"}
+        )
+    add = SubmitField('Изменить транскрипцию', render_kw={"class": "btn btn-outline-success"})

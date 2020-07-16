@@ -36,24 +36,59 @@
                                         <tr>
                                         <td>{{ english_word.word_itself }}</td>
                                         <td>{{ english_word.translation_rus }}</td>
-                                        <td>{{ english_word.transcription }}</td>
-                                        <td>{{ english_word_status }}</td>
+                                        <td>
+                                            {% if english_word.transcription %}
+                                                {{ english_word.transcription }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if english_word_status == 'new' %}
+                                                    новое
+                                            {% elif english_word_status == 'familiar' %}
+                                                изученное
+                                            {% elif english_word_status == 'forgotten' %}
+                                                забытое
+                                            {% endif %}
+                                        </td>
                                         <td>{{ english_word_date.strftime('%d.%m.%Y') }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                                    <div class="btn-group" role="group" aria-label="First group">
-                                        <form action="{{ url_for('dictionary.user_delete_engword', username=current_user.username) }}" method="post">
-                                            {{ delete_form.delete() }}
-                                        </form>
-                                    </div>
+                                    <form action="{{ url_for('dictionary.user_delete_engword', username=current_user.username) }}" method="post">
+                                        {{ delete_form.delete() }}
+                                    </form>
                                     <font color="white">...</font>
-                                    <div class="btn-group" role="group" aria-label="Second group">
-                                        <form action="{{ url_for('dictionary.user_engdict_back', username=current_user.username) }}" method="post">
-                                            {{ back_form.back_eng() }}
-                                        </form>
-                                    </div>
+                                    <a href='{{ url_for(
+                                        '.user_edit_engword',
+                                        username=current_user.username,
+                                        word_to_edit=english_word.word_itself) }}'
+                                    class="btn btn-outline-primary">
+                                        Изменить перевод
+                                    </a>
+                                    <font color="white">...</font>
+                                    <a href='{{ url_for(
+                                        '.user_edit_engword_transcription',
+                                        username=current_user.username,
+                                        word_to_edit=english_word.word_itself) }}'
+                                    class="btn btn-outline-secondary">
+                                        Изменить транскрипцию
+                                    </a>
+                                    <font color="white">...</font>
+                                    <a href='https://context.reverso.net/перевод/английский-русский/{{ english_word.word_itself }}'
+                                    target="_blank"
+                                    class="btn btn-outline-warning">
+                                        Посмотреть контекст на Reverso
+                                    </a>
+                                    <font color="white">...</font>
+                                    <a href='{{ url_for(
+                                        '.user_engdict_index',
+                                        username=current_user.username) }}'
+                                    class="btn btn-outline-info">
+                                        Назад в английский словарь
+                                    </a>
                                 </div>    
                             </div>
                         </div>

@@ -10,7 +10,7 @@
                         <h1>{{ page_title }}</h1>
                         <div class='row'>
                             <div class='col-12'>
-                                <form action="{{ url_for('dictionary.user_process_engdict_search', username=current_user.username) }}" method="post">
+                                <form action="{{ url_for('dictionary.user_process_frenchdict_search', username=current_user.username) }}" method="post">
                                     <div class="form-group">
                                         <label for="exampleFormControlInput1">{{ form.word.label }}</label>
                                         <div class="input-group">
@@ -22,12 +22,13 @@
                                         </div>
                                     </div>
                                 </form>
-                                <p>Добавить в английский словарь слово "{{ english_word }}" с переводом "{{ translation }}".</p>
+                                <p>Для изменения перевода слова нажмите на кнопку "Добавить слово", иначе слово "{{ french_word }}" будет удалено из вашего словаря.</p>
+                                <p>Изменить перевод слова "{{ french_word }}" на "{{ translation }}"?</p>
                             </div>
                         </div>
                         <div class='row'>
                             <div class='col-5'>
-                                <form action="{{ url_for('dictionary.user_process_engdict_insert', username=current_user.username) }}" method="post">
+                                <form action="{{ url_for('dictionary.user_process_frenchdict_edit', username=current_user.username, frenchword=french_word) }}" method="post">
                                     <label for="exampleFormControlInput1">{{ translation_form.insert.label }}</label>
                                     <div class="input-group">
                                         {{ translation_form.insert() }}
@@ -38,13 +39,13 @@
                                         {{ translation_form.add() }}
                                     </div>
                                     <a href='{{ url_for(
-                                        '.user_engdict_index',
+                                        '.user_frenchdict_index',
                                         username=current_user.username) }}'
                                     class="btn btn-outline-info">
-                                        Назад в английский словарь
+                                        Назад во французский словарь
                                     </a>
                                     <p></p>
-                                    <a href='https://context.reverso.net/перевод/английский-русский/{{ english_word }}'
+                                    <a href='https://context.reverso.net/перевод/русский-французский/{{ french_word }}'
                                     target="_blank"
                                     class="btn btn-outline-warning">
                                         Посмотреть контекст на Reverso

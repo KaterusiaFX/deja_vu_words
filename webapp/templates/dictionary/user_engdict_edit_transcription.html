@@ -22,10 +22,26 @@
                                         </div>
                                     </div>
                                 </form>
-                                <p>Cлово "{{ english_word }}" добавлено в ваш английский словарь, перевод: "{{ translation }}".</p>
-                                <form action="{{ url_for('dictionary.user_engdict_back', username=current_user.username) }}" method="post">
-                                    {{ back_form.back_eng() }}
-                                </form>
+                                <p>Изменение транскрипции для слова "{{ english_word }}".</p>
+                            </div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-6'>
+                                <form action="{{ url_for('dictionary.user_process_edit_engword_transcription', username=current_user.username, engword=english_word) }}" method="post">
+                                    <label for="exampleFormControlInput1">{{ transcription_form.insert.label }}</label>
+                                    <div class="input-group">
+                                        {{ transcription_form.insert() }}
+                                        {{ transcription_form.csrf_token }}
+                                    </div>
+                                    <p></p>
+                                        {{ transcription_form.add() }}
+                                        <a href='{{ url_for(
+                                            '.user_engdict_index',
+                                            username=current_user.username) }}'
+                                        class="btn btn-outline-info">
+                                            Назад в английский словарь
+                                        </a>
+                                    </form>
                             </div>
                         </div>
                     </div>

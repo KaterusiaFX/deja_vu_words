@@ -35,23 +35,44 @@
                                         <tr>
                                         <td>{{ french_word.word_itself }}</td>
                                         <td>{{ french_word.translation_rus }}</td>
-                                        <td>{{ french_word_status }}</td>
+                                        <td>
+                                            {% if french_word_status == 'new' %}
+                                                    новое
+                                            {% elif french_word_status == 'familiar' %}
+                                                изученное
+                                            {% elif french_word_status == 'forgotten' %}
+                                                забытое
+                                            {% endif %}
+                                        </td>
                                         <td>{{ french_word_date.strftime('%d.%m.%Y') }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                                    <div class="btn-group" role="group" aria-label="First group">
-                                        <form action="{{ url_for('dictionary.user_delete_frenchword', username=current_user.username) }}" method="post">
-                                            {{ delete_form.delete() }}
-                                        </form>
-                                    </div>
+                                    <form action="{{ url_for('dictionary.user_delete_frenchword', username=current_user.username) }}" method="post">
+                                        {{ delete_form.delete() }}
+                                    </form>
                                     <font color="white">...</font>
-                                    <div class="btn-group" role="group" aria-label="Second group">
-                                        <form action="{{ url_for('dictionary.user_frenchdict_back', username=current_user.username) }}" method="post">
-                                            {{ back_form.back_french() }}
-                                        </form>
-                                    </div>
+                                    <a href='{{ url_for(
+                                        '.user_edit_frenchword',
+                                        username=current_user.username,
+                                        word_to_edit=french_word.word_itself) }}'
+                                    class="btn btn-outline-primary">
+                                        Изменить перевод
+                                    </a>
+                                    <font color="white">...</font>
+                                    <a href='https://context.reverso.net/перевод/русский-французский/{{ french_word.word_itself }}'
+                                    target="_blank"
+                                    class="btn btn-outline-warning">
+                                        Посмотреть контекст на Reverso
+                                    </a>
+                                    <font color="white">...</font>
+                                    <a href='{{ url_for(
+                                        '.user_frenchdict_index',
+                                        username=current_user.username) }}'
+                                    class="btn btn-outline-info">
+                                        Назад во французский словарь
+                                    </a>
                                 </div>
                             </div>
                         </div>
