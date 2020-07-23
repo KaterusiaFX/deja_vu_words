@@ -50,8 +50,8 @@ def process_user_engdict_index(username):
         translation_write,
         remember_word
         ))
-    result_sorted_by_date = sorted(result, key=lambda word_date: word_date[2], reverse=True)
-    return result_sorted_by_date
+    result.reverse()
+    return result
 
 
 def user_engdict_search(word_in_form, username):
@@ -232,8 +232,8 @@ def process_user_frenchdict_index(username):
         translation_write,
         remember_word
         ))
-    result_sorted_by_date = sorted(result, key=lambda word_date: word_date[2], reverse=True)
-    return result_sorted_by_date
+    result.reverse()
+    return result
 
 
 def user_frenchdict_search(word_in_form, username):
